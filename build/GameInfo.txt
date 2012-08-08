@@ -2,15 +2,15 @@
 {
   // This is what shows up in the 'Third Party Games' area of the Steam games list.
 	"game"		          "Swarm SDK Template"
-  "type"		          "multiplayer_only"
+	"type"		          "multiplayer_only"
 	"title"		          ""
-  "title2"	          ""
+	"title2"	          ""
 
 	"icon"		          "resource/game"
 	"developer"		      "Swarm SDK Template"
 	"developer_url" 	  "http://code.google.com/p/swarm-sdk-template/"
 
-	GameData		        "swarmsdktemplate.fgd"
+	GameData			  "swarmsdktemplate.fgd"
 	InstancePath 	      "tilegen/instances/"
 	
 	SupportsDX8     	  0
@@ -42,8 +42,8 @@
 		"SearchPaths"
 		{
 			"Game"          "|gameinfo_path|."
-      "Game"          "swarm_base"
-      "Game"          "platform"
+			"Game"          "swarm_base"
+			"Game"          "platform"
 		}
 	}
 }
