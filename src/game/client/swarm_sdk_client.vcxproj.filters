@@ -1925,6 +1925,9 @@
     <ClCompile Include="swarm\gameui\swarm\vkeyboard.cpp">
       <Filter>Source Files\Swarm\GameUI - Embedded\Swarm GameUI\Win32</Filter>
     </ClCompile>
+    <ClCompile Include="hud_weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="achievement_notification_panel.h">
