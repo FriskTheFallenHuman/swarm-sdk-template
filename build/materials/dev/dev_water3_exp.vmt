@@ -1,0 +1,43 @@
+Water
+{
+Water_DX60
+{
+$fallbackmaterial "nature/sewer_waterdarkfog_dx70"
+}
+$abovewater 1
+"%tooltexture" "nature/water_frame01_normal"
+$refractamount ".8"
+
+
+$reflecttexture _rt_WaterReflection
+$refract 1
+$reflectamount ".8"
+
+
+$scale "[1 1]"
+$bumpmap "nature/water_frame01_dudv"
+$normalmap "nature/water_frame01_normal"
+$forceexpensive 1
+"%compilewater" 1
+$surfaceprop water
+$bottommaterial "dev/dev_water3_beneath"
+$bumpframe 0
+$fogenable 1
+$fogcolor "{22 20 10}"
+$fogstart 1.00
+$fogend 70.00
+$scroll1 "[.01 .01 .05]"
+$scroll2 "[-.025 .025 .075]"
+Proxies
+{
+TextureScroll
+{
+texturescrollvar $bumptransform
+texturescrollrate .05
+texturescrollangle 45.00
+}
+WaterLOD
+{
+}
+}
+}

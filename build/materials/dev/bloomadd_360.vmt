@@ -1,0 +1,16 @@
+screenspace_general
+{
+$additive 1
+$basetexture _rt_SmallFB1
+$linearread_basetexture 1
+$linearwrite 1
+
+$c0_x 1
+$PIXSHADER bloomadd_ps20
+Proxies
+{
+BloomAdd
+{
+}
+}
+}
