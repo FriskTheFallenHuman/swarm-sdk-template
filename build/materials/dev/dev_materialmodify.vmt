@@ -1,0 +1,13 @@
+LightmappedGeneric
+{
+$basetexture "Dev/water_normal"
+$surfaceprop water
+Proxies
+{
+MaterialModify
+{
+
+dummy 0
+}
+}
+}

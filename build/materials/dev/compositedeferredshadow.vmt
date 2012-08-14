@@ -1,0 +1,9 @@
+screenspace_general
+{
+$additive 0
+$basetexture _rt_downsamplednormals
+$ignorez 1
+"%noToolTexture" 1
+$alpha_blend 1
+$PIXSHADER compositedeferredshadow_ps20
+}
