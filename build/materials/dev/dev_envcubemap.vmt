@@ -1,7 +1,0 @@
-"LightmappedGeneric"
-{
-	// Original shader: BaseTimesLightmap
-	"$basetexture" "Dev/dev_envcubemap"
-	"$envmap" "env_cubemap"
-	"$surfaceprop" "concrete"
-}
