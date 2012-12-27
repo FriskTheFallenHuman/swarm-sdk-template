@@ -102,9 +102,6 @@ CLoadingDialog::CLoadingDialog( vgui::Panel *parent ) : Frame(parent, "LoadingDi
 	}
 
 	SetupControlSettings( false );
-
-	HCursor blah = surface()->CreateCursorFromFile( "materials/dev/cursor.cur" );
-	SetCursor( blah );
 }
 
 //-----------------------------------------------------------------------------
