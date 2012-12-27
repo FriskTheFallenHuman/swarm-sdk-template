@@ -89,9 +89,6 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 
 	m_nTopBorderImageId = -1;
 	m_nBottomBorderImageId = -1;
-
-	HCursor blah = surface()->CreateCursorFromFile( "materials/dev/cursor.cur" );
-	SetCursor( blah );
 }
 
 //=============================================================================
@@ -162,9 +159,6 @@ void CBaseModFrame::LoadLayout()
 		PushModalInputFocus();
 		m_bDelayPushModalInputFocus = false;
 	}
-
-	HCursor blah = surface()->CreateCursorFromFile( "materials/dev/cursor.cur" );
-	SetCursor( blah );
 }
 
 //=============================================================================
