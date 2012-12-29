@@ -10,7 +10,7 @@
 	"developer"		      "Swarm SDK Template"
 	"developer_url" 	  "http://code.google.com/p/swarm-sdk-template/"
 
-	GameData			  "swarmsdktemplate.fgd"
+	GameData            "swarmsdktemplate.fgd"
 	InstancePath 	      "tilegen/instances/"
 	
 	SupportsDX8     	  0
