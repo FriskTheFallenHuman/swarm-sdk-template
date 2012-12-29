@@ -621,7 +621,7 @@ BEGIN_PREDICTION_DATA_NO_BASE( C_BaseEntity )
 	DEFINE_PRED_FIELD( m_nModelIndex, FIELD_SHORT, FTYPEDESC_INSENDTABLE | FTYPEDESC_MODELINDEX ),
 	DEFINE_PRED_FIELD( m_flFriction, FIELD_FLOAT, FTYPEDESC_INSENDTABLE ),
 	DEFINE_PRED_FIELD( m_iTeamNum, FIELD_INTEGER, FTYPEDESC_INSENDTABLE ),
-#ifndef INFESTED_DLL // alien swarm is temporarily unpredicting health to see if prediction is cause of a bug
+#ifndef SWARM_DLL // alien swarm is temporarily unpredicting health to see if prediction is cause of a bug
 	DEFINE_FIELD( m_iHealth, FIELD_INTEGER ),
 #endif
 	DEFINE_PRED_FIELD( m_hOwnerEntity, FIELD_EHANDLE, FTYPEDESC_INSENDTABLE ),

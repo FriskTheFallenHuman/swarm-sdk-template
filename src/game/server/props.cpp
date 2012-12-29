@@ -2799,7 +2799,7 @@ bool CPhysicsProp::CreateVPhysics()
 	if ( HasSpawnFlags( SF_PHYSPROP_MOTIONDISABLED ) || m_damageToEnableMotion > 0 || m_flForceToEnableMotion > 0 )
 	{
 		pPhysicsObject->EnableMotion( false );
-#ifndef INFESTED_DLL // - this breaks props that get their motion enabled via a trigger! if a prop wants to be permanently static, it should be a prop_static?
+#ifndef SWARM_DLL // - this breaks props that get their motion enabled via a trigger! if a prop wants to be permanently static, it should be a prop_static?
 		if ( m_damageToEnableMotion <= 0 && m_flForceToEnableMotion <= 0 )
 		{
 			AddSolidFlags(FSOLID_NOT_MOVEABLE);
