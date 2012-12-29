@@ -2515,7 +2515,7 @@ void CNPC_CombineGunship::SelfDestruct( void )
 
 	UTIL_Remove( this );
 
-#ifndef INFESTED_DLL
+#ifndef SWARM_DLL
 	// Record this so a nearby citizen can respond.
 	if ( GetCitizenResponse() )
 	{
@@ -2865,7 +2865,7 @@ void CNPC_CombineGunship::TraceAttack( const CTakeDamageInfo &info, const Vector
 		// If this is from a player, record it so a nearby citizen can respond.
 		if ( info.GetAttacker()->IsPlayer() )
 		{
-#ifndef INFESTED_DLL
+#ifndef SWARM_DLL
 			if ( GetCitizenResponse() )
 			{
 				GetCitizenResponse()->AddResponseTrigger( CR_PLAYER_SHOT_GUNSHIP );

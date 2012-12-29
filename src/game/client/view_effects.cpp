@@ -299,7 +299,7 @@ void __MsgFunc_Fade( bf_read &msg )
 void CViewEffects::Init( void )
 {
 	HOOK_MESSAGE( Shake );
-#ifdef INFESTED_DLL // the user message ShakeDir isn't registered for other games, but if you add it to your RegisterUserMessages, then you can un-#ifdef this
+#ifdef SWARM_DLL // the user message ShakeDir isn't registered for other games, but if you add it to your RegisterUserMessages, then you can un-#ifdef this
 	HOOK_MESSAGE( ShakeDir ); // directional screen shake
 #endif
 #ifdef HL2_CLIENT
