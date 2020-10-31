@@ -1,0 +1,5 @@
+"chapters"
+{
+	1	"console_background01"
+	2	"console_background02"
+}

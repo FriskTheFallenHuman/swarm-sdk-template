@@ -1,0 +1,550 @@
+// DSP Effects
+// 0 : "Normal (off)"
+// 1 : "Generic"
+// 2 : "Metal Small"
+// 3 : "Metal Medium"
+// 4 : "Metal Large"
+// 5 : "Tunnel Small"
+// 6 : "Tunnel Medium"
+// 7 : "Tunnel Large"
+// 8 : "Chamber Small"
+// 9 : "Chamber Medium"
+// 10: "Chamber Large"
+// 11: "Bright Small"
+// 12: "Bright Medium"
+// 13: "Bright Large"
+// 14: "Water 1"
+// 15: "Water 2"
+// 16: "Water 3"
+// 17: "Concrete Small"
+// 18: "Concrete Medium"
+// 19: "Concrete Large"
+// 20: "Big 1"
+// 21: "Big 2"
+// 22: "Big 3"
+// 23: "Cavern Small"
+// 24: "Cavern Medium"
+// 25: "Cavern Large"
+// 26: "Weirdo 1"
+// 27: "Weirdo 2"
+// 28: "Weirdo 3"
+
+//	ATTN_NONE		0.0f	
+//	ATTN_NORM		0.8f	75dB
+//	ATTN_IDLE		2.0f	60dB
+//	ATTN_STATIC		1.25f	66dB
+//	ATTN_RICOCHET	1.5f	65dB
+//	ATTN_GUNFIRE	0.27f	140dB
+
+//	SNDLVL_50dB		= 50,	// 3.9
+//	SNDLVL_55dB		= 55,	// 3.0
+//	SNDLVL_IDLE		= 60,	// 2.0
+//	SNDLVL_TALKING	= 60,	// 2.0
+//	SNDLVL_60dB		= 60,	// 2.0
+//	SNDLVL_65dB		= 65,	// 1.5
+//	SNDLVL_STATIC	= 66,	// 1.25
+//	SNDLVL_70dB		= 70,	// 1.0
+//	SNDLVL_NORM		= 75,
+//	SNDLVL_75dB		= 75,	// 0.8
+//	SNDLVL_80dB		= 80,	// 0.7
+//	SNDLVL_85dB		= 85,	// 0.6
+//	SNDLVL_90dB		= 90,	// 0.5
+//	SNDLVL_95dB		= 95,
+//	SNDLVL_100dB	= 100,	// 0.4
+//	SNDLVL_105dB	= 105,
+//	SNDLVL_120dB	= 120,
+//	SNDLVL_130dB	= 130,
+//	SNDLVL_GUNFIRE	= 140,	// 0.27
+//	SNDLVL_140dB	= 140,	// 0.2
+//	SNDLVL_150dB	= 150,	// 0.2
+
+//=============================
+//=========exterior============
+//=============================
+
+"Exterior.Outside01a"
+{
+	"dsp"	"1"
+	"dsp_volume" "1.0"
+
+	"playlooping"
+	{
+		"volume"	"0.15"
+		"wave"		"ambient/wind/wind1.wav"
+		"pitch"		"100"
+	}
+
+        "playrandom"
+	{
+		"time"		"2,7"
+		"volume"	"0.15,0.28"
+		"pitch"		"95,105"
+		"position"	"random"
+		"soundlevel" "SNDLVL_140dB"
+
+		"rndwave"
+		{
+					"wave"  "ambient/animal/swamp_bird1.wav"
+					"wave"  "ambient/animal/swamp_bird4.wav"
+					"wave"  "ambient/animal/swamp_bird5.wav"
+					"wave"  "ambient/animal/swamp_bird6.wav"
+
+		}
+	}
+}
+
+// No birds, but crickets!
+"Exterior.Outside01b"
+{
+	"dsp"	"1"
+	"dsp_volume" "1.0"
+
+	"playlooping"
+	{
+		"volume"	"0.15"
+		"wave"		"ambient/wind/wind1.wav"
+		"pitch"		"100"
+	}
+
+        "playrandom"
+	{
+		"time"		"2,7"
+		"volume"	"0.15,0.28"
+		"pitch"		"95,105"
+		"position"	"random"
+		"soundlevel" "SNDLVL_140dB"
+
+		"rndwave"
+		{
+					"wave"  "ambient/animal/cricket6.wav"
+					"wave"  "ambient/animal/cricket7.wav"
+
+		}
+	}
+}
+
+// We took some of this from the L4D1 background map that was only for the X360.
+"Exterior.Rain01a"
+{
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"0.6"
+		"pitch"		"100"
+		"wave"		"ambient/weather/crucial_rumble_rain_nowind.wav"
+	}
+
+
+	// wind gusts
+	"playrandom"
+	{
+		"time"		"15,30"
+		"volume"	"0.25"
+		"pitch"		"90,110"
+
+		"rndwave"
+		{
+			"wave"	"ambient/wind/wind_med1.wav"
+			"wave"	"ambient/wind/wind_med2.wav"
+		}
+	}
+
+	// planes flying overhead
+	"playrandom"
+	{
+		"time"		"60,90"
+		"volume"	".05,.1"
+		"pitch"		"90,100"
+
+		"rndwave"
+		{
+			"wave"	"ambient/overhead/plane1.wav"
+			"wave"	"ambient/overhead/plane2.wav"
+			"wave"	"ambient/overhead/plane3.wav"
+		}
+	}
+
+	// Crows.
+	"playrandom"
+	{
+		"position"	"0"
+		"time"			"20,40"
+		"pitch"			"95,102"
+		"volume"		"0.3"
+		"soundlevel"  	"SNDLVL_NORM"
+
+		"rndwave"
+		{
+			"wave"	"ambient/animal/crow_1.wav"
+			"wave"	"ambient/animal/crow_2.wav"
+		}
+	}	
+}
+
+// Same as before minus overhead sounds. No crows or airplanes.
+"Exterior.Rain01b"
+{
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"0.6"
+		"pitch"		"100"
+		"wave"		"ambient/weather/crucial_rumble_rain_nowind.wav"
+	}
+
+
+	// wind gusts
+	"playrandom"
+	{
+		"time"		"15,30"
+		"volume"	"0.25"
+		"pitch"		"90,110"
+
+		"rndwave"
+		{
+			"wave"	"ambient/wind/wind_med1.wav"
+			"wave"	"ambient/wind/wind_med2.wav"
+		}
+	}
+}
+
+//=============================
+//=========interior============
+//=============================
+
+// Base interior sounds. We can call these for more complex soundcapes.
+"Interior.Rain"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"1"
+		"pitch"		"100"
+		"wave"		"ambient\ambience\rainscapes\interior_rain_med_loop.wav"
+	}
+}
+
+"Interior.RainMed"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	".85"
+		"pitch"		"100"
+		"wave"		"ambient\ambience\rainscapes\interior_rain_med_loop.wav"
+	}
+}
+
+"Interior.RainSoft"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	".65"
+		"pitch"		"100"
+		"wave"		"ambient\ambience\rainscapes\interior_rain_med_loop.wav"
+	}
+}
+
+//=====================
+
+"Interior01"
+{
+	"dsp"	"1"
+	"dsp_volume" "1.0"
+	
+        "playlooping"
+	{
+		"volume"	"0.15"
+		"wave"		"*scapes/interior2/base.wav"
+		"pitch"		"100"
+		"attenuation"	"0"
+	}
+
+	"playrandom"
+	{
+		"time"		"2,7"
+		"volume"	"0.15,0.28"
+		"pitch"		"95,105"
+		"position"	"random"
+		"soundlevel" "SNDLVL_140dB"
+
+		"rndwave"
+		{
+					"wave"  "ambient/materials/rustypipes1.wav"
+					"wave"  "ambient/materials/rustypipes2.wav"
+					"wave"  "ambient/materials/rustypipes3.wav"
+		}
+	}
+}
+
+"Interior01_Rain"
+{
+	"dsp"	"1"
+	"dsp_volume" "1.0"
+	
+        "playlooping"
+	{
+		"volume"	"0.15"
+		"wave"		"*scapes/interior2/base.wav"
+		"pitch"		"100"
+		"attenuation"	"0"
+	}
+
+	"playrandom"
+	{
+		"time"		"2,7"
+		"volume"	"0.15,0.28"
+		"pitch"		"95,105"
+		"position"	"random"
+		"soundlevel" "SNDLVL_140dB"
+
+		"rndwave"
+		{
+					"wave"  "ambient/materials/rustypipes1.wav"
+					"wave"  "ambient/materials/rustypipes2.wav"
+					"wave"  "ambient/materials/rustypipes3.wav"
+		}
+	}
+
+//rain soft
+	"playsoundscape" 
+	{
+		"name"	"Interior.RainSoft"
+		"volume" "1"
+	}
+}
+
+// Office from L4D1's urban.office
+"Interior_Office01a"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"		"100"
+		"wave"		"ambient/atmosphere/crucial_indoor1.wav"
+	}
+	"playlooping"
+	{
+		"volume"	"0.55"
+		"pitch"		"100"
+		"wave"		"ambient/atmosphere/crucial_quiet_cellblock_amb.wav"
+	}
+
+}
+
+"Interior_Office01b"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"		"100"
+		"wave"		"ambient/atmosphere/crucial_indoor1.wav"
+	}
+	"playlooping"
+	{
+		"volume"		".20"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_02.wav"
+	}
+
+}
+
+// Office from L4D1's urban.office with rain
+"Interior.Office01a_Rain"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"		"100"
+		"wave"		"ambient/atmosphere/crucial_indoor1.wav"
+	}
+	"playlooping"
+	{
+		"volume"	"0.55"
+		"pitch"		"100"
+		"wave"		"ambient/atmosphere/crucial_quiet_cellblock_amb.wav"
+	}
+
+//rain soft
+	"playsoundscape" 
+	{
+		"name"	"Interior.RainSoft"
+		"volume" "0.2"
+	}
+
+}
+
+"Interior_Office01b_Rain"
+{
+	"dsp"	"1"
+
+	// underlying area "tone"
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"		"100"
+		"wave"		"ambient/atmosphere/crucial_indoor1.wav"
+	}
+	"playlooping"
+	{
+		"volume"		".20"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_02.wav"
+	}
+
+//rain soft
+	"playsoundscape" 
+	{
+		"name"	"Interior.RainSoft"
+		"volume" "0.2"
+	}
+
+}
+
+// CSGO's office
+"Interior.Office02a"
+{
+	"dsp"	"1"
+	"fadetime" "0.5"
+
+	"playlooping"
+	{
+		"volume"		".6"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_01.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"		".2"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_02.wav"
+	}
+}
+
+// CSGO's office with rain.
+"Interior.Office02a_Rain"
+{
+	"dsp"	"1"
+	"fadetime" "0.5"
+
+	"playlooping"
+	{
+		"volume"		".6"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_01.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"		".2"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_02.wav"
+	}
+
+//rain soft
+	"playsoundscape" 
+	{
+		"name"	"Interior.RainSoft"
+		"volume" "0.2"
+	}
+}
+
+// 02a, but more alive with phones and machines.
+"Interior.Office02b"
+{
+	"dsp"	"1"
+	"fadetime" "0.5"
+
+	"playlooping"
+	{
+		"volume"		".6"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_01.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"		".2"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_02.wav"
+	}
+
+	"playrandom"
+	{
+		"time"		"20,40"
+		"volume"	"0.2"
+		"pitch"		"100"
+		"SNDLVL_NORM" "SNDLVL_140dB"
+		"position"	"random"
+
+		"rndwave"
+		{
+			"wave"  "ambient/machines/phones/phone_office01.wav"
+			"wave"  "ambient/machines/phones/phone_office02.wav"
+			"wave"  "ambient/machines/phones/phone_answeringmachine.wav"
+		}
+	}
+}
+
+
+"Interior.Office02b_Rain"
+{
+	"dsp"	"1"
+	"fadetime" "0.5"
+
+	"playlooping"
+	{
+		"volume"		".6"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_01.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"		".2"
+		"pitch"		"100"
+		"wave"		"ambient\tones\office_room_tone_02.wav"
+	}
+
+	"playrandom"
+	{
+		"time"		"20,40"
+		"volume"	"0.2"
+		"pitch"		"100"
+		"SNDLVL_NORM" "SNDLVL_140dB"
+		"position"	"random"
+
+		"rndwave"
+		{
+			"wave"  "ambient/machines/phones/phone_office01.wav"
+			"wave"  "ambient/machines/phones/phone_office02.wav"
+			"wave"  "ambient/machines/phones/phone_answeringmachine.wav"
+		}
+	}
+
+//rain soft
+	"playsoundscape" 
+	{
+		"name"	"Interior.RainSoft"
+		"volume" "0.2"
+	}
+}

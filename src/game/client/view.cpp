@@ -41,17 +41,17 @@
 #include "ScreenSpaceEffects.h"
 #include "vgui_int.h"
 #include "engine/sndinfo.h"
+
 #ifdef GAMEUI_UISYSTEM2_ENABLED
 #include "gameui.h"
 #endif
-#ifdef GAMEUI_EMBEDDED
 
-#if defined( SWARM_DLL )
-#include "swarm/gameui/swarm/basemodpanel.h"
+#ifdef GAMEUI_EMBEDDED
+#include "BaseModPanel.h"
 #else
 #error "GAMEUI_EMBEDDED"
 #endif
-#endif
+
 #ifdef INFESTED_DLL
 #include "c_asw_marine.h"
 #endif
@@ -59,9 +59,6 @@
 #if defined( HL2_CLIENT_DLL ) || defined( INFESTED_DLL )
 #define USE_MONITORS
 #endif
-
-
-
 	
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"

@@ -34,7 +34,7 @@
 #include "c_weapon__stubs.h"		//Tony; add stubs
 #include "glow_outline_effect.h"
 #include "viewpostprocess.h"
-#include "nb_header_footer.h"
+
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -243,7 +243,7 @@ public:
 	virtual void InitViewport()
 	{
 		// Skip over BaseClass!!!
-		BaseClass::BaseClass::InitViewport();
+		BaseClass::InitViewport();
 		m_pViewport = new FullscreenSDKViewport();
 		m_pViewport->Start( gameuifuncs, gameeventmanager );
 	}
@@ -379,10 +379,6 @@ void ClientModeSDKNormal::Update( void )
 
 void ClientModeSDKNormal::Shutdown()
 {
-	if ( ASWBackgroundMovie() )
-	{
-		ASWBackgroundMovie()->ClearCurrentMovie();
-	}
 }
 
 void ClientModeSDKNormal::LevelInit( const char *newmap )

@@ -3869,7 +3869,7 @@ static void DrawClippedDepthBox( IClientRenderable *pEnt, float *pClipPlane )
 		if( j == 3 ) //not enough lines to even form a triangle
 			continue;
 
-		float *pStartPoint;
+		float *pStartPoint = nullptr;
 		float *pTriangleFanPoints[4]; //at most, one of our fans will have 5 points total, with the first point being stored separately as pStartPoint
 		int iTriangleFanPointCount = 1; //the switch below creates the first for sure
 		

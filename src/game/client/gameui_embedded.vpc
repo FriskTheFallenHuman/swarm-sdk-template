@@ -1,0 +1,246 @@
+//-----------------------------------------------------------------------------
+//	GAMEUI_EMBEDDED.VPC
+//
+//	Project script.
+//-----------------------------------------------------------------------------
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories	"$BASE;.\gameui;.\gameui\matchmaking"
+		$PreprocessorDefinitions		"$BASE;GAMEUI_EMBEDDED;GAMEUI_EXPORTS"
+	}
+}
+
+$Project
+{
+	$Folder	"Source Files"
+	{
+		$Folder "GameUI - Embedded"
+		{
+			$Folder	"Source Files"
+			{
+				$File	"gameui\BackgroundMenuButton.cpp" \
+						"gameui\BaseModPanel.cpp" \
+						"gameui\GameConsole.cpp" \
+						"gameui\GameUI_Interface.cpp" \
+						"gameui\LogoFile.cpp" \
+						"gameui\ModInfo.cpp" \
+						"gameui\MouseMessageForwardingPanel.cpp" \
+						"$SRCDIR\common\GameUI\ObjectList.cpp" \
+						"gameui\PanelListPanel.cpp" \
+						"gameui\RunGameEngine.cpp" \
+						"gameui\ScriptObject.cpp" \
+						"gameui\Sys_Utils.cpp" \
+						"gameui\TextEntryBox.cpp" \
+						"gameui\TGAImagePanel.cpp" \
+						"$SRCDIR\public\vgui_controls\vgui_controls.cpp" \
+						"gameui\VGuiSystemModuleLoader.cpp" \
+						"gameui\BonusMapsDatabase.cpp" \
+						"$SRCDIR\common\language.cpp" \
+						"gameui\SaveGameBrowserDialog.cpp"
+				{
+					$Configuration
+					{
+						$Compiler
+						{
+							$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+						}
+					}
+				}
+			}
+
+			$Folder	"Header Files"
+			{
+				$File	"gameui\BackgroundMenuButton.h" \
+						"gameui\BaseModPanel.h" \
+						"gameui\BaseSaveGameDialog.h" \
+						"gameui\CDKeyEntryDialog.h" \
+						"gameui\ChangeGameDialog.h" \
+						"gameui\CreateMultiplayerGameBotPage.h" \
+						"gameui\CreateMultiplayerGameDialog.h" \
+						"gameui\CreateMultiplayerGameGameplayPage.h" \
+						"gameui\CreateMultiplayerGameServerPage.h" \
+						"gameui\EngineInterface.h" \
+						"gameui\GameConsole.h" \
+						"gameui\GameUI_Interface.h" \
+						"gameui\LoadingDialog.h" \
+						"gameui\ModInfo.h" \
+						"gameui\MouseMessageForwardingPanel.h" \
+						"gameui\PanelListPanel.h" \
+						"gameui\ScriptObject.h" \
+						"gameui\Sys_Utils.h" \
+						"gameui\TextEntryBox.h" \
+						"gameui\TGAImagePanel.h" \
+						"gameui\VGuiSystemModuleLoader.h" \
+						"gameui\SaveGameBrowserDialog.h" \
+						"gameui\BonusMapsDatabase.h" \				
+						"gameui\BitmapImagePanel.h" \
+						"gameui\CommandCheckButton.h" \
+						"gameui\CvarNegateCheckButton.h" \
+						"gameui\CvarSlider.h" \
+						"gameui\CvarTextEntry.h" \
+						"gameui\CvarToggleCheckButton.h" \
+						"gameui\KeyToggleCheckButton.h" \
+						"gameui\LabeledCommandComboBox.h" \
+						"gameui\URLButton.h" \
+						"gameui\vcontrolslistpanel.h" \
+						"gameui\BenchmarkDialog.h" \
+						"gameui\BonusMapsDialog.h" \
+						"gameui\CommentaryDialog.h" \
+						"gameui\CommentaryExplanationDialog.h" \
+						"gameui\ContentControlDialog.h" \
+						"gameui\GameConsoleDialog.h" \
+						"gameui\LoadGameDialog.h" \
+						"gameui\MultiplayerAdvancedDialog.h" \
+						"gameui\NewGameDialog.h" \
+						"gameui\PlayerListDialog.h" \
+						"gameui\SaveGameDialog.h" \
+						"gameui\ControllerDialog.h" \
+						"gameui\matchmaking\achievementsdialog.h" \
+						"gameui\matchmaking\basedialog.h" \
+						"gameui\matchmaking\dialogmenu.h" \
+						"gameui\matchmaking\leaderboarddialog.h" \
+						"gameui\matchmaking\matchmakingbasepanel.h" \
+						"gameui\matchmaking\pausedialog.h" \
+						"gameui\matchmaking\sessionlobbydialog.h" \
+						"gameui\matchmaking\sessionoptionsdialog.h" \
+						"gameui\matchmaking\sessionbrowserdialog.h" \
+						"gameui\matchmaking\welcomedialog.h" \
+						"gameui\OptionsDialog.h" \
+						"gameui\OptionsSubAudio.h" \
+						"gameui\OptionsSubDifficulty.h" \
+						"gameui\OptionsSubGame.h" \
+						"gameui\OptionsSubKeyboard.h" \
+						"gameui\OptionsSubMouse.h" \
+						"gameui\OptionsSubMultiplayer.h" \
+						"gameui\OptionsSubPortal.h" \
+						"gameui\OptionsSubVideo.h" \
+						"gameui\OptionsSubVoice.h"
+			}
+
+			$Folder	"Public Header Files"
+			{
+				$File	"$SRCDIR\public\iachievementmgr.h" \
+						"$SRCDIR\public\game\client\IGameClientExports.h" \
+						"$SRCDIR\common\GameUI\IGameUI.h" \
+						"$SRCDIR\public\IGameUIFuncs.h" \
+						"$SRCDIR\public\tier1\interface.h" \
+						"$SRCDIR\common\IObjectContainer.h" \
+						"$SRCDIR\common\IRunGameEngine.h" \
+						"$SRCDIR\common\IVGuiModule.h" \
+						"$SRCDIR\common\IVGuiModuleLoader.h" \
+						"$SRCDIR\common\GameUI\ObjectList.h" \
+						"$SRCDIR\Public\savegame_version.h" \
+						"$SRCDIR\common\ValveCDKeyGameAndTerritoryCodes.h" \
+						"$SRCDIR\common\language.h"
+			}
+
+			$Folder	"Controls"
+			{
+				$File	"gameui\BitmapImagePanel.cpp" \
+						"gameui\CommandCheckButton.cpp" \
+						"gameui\CvarNegateCheckButton.cpp" \
+						"gameui\CvarSlider.cpp" \
+						"gameui\CvarTextEntry.cpp" \
+						"gameui\CvarToggleCheckButton.cpp" \
+						"gameui\KeyToggleCheckButton.cpp" \
+						"gameui\LabeledCommandComboBox.cpp" \
+						"gameui\URLButton.cpp" \
+						"gameui\vcontrolslistpanel.cpp"
+				{
+					$Configuration
+					{
+						$Compiler
+						{
+							$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+						}
+					}
+				}
+			}
+
+			$Folder	"Dialogs"
+			{
+				$File	"gameui\BenchmarkDialog.cpp" \
+						"gameui\BonusMapsDialog.cpp" \
+						"gameui\CommentaryDialog.cpp" \
+						"gameui\CommentaryExplanationDialog.cpp" \
+						"gameui\ContentControlDialog.cpp" \
+						"gameui\GameConsoleDialog.cpp" \
+						"gameui\LoadGameDialog_Xbox.cpp" \
+						"gameui\LoadGameDialog.cpp" \
+						"gameui\MultiplayerAdvancedDialog.cpp" \
+						"gameui\NewGameDialog.cpp" \
+						"gameui\PlayerListDialog.cpp" \
+						"gameui\SaveGameDialog_Xbox.cpp" \
+						"gameui\SaveGameDialog.cpp" \
+						"gameui\LoadCommentaryDialog.cpp" \
+						"gameui\LoadingDialog.cpp" \
+						"gameui\BaseSaveGameDialog.cpp" \
+						"gameui\ChangeGameDialog.cpp" \
+						"gameui\CreateMultiplayerGameBotPage.cpp" \
+						"gameui\CreateMultiplayerGameDialog.cpp" \
+						"gameui\CreateMultiplayerGameGameplayPage.cpp" \
+						"gameui\CreateMultiplayerGameServerPage.cpp" \
+						"gameui\OptionsDialog_Xbox.cpp" \
+						"gameui\ControllerDialog.cpp"
+				{
+					$Configuration
+					{
+						$Compiler
+						{
+							$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+						}
+					}
+				}
+			}
+
+			$Folder	"Matchmaking"
+			{
+				$File	"gameui\matchmaking\achievementsdialog.cpp" \
+						"gameui\matchmaking\basedialog.cpp" \
+						"gameui\matchmaking\dialogmenu.cpp" \
+						"gameui\matchmaking\leaderboarddialog.cpp" \
+						"gameui\matchmaking\matchmakingbasepanel.cpp" \
+						"gameui\matchmaking\pausedialog.cpp" \
+						"gameui\matchmaking\sessionlobbydialog.cpp" \
+						"gameui\matchmaking\sessionoptionsdialog.cpp" \
+						"gameui\matchmaking\sessionbrowserdialog.cpp" \
+						"gameui\matchmaking\welcomedialog.cpp"
+				{
+					$Configuration
+					{
+						$Compiler
+						{
+							$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+						}
+					}
+				}
+			}
+
+			$Folder	"Options Dialog"
+			{
+				$File	"gameui\OptionsDialog.cpp" \
+						"gameui\OptionsSubAudio.cpp" \
+						"gameui\OptionsSubDifficulty.cpp" \
+						"gameui\OptionsSubGame.cpp" \
+						"gameui\OptionsSubKeyboard.cpp" \
+						"gameui\OptionsSubMouse.cpp" \
+						"gameui\OptionsSubMultiplayer.cpp" \
+						"gameui\OptionsSubPortal.cpp" \
+						"gameui\OptionsSubVideo.cpp" \
+						"gameui\OptionsSubVoice.cpp"
+				{
+					$Configuration
+					{
+						$Compiler
+						{
+							$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+						}
+					}
+				}
+			}
+		}
+	}
+}

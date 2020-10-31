@@ -1,0 +1,233 @@
+//Null
+"null"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"0.0"
+	"soundlevel"  "SNDLVL_60dB"
+	"wave"	"ambient/null.wav"
+}
+
+// Overhead
+"airplane.flyover01"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
+	"soundlevel"  "SNDLVL_60dB"
+	"wave"	"ambient/overhead/plane1.wav"
+}
+
+"airplane.flyover02"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
+	"soundlevel"  "SNDLVL_60dB"
+	"wave"	"ambient/overhead/plane2.wav"
+}
+
+"airplane.flyover03"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
+	"soundlevel"  "SNDLVL_60dB"
+	"wave"	"ambient/overhead/plane3.wav"
+}
+
+"airplane.flyover04"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
+	"soundlevel"  "SNDLVL_60dB"
+	"wave"	"ambient/overhead/plane4.wav"
+}
+
+// Machines
+"Machines.Doorbell01"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"0.8"
+	"soundlevel"  "SNDLVL_75dB"
+	"wave"	"ambient/machines/doorbells/doorbell01.wav"
+}
+
+"Machines.Doorbell02"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"0.8"
+	"soundlevel"  "SNDLVL_75dB"
+	"wave"	"ambient/machines/doorbells/doorbell02.wav"
+}
+
+"Machines.Fluorescent_light_hum01"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"0.3"
+	"soundlevel"  "SNDLVL_50dB"
+	"wave"	"ambient/machines/misc/fluorescent_hum_1.wav"
+}
+
+"Machines.Fluorescent_light_hum02"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"0.3"
+	"soundlevel"  "SNDLVL_50dB"
+	"wave"	"ambient/machines/misc/fluorescent_hum_2.wav"
+}
+
+"Machines.Ticket_Idle"
+{
+	"channel"	"CHAN_STATIC"
+	"soundlevel"	"SNDLVL_60dB"
+	"volume" 	".5"
+	"wave"		"ambient/machines/misc/TicketMachine_Loop.wav"
+}
+
+"Machines.TickTock"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"0.6"
+	"soundlevel"  "SNDLVL_75dB"
+	"wave"	"ambient/machines/misc/synth_tick_tock_01.wav"
+}
+
+"Machines.TickOnce"
+{
+	"channel"	"CHAN_STATIC"
+	"volume"	"1.0"
+	"soundlevel"  "SNDLVL_100dB"
+	"wave"	"ambient/machines/misc/tick1.wav"
+}
+
+"Machines.Vending_Idle"
+{
+	"channel"	"CHAN_STATIC"
+	"soundlevel"	"SNDLVL_60dB"
+	"volume" 	".5"
+	"wave"		"ambient/machines/misc/VendingMachineHum_Loop.wav"
+}
+
+"World.LightPowerOff"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_95dB"
+	"volume"		"0.45"
+	"pitch"		"95,100"
+	"rndwave"
+	{
+		"wave"		"world\light_power_off_01.wav"
+		"wave"		"world\light_power_off_02.wav"
+		"wave"		"world\light_power_off_03.wav"
+		"wave"		"world\light_power_off_04.wav"
+	}
+}
+
+"World.LightPowerOff01"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_95dB"
+	"volume"		"0.45"
+	"pitch"		"90,95"
+	"rndwave"
+	{
+		"wave"		"world\light_power_off_01.wav"
+		"wave"		"world\light_power_off_02.wav"
+		"wave"		"world\light_power_off_03.wav"
+		"wave"		"world\light_power_off_04.wav"
+	}
+}
+
+"World.LightPowerOff02"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_95dB"
+	"volume"		"0.45"
+	"pitch"		"85,90"
+	"rndwave"
+	{
+		"wave"		"world\light_power_off_01.wav"
+		"wave"		"world\light_power_off_02.wav"
+		"wave"		"world\light_power_off_03.wav"
+		"wave"		"world\light_power_off_04.wav"
+	}
+}
+
+"World.LightPowerOff03"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_95dB"
+	"volume"		"0.45"
+	"pitch"		"80,85"
+	"rndwave"
+	{
+		"wave"		"world\light_power_off_01.wav"
+		"wave"		"world\light_power_off_02.wav"
+		"wave"		"world\light_power_off_03.wav"
+		"wave"		"world\light_power_off_04.wav"
+	}
+}
+
+"World.LightPowerOff04"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_95dB"
+	"volume"		"0.45"
+	"pitch"		"75,80"
+	"rndwave"
+	{
+		"wave"		"world\light_power_off_01.wav"
+		"wave"		"world\light_power_off_02.wav"
+		"wave"		"world\light_power_off_03.wav"
+		"wave"		"world\light_power_off_04.wav"
+	}
+}
+
+"World.LightPowerOff05"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_95dB"
+	"volume"		"0.50"
+	"pitch"		"70,75"
+	"rndwave"
+	{
+		"wave"		"world\light_power_off_01.wav"
+		"wave"		"world\light_power_off_02.wav"
+		"wave"		"world\light_power_off_03.wav"
+		"wave"		"world\light_power_off_04.wav"
+	}
+}
+
+"World.LightPowerOnLg"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_105dB"
+	"wave"		"@world\light_power_on_01.wav"
+}
+
+"World.LightFlickerPowerOn"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_105dB"
+	"volume"		"0.7"
+	"wave"		"@world\light_power_on_01.wav"
+}
+
+"World.LightPowerOnMd"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_100dB"
+	"rndwave"
+	{
+		"wave"		")world\light_power_on_02.wav"
+		"wave"		")world\light_power_on_03.wav"
+		"wave"		")world\light_power_on_04.wav"
+	}
+}
+
+"World.LightPowerOnSweep"
+{
+	"channel"		"CHAN_AUTO"
+	"soundlevel"		"SNDLVL_105dB"
+	"wave"		"@world\light_power_on_sweep_01.wav"
+
+	"soundentry_version" "2"
+	
+}

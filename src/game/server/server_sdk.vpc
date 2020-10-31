@@ -1,0 +1,141 @@
+//-----------------------------------------------------------------------------
+//	SERVER_SDK.VPC
+//
+//	Project Script
+//-----------------------------------------------------------------------------
+
+$Macro SRCDIR		"..\.."
+$Macro GAMENAME 	"mod_sdk"
+
+$Include "$SRCDIR\game\server\server_base.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories	"$BASE;.\sdk,$SRCDIR\game\shared\sdk,$SRCDIR\game\shared\Multiplayer"
+		$PreprocessorDefinitions		"$BASE;SWARM_DLL"
+	}
+}
+
+$Project "Server (SDK)"
+{
+	$Folder	"Source Files"
+	{
+		$File	"ai_relationship.cpp"
+		$File	"basegrenade_concussion.cpp"
+		$File	"basegrenade_contact.cpp"
+		$File	"basegrenade_timed.cpp"
+		$File	"EntityFlame.h"
+		$File	"Func_Monitor.cpp"
+		$File	"grenadethrown.cpp"
+		$File	"grenadethrown.h"
+		$File	"h_cycler.cpp"
+		$File	"h_cycler.h"
+		$File	"monstermaker.cpp"
+		$File	"monstermaker.h"
+		$File	"physics_bone_follower.h"
+		$File	"$SRCDIR\game\shared\predicted_viewmodel.cpp"
+		$File	"$SRCDIR\game\shared\predicted_viewmodel.h"
+		$File	"$SRCDIR\game\shared\ragdoll_shared.h"
+		$File	"$SRCDIR\game\shared\solidsetdefaults.h"
+		$File	"team_objectiveresource.cpp"
+		$File	"team_objectiveresource.h"
+		$File	"team_spawnpoint.cpp"
+		$File	"team_spawnpoint.h"
+		$File	"team_control_point.cpp"
+		$File	"team_control_point.h"
+		$File	"team_control_point_master.cpp"
+		$File	"team_control_point_master.h"
+		$File	"team_control_point_round.cpp"
+		$File	"team_control_point_round.h"
+		$File	"team_train_watcher.cpp"
+		$File	"team_train_watcher.h"
+		$File	"$SRCDIR\game\shared\teamplayroundbased_gamerules.cpp"
+		$File	"$SRCDIR\game\shared\touchlink.h"
+		$File	"trigger_area_capture.cpp"
+		$File	"trigger_area_capture.h"
+		$File   "$SRCDIR\game\shared\teamplay_round_timer.cpp"
+		$File   "$SRCDIR\game\shared\teamplay_round_timer.h"
+		$File	"$SRCDIR\game\shared\playerclass_info_parse.cpp"
+		$File	"$SRCDIR\game\shared\playerclass_info_parse.h"
+		
+		$Folder	"SDK"
+		{
+			$File	"sdk\sdk_brushentity.cpp"
+			$File	"sdk\sdk_client.cpp"
+			$File	"sdk\sdk_env_message.cpp"
+			$File	"sdk\sdk_env_sparkler.cpp"
+			$File	"sdk\sdk_eventlog.cpp"
+			$File	"sdk\sdk_gameinterface.cpp"
+			$File	"$SRCDIR\game\shared\sdk\sdk_gamemovement.cpp"
+			$File	"sdk\sdk_logicalentity.cpp"
+			$File	"sdk\sdk_modelentity.cpp"
+			$File	"$SRCDIR\game\shared\sdk\sdk_shareddefs.cpp"
+			$File	"$SRCDIR\game\shared\sdk\sdk_shareddefs.h"
+			$File	"$SRCDIR\game\shared\sdk\sdk_usermessages.cpp"
+			$File	"sdk\sdk_vehicle_jeep.cpp"
+			$File	"sdk\te_firebullets.cpp"
+			$File	"sdk\te_firebullets.h"
+			$File	"$SRCDIR\game\shared\sdk\sdk_player_shared.cpp"
+			$File	"$SRCDIR\game\shared\sdk\sdk_playerclass_info_parse.cpp"
+			$File	"$SRCDIR\game\shared\sdk\sdk_playerclass_info_parse.h"	
+
+			$Folder	"PerfBots"
+			{
+				$File	"sdk\sdk_bot_temp.cpp"
+				$File	"sdk\sdk_bot_temp.h"
+			}
+
+			$Folder	"Player"
+			{
+				$File	"sdk\sdk_player.cpp"
+				$File	"sdk\sdk_player.h"
+				$File	"sdk\sdk_player_resource.cpp"
+				$File	"sdk\sdk_player_resource.h"
+				$File	"$SRCDIR\game\shared\sdk\sdk_player_shared.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_playeranimstate.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_playeranimstate.h"
+				$File	"$SRCDIR\game\shared\sdk\sdk_playerclass_info_parse.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_playerclass_info_parse.h"
+				$File	"sdk\sdk_playermove.cpp"
+			}
+
+			$Folder	"Rules"
+			{
+				$File	"$SRCDIR\game\shared\sdk\sdk_gamerules.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_gamerules.h"
+				$File	"sdk\sdk_team.cpp"
+				$File	"sdk\sdk_team.h"
+			}
+
+			$Folder	"Weapons"
+			{
+				$File	"$SRCDIR\game\shared\sdk\sdk_basegrenade_projectile.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_basegrenade_projectile.h"
+				$File	"$SRCDIR\game\shared\sdk\sdk_fx_shared.cpp"		
+				$File	"$SRCDIR\game\shared\sdk\sdk_fx_shared.h"
+				$File	"$SRCDIR\game\shared\sdk\sdk_weapon_melee.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_weapon_melee.h"
+				$File	"$SRCDIR\game\shared\sdk\sdk_weapon_parse.cpp"
+				$File	"$SRCDIR\game\shared\sdk\sdk_weapon_parse.h"	
+				$File	"$SRCDIR\game\shared\sdk\weapon_basesdkgrenade.cpp"
+				$File	"$SRCDIR\game\shared\sdk\weapon_basesdkgrenade.h"
+				$File	"$SRCDIR\game\shared\sdk\weapon_crowbar.cpp"
+				$File	"$SRCDIR\game\shared\sdk\weapon_grenade.cpp"
+				$File	"$SRCDIR\game\shared\sdk\weapon_grenade.h"
+				$File	"$SRCDIR\game\shared\sdk\weapon_mp5.cpp"
+				$File	"$SRCDIR\game\shared\sdk\weapon_pistol.cpp"
+				$File	"$SRCDIR\game\shared\sdk\weapon_sdkbase.cpp"
+				$File	"$SRCDIR\game\shared\sdk\weapon_sdkbase.h"
+				$File	"$SRCDIR\game\shared\sdk\weapon_shotgun.cpp"
+			}
+
+			$Folder	"Multiplayer"
+			{
+				$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.cpp"
+				$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"
+			}
+		}
+	}
+}

@@ -1,7 +1,0 @@
-DecalModulate
-{
-$baseTexture "decals\dirt\dirt4"
-$decal 1
-$decalscale "0.075"
-$decalScaleVariation "0.15"
-}

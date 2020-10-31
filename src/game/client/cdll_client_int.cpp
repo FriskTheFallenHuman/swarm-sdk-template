@@ -103,16 +103,15 @@
 #include "vscript/ivscript.h"
 #include "activitylist.h"
 #include "eventlist.h"
+
 #ifdef GAMEUI_UISYSTEM2_ENABLED
 #include "gameui.h"
 #endif
-#ifdef GAMEUI_EMBEDDED
 
-#if defined( SWARM_DLL )
-#include "swarm/gameui/swarm/basemodpanel.h"
+#ifdef GAMEUI_EMBEDDED
+#include "BaseModPanel.h"
 #else
 #error "GAMEUI_EMBEDDED"
-#endif
 #endif
 
 #ifdef DEMOPOLISH_ENABLED

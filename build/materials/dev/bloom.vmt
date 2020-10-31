@@ -1,7 +1,0 @@
-Bloom
-{
-
-$fbtexture _rt_FullFrameFB
-$blurtexture _rt_SmallHDR0
-"%noToolTexture" 1
-}

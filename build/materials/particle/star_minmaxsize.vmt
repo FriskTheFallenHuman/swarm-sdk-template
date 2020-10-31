@@ -1,7 +1,0 @@
-SpriteCard
-{
-$basetexture "effects/yellowflare"
-$additive 1
-$maxsize .0075
-$minsize .0025
-}

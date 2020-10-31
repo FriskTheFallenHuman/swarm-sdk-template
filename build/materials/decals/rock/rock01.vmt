@@ -1,7 +1,0 @@
-DecalModulate
-{
-$baseTexture "decals\rock\rock01"
-$decal 1
-$decalscale "0.15"
-$decalScaleVariation "0.15"
-}

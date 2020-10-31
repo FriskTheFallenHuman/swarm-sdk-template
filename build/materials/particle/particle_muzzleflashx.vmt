@@ -1,6 +1,0 @@
-SpriteCard
-{
-$basetexture "effects/muzzleflashX.vtf"
-$additive 1
-$depthblend 0
-}

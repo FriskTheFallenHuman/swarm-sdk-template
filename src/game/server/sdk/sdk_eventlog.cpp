@@ -6,7 +6,7 @@
 //
 //=============================================================================//
 #include "cbase.h"
-#include "../EventLog.h"
+#include "EventLog.h"
 #include "KeyValues.h"
 
 #include "sdk_player.h"
@@ -114,8 +114,8 @@ CSDKEventLog g_SDKEventLog;
 //-----------------------------------------------------------------------------
 // Singleton access
 //-----------------------------------------------------------------------------
-//IGameSystem* GameLogSystem()
-//{
-//	return &g_SDKEventLog;
-//}
+CEventLog* GameLogSystem()
+{
+	return &g_SDKEventLog;
+}
 

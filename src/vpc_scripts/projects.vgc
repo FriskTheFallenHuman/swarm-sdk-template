@@ -1,0 +1,19 @@
+$Project "client"
+{
+	"game\client\client_sdk.vpc"	[$SDK]
+}
+
+$Project "server"
+{
+	"game\server\server_sdk.vpc"	[$SDK]
+}
+
+$Project "shaderlib"
+{
+	"materialsystem\shaderlib\shaderlib.vpc"
+}
+
+$Project "game_shader"
+{
+	"materialsystem\stdshaders\game_shader_dx9_sdk.vpc"	[$SDK]
+}

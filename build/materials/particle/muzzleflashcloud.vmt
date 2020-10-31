@@ -1,6 +1,0 @@
-SpriteCard
-{
-$basetexture "particle\muzzleflashcloud.vtf"
-$additive 1
-$translucent 1
-}

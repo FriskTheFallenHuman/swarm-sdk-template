@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "console/console_background01"
+	"$vertexcolor" 1
+	"$no_fullbright" 1
+	"$ignorez" 1
+}

@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$basetexture" "tools\toolswhite"
+	"%keywords" "tools, sdk,  platform"
+	"$nofog" 1
+}
+
+

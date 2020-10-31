@@ -1,6 +1,0 @@
-UnlitGeneric
-{
-$basetexture "vgui\scroll_up"
-$translucent 1
-$ignorez 1
-}
