@@ -31,9 +31,8 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;fxctmp9;vshtmp9;"	[$WIN32||$POSIX]
+		$AdditionalIncludeDirectories	"$BASE;include"	[$WIN32||$POSIX]
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include"	[$WIN32]
-		$AdditionalIncludeDirectories	"$BASE;fxctmp9_360;vshtmp9_360"					[$X360]
 		$PreprocessorDefinitions		"$BASE;STDSHADER_DX9_DLL_EXPORT;USE_ACTUAL_DX;FAST_MATERIALVAR_ACCESS"
 	}
 
@@ -404,11 +403,5 @@ $Project
 
 	$File	"buildsdkshaders.bat"
 	$File	"buildshaders.bat"
-	$File	"$SRCDIR\devtools\bin\checkshaderchecksums.pl"
-	$File	"$SRCDIR\devtools\bin\copyshaders.pl"
-	$File	"$SRCDIR\devtools\bin\fxc_prep.pl"
-	$File	"$SRCDIR\devtools\bin\psh_prep.pl"
-	$File	"$SRCDIR\devtools\bin\updateshaders.pl"
-	$File	"$SRCDIR\devtools\bin\valve_perl_helpers.pl"
-	$File	"$SRCDIR\devtools\bin\vsh_prep.pl"
+	$File	"$SRCDIR\devtools\bin\process_shaders.ps1"
 }
