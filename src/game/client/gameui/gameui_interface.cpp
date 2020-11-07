@@ -634,11 +634,8 @@ void CGameUI::OnGameUIActivated()
 	// hide/show the main panel to Activate all game ui
 	staticPanel->SetVisible( true );
 
-	// pause the server in single player
-	if ( engine->GetMaxClients() <= 1 )
-	{
-		engine->ClientCmd_Unrestricted( "setpause" );
-	}
+	// pause the server in case it is pausable
+	engine->ClientCmd_Unrestricted( "setpause nomsg" );
 
 	SetSavedThisMenuSession( false );
 
@@ -652,10 +649,7 @@ void CGameUI::OnGameUIActivated()
 void CGameUI::OnGameUIHidden()
 {
 	// unpause the game when leaving the UI
-	if ( engine->GetMaxClients() <= 1 )
-	{
-		engine->ClientCmd_Unrestricted("unpause");
-	}
+	engine->ClientCmd_Unrestricted( "unpause nomsg" );
 
 	BasePanel()->OnGameUIHidden();
 }
@@ -809,45 +803,36 @@ void CGameUI::OnDisconnectFromServer( uint8 eSteamLoginFailure )
 //-----------------------------------------------------------------------------
 // Purpose: activates the loading dialog on level load start
 //-----------------------------------------------------------------------------
-void CGameUI::OnLevelLoadingStarted( bool bShowProgressDialog )
+void CGameUI::OnLevelLoadingStarted( const char *levelName, bool bShowProgressDialog )
 {
 	g_VModuleLoader.PostMessageToAllModules( new KeyValues( "LoadingStarted" ) );
 
 	// notify
-	BasePanel()->OnLevelLoadingStarted();
+	BasePanel()->OnLevelLoadingStarted( levelName, bShowProgressDialog );
+
+	ShowLoadingBackgroundDialog();
 
 	if ( bShowProgressDialog )
-	{
 		StartProgressBar();
-	}
 
 	// Don't play the start game sound if this happens before we get to the first frame
 	m_bPlayGameStartupSound = false;
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: activates the loading dialog on level load start
-//-----------------------------------------------------------------------------
-void CGameUI::OnLevelLoadingStarted( const char *levelName, bool bShowProgressDialog )
-{
-	OnLevelLoadingStarted( bShowProgressDialog );
-}
-
-//-----------------------------------------------------------------------------
 // Purpose: closes any level load dialog
 //-----------------------------------------------------------------------------
-void CGameUI::OnLevelLoadingFinished(bool bError, const char *failureReason, const char *extendedReason)
+void CGameUI::OnLevelLoadingFinished( bool bError, const char *failureReason, const char *extendedReason )
 {
 	StopProgressBar( bError, failureReason, extendedReason );
 
 	// notify all the modules
 	g_VModuleLoader.PostMessageToAllModules( new KeyValues( "LoadingFinished" ) );
 
-	// hide the UI
-	HideGameUI();
+	HideLoadingBackgroundDialog();
 
 	// notify
-	BasePanel()->OnLevelLoadingFinished();
+	BasePanel()->OnLevelLoadingFinished( bError, failureReason, extendedReason );
 }
 
 //-----------------------------------------------------------------------------

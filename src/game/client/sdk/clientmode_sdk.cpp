@@ -40,6 +40,7 @@
 #include "object_motion_blur_effect.h"
 #include "ivieweffects.h"
 #include "glow_outline_effect.h"
+#include "BackgroundVideo.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -494,6 +495,8 @@ void ClientModeSDKNormal::UpdatePostProcessingEffects()
 //-----------------------------------------------------------------------------
 void ClientModeSDKNormal::Shutdown()
 {
+	if ( BackgroundVideo() )
+		BackgroundVideo()->ClearCurrentMovie();
 }
 
 //-----------------------------------------------------------------------------

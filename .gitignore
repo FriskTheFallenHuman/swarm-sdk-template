@@ -61,6 +61,8 @@ game/mod_sdk/.vtf.vmt
 voice_ban.dt
 stats.txt
 modelsounds.cache
+settings.scr
+serverconfig.vdf
 
 # shader files
 *.tmp

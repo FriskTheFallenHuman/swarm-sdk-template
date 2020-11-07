@@ -62,7 +62,6 @@ public:
 	virtual void OnConnectToServer2( const char *game, int IP, int connectionPort, int queryPort );
 	virtual void OnDisconnectFromServer( uint8 eSteamLoginFailure );
 	virtual void OnLevelLoadingStarted( const char *levelName, bool bShowProgressDialog );
-	virtual void OnLevelLoadingStarted( bool bShowProgressDialog );
 	virtual void OnLevelLoadingFinished( bool bError, const char *failureReason, const char *extendedReason );
 	virtual void OnDisconnectFromServer_OLD( uint8 eSteamLoginFailure, const char *username ) { OnDisconnectFromServer( eSteamLoginFailure ); }
 

@@ -21,7 +21,8 @@ $Project
 		{
 			$Folder	"Source Files"
 			{
-				$File	"gameui\BackgroundMenuButton.cpp" \
+				$File	"gameui\BackgroundVideo.cpp" \
+						"gameui\BackgroundMenuButton.cpp" \
 						"gameui\BaseModPanel.cpp" \
 						"gameui\GameConsole.cpp" \
 						"gameui\GameUI_Interface.cpp" \
@@ -53,7 +54,8 @@ $Project
 
 			$Folder	"Header Files"
 			{
-				$File	"gameui\BackgroundMenuButton.h" \
+				$File	"gameui\BackgroundVideo.h" \
+						"gameui\BackgroundMenuButton.h" \
 						"gameui\BaseModPanel.h" \
 						"gameui\BaseSaveGameDialog.h" \
 						"gameui\CDKeyEntryDialog.h" \

@@ -17,12 +17,18 @@
 #include "KeyValues.h"
 #include "UtlVector.h"
 #include "tier1/CommandBuffer.h"
-
+#include "avi/ibik.h"
 #include "ixboxsystem.h"
+#include "matchmaking/imatchframework.h"
 
 #if !defined( _X360 )
 #include "xbox/xboxstubs.h"
 #endif
+
+// must supply some non-trivial time to let the movie startup smoothly
+// the attract screen also uses this so it doesn't pop in either
+#define TRANSITION_TO_MOVIE_DELAY_TIME	0.5f	// how long to wait before starting the fade
+#define TRANSITION_TO_MOVIE_FADE_TIME	1.2f	// how fast to fade
 
 enum
 {
@@ -34,6 +40,7 @@ enum
 class CMatchmakingBasePanel;
 class CBackgroundMenuButton;
 class CGameMenu;
+class IVTFTexture;
 
 // X360TBD: Move into a separate module when finished
 class CMessageDialogHandler
@@ -62,7 +69,7 @@ class CFooterPanel : public vgui::EditablePanel
 	DECLARE_CLASS_SIMPLE( CFooterPanel, vgui::EditablePanel );
 
 public:
-	CFooterPanel( Panel *parent, const char *panelName );
+			CFooterPanel( Panel *parent, const char *panelName );
 	virtual ~CFooterPanel();
 
 	virtual void	ApplySchemeSettings( vgui::IScheme *pScheme );
@@ -137,6 +144,34 @@ private:
 };
 
 //-----------------------------------------------------------------------------
+// Purpose: General purpose 1 of N menu
+//-----------------------------------------------------------------------------
+class CGameMenu : public vgui::Menu
+{
+	DECLARE_CLASS_SIMPLE( CGameMenu, vgui::Menu );
+
+public:
+	CGameMenu( vgui::Panel *parent, const char *name );
+
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
+	virtual void LayoutMenuBorder();
+	virtual void SetVisible( bool state );
+	virtual int AddMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, KeyValues *userData = NULL );
+	virtual int AddMenuItem( const char *itemName, const char *itemText, KeyValues *command, Panel *target, KeyValues *userData = NULL );
+	virtual void SetMenuItemBlinkingState( const char *itemName, bool state );
+	virtual void OnCommand( const char *command );
+	virtual void OnKeyCodePressed( vgui::KeyCode code );
+	virtual void OnKeyCodeReleased( vgui::KeyCode code );
+	virtual void OnThink();
+	virtual void OnKillFocus();
+	virtual void ShowFooter( bool bShow );
+	virtual void UpdateMenuItemState( bool isInGame, bool isMultiplayer );
+
+private:
+	CFooterPanel *m_pConsoleFooter;
+};
+
+//-----------------------------------------------------------------------------
 // Purpose: Transparent menu item designed to sit on the background ingame
 //-----------------------------------------------------------------------------
 class CGameMenuItem : public vgui::MenuItem
@@ -147,23 +182,31 @@ public:
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void PaintBackground( void );
+
+	void PaintButtonEx();
 	void SetRightAlignedText( bool state );
 
 private:
 	bool		m_bRightAligned;
+
+	vgui::HFont	hMainMenuFont;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: This is the panel at the top of the panel hierarchy for GameUI
 //			It handles all the menus, background images, and loading dialogs
 //-----------------------------------------------------------------------------
-class CBaseModPanel : public vgui::Panel
+class CBaseModPanel : public vgui::Panel, public IMatchEventsSink
 {
 	DECLARE_CLASS_SIMPLE( CBaseModPanel, vgui::Panel );
 
 public:
 	CBaseModPanel();
 	virtual ~CBaseModPanel();
+
+	// IMatchEventSink implementation
+public:
+	virtual void OnEvent( KeyValues *pEvent );
 
 public:
 	//
@@ -193,8 +236,8 @@ public:
 
 public:
 	// notifications
-	void OnLevelLoadingStarted();
-	void OnLevelLoadingFinished();
+	void OnLevelLoadingStarted( char const *levelName, bool bShowProgressDialog );
+	void OnLevelLoadingFinished( bool bError, const char *failureReason, const char *extendedReason );
 
 	// update the taskbar a frame
 	void RunFrame();
@@ -207,6 +250,9 @@ public:
 
 	// handles gameUI being shown
 	void OnGameUIActivated();
+
+	// handles gameUI being hidden
+	void OnGameUIHidden();
 
 	// game dialogs
 	void OnOpenNewGameDialog( const char *chapter = NULL );
@@ -259,8 +305,6 @@ public:
 	virtual void OnSizeChanged( int newWide, int newTall );
 
 	void ArmFirstMenuItem( void );
-
-	void OnGameUIHidden();
 
 	void CloseBaseDialogs( void );
 	bool IsWaitingForConsoleUI( void ) { return m_bWaitingForStorageDeviceHandle || m_bWaitingForUserSignIn || m_bXUIVisible; }
@@ -383,12 +427,29 @@ private:
 	bool						m_bEverActivated;
 	bool						m_bCopyFrameBuffer;
 	bool						m_bUseRenderTargetImage;
+	int							m_DelayActivation;
 	int							m_ExitingFrameCount;
 	bool						m_bXUIVisible;
 	bool						m_bUseMatchmaking;
 	bool						m_bRestartFromInvite;
 	bool						m_bRestartSameGame;
-	
+
+	// Used for blur possprocessing
+	float						m_flBlurScale;
+	float						m_flLastBlurTime;
+
+	// Time in seconds to fade to the background movie
+	float						m_flMovieFadeInTime;
+
+	// Used to fake out the loanding plaque for fade-to-movie transition.
+	void PrepareStartupGraphic();
+	void ReleaseStartupGraphic();
+	void DrawStartupGraphic( float flNormalizedAlpha );
+	IVTFTexture			*m_pBackgroundTexture;
+	IMaterial			*m_pBackgroundMaterial;
+	KeyValues			*m_pVMTKeyValues;
+	char m_szFadeFilename[ MAX_PATH ];
+
 	// Used for internal state dealing with blades
 	bool						m_bUserRefusedSignIn;
 	bool						m_bUserRefusedStorageDevice;
