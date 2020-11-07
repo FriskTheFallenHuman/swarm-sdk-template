@@ -354,7 +354,7 @@ void CClient_Precipitation::Simulate( float dt )
 	if ( m_nPrecipType == PRECIPITATION_TYPE_SNOWFALL )
 		return;
 
-	// calculate the MAX amount of time it will take this flake to fall.
+	// calculate the max amount of time it will take this flake to fall.
 	// This works if we assume the wind doesn't have a z component
 	if ( r_RainHack.GetInt() )
 		m_Lifetime = (GetClientWorldEntity()->m_WorldMaxs[2] - GetClientWorldEntity()->m_WorldMins[2]) / m_Speed;
@@ -472,7 +472,7 @@ inline void CClient_Precipitation::RenderParticle( CPrecipitationParticle* pPart
 	float flScreenSpaceWidth = flWidth * m_flHalfScreenWidth / -start.z;
 	if ( flScreenSpaceWidth < MIN_SCREENSPACE_RAIN_WIDTH )
 	{
-		// Make the rain tracer at least the MIN size, but fade its alpha the smaller it gets.
+		// Make the rain tracer at least the min size, but fade its alpha the smaller it gets.
 		flAlpha *= flScreenSpaceWidth / MIN_SCREENSPACE_RAIN_WIDTH;
 		flWidth = MIN_SCREENSPACE_RAIN_WIDTH * -start.z / m_flHalfScreenWidth;
 	}
@@ -1404,7 +1404,7 @@ void CClient_Precipitation::EmitParticles( float fTimeDelta )
 		int cParticles = (int)fParticles;
 		m_Remainder = fParticles - cParticles;
 
-		// calculate the MAX amount of time it will take this flake to fall.
+		// calculate the max amount of time it will take this flake to fall.
 		// This works if we assume the wind doesn't have a z component
 		VectorCopy( s_WindVector, vel );
 		vel[2] -= GetSpeed();
@@ -2436,7 +2436,7 @@ void CSnowFallManager::CreateOutsideVolumeSnowParticles( float flCurrentTime, fl
 	// Add as many particles as we need
 	while ( m_tSnowFallParticleTimer.NextEvent( flCurrentTime ) )
 	{
-		// Check for a MAX particle count.
+		// Check for a max particle count.
 		if ( m_pSnowFallEmitter->GetParticleCount() >= r_SnowParticles.GetInt() )
 			continue;
 
@@ -2481,7 +2481,7 @@ void CSnowFallManager::CreateInsideVolumeSnowParticles( float flCurrentTime, flo
 	// Add as many particles as we need
 	while ( m_tSnowFallParticleTimer.NextEvent( flCurrentTime ) )
 	{
-		// Check for a MAX particle count.
+		// Check for a max particle count.
 		if ( m_pSnowFallEmitter->GetParticleCount() >= r_SnowParticles.GetInt() )
 			continue;
 

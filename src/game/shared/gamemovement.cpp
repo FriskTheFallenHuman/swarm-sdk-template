@@ -1275,7 +1275,7 @@ void CGameMovement::SetupMovementBounds( CMoveData *move )
 	Vector boxMins = GetPlayerMins(false);
 	Vector boxMaxs = GetPlayerMaxs(false);
 
-	// bloat by traveling the MAX velocity in all directions, plus the stepsize up/down
+	// bloat by traveling the max velocity in all directions, plus the stepsize up/down
 	Vector bloat;
 	bloat.Init(radius, radius, radius);
 	bloat.z += pPlayer->m_Local.m_flStepSize;
@@ -1969,7 +1969,7 @@ void CGameMovement::AirMove( void )
 	wishspeed = VectorNormalize(wishdir);
 
 	//
-	// clamp to server defined MAX speed
+	// clamp to server defined max speed
 	//
 	if ( wishspeed != 0 && (wishspeed > mv->m_flMaxSpeed))
 	{
@@ -2138,7 +2138,7 @@ void CGameMovement::WalkMove( void )
 	wishspeed = VectorNormalize(wishdir);
 
 	//
-	// Clamp to server defined MAX speed
+	// Clamp to server defined max speed
 	//
 	if ((wishspeed != 0.0f) && (wishspeed > mv->m_flMaxSpeed))
 	{
@@ -2397,7 +2397,7 @@ void CGameMovement::FullObserverMove( void )
 	wishspeed = VectorNormalize(wishdir);
 
 	//
-	// Clamp to server defined MAX speed
+	// Clamp to server defined max speed
 	//
 
 	float maxspeed = sv_maxvelocity.GetFloat(); 
@@ -2480,7 +2480,7 @@ void CGameMovement::FullNoClipMove( float factor, float maxacceleration )
 	wishspeed = VectorNormalize(wishdir);
 
 	//
-	// Clamp to server defined MAX speed
+	// Clamp to server defined max speed
 	//
 	if (wishspeed > maxspeed )
 	{
@@ -3874,7 +3874,7 @@ static inline void DoTrace( ITraceListData *pTraceListData, const Ray_t &ray, ui
 
 //-----------------------------------------------------------------------------
 // Traces the player's collision bounds in quadrants, looking for a plane that
-// can be stood upon (normal's z >= 0.7f).  Regardless of success or failure,
+// can be stood upon (normal's z >= flStandableZ).  Regardless of success or failure,
 // replace the fraction and endpos with the original ones, so we don't try to
 // move the player down to the new floor and get stuck on a leaning wall that
 // the original trace hit first.
@@ -4956,7 +4956,7 @@ void CGameMovement::FullTossMove( void )
 		wishspeed = VectorNormalize(wishdir);
 
 		//
-		// Clamp to server defined MAX speed
+		// Clamp to server defined max speed
 		//
 		if (wishspeed > mv->m_flMaxSpeed)
 		{

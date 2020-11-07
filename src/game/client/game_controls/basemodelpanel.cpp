@@ -803,7 +803,7 @@ void CModelPanel::CalculateFrameDistanceInternal( const model_t *pModel )
 	float flTanFOVx = tan( flFOVx );
 	float flTanFOVy = tan( flFOVy );
 
-	// Find the MAX value of x, y, or z
+	// Find the max value of x, y, or z
 	float flDist = 0.0f;
 	for ( int iPoint = 0; iPoint < 8; ++iPoint )
 	{
@@ -839,7 +839,7 @@ void CModelPanel::CalculateFrameDistanceInternal( const model_t *pModel )
 		aScreenPoints[iPoint].y = ( aScreenPoints[iPoint].y * 0.5f + 0.5f ) * flH;
 	}
 
-	// Find the MIN/MAX and center of the 2D bounding box of the object.
+	// Find the min/max and center of the 2D bounding box of the object.
 	Vector2D vecScreenMin( 99999.0f, 99999.0f ), vecScreenMax( -99999.0f, -99999.0f );
 	for ( int iPoint = 0; iPoint < 8; ++iPoint )
 	{

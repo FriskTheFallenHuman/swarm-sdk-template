@@ -16,7 +16,7 @@
 #include "cmodel.h"
 #include "tier0/vprof.h"
 
-#define CTEXTURESMAX		512			// MAX number of textures loaded
+#define CTEXTURESMAX		512			// max number of textures loaded
 #define CBTEXTURENAMEMAX	13			// only load first n chars of name
 
 #define GAMEMOVEMENT_DUCK_TIME				1000		// ms

@@ -111,7 +111,7 @@ public:
 	virtual bool NeedsAAClamp() const = 0;
 	virtual bool NeedsATICentroidHack() const = 0;
 
-	// This is the MAX dx support level supported by the card
+	// This is the max dx support level supported by the card
 	virtual int	 GetMaxDXSupportLevel() const = 0;
 
 	// Does the card specify fog color in linear space when sRGBWrites are enabled?

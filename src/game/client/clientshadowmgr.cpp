@@ -155,7 +155,7 @@ ConVar r_flashlightdepthres( "r_flashlightdepthres", "1024" );
 
 //-----------------------------------------------------------------------------
 // A texture allocator used to batch textures together
-// At the moment, the implementation simply allocates blocks of MAX 256x256
+// At the moment, the implementation simply allocates blocks of max 256x256
 // and each block stores an array of uniformly-sized textures
 //-----------------------------------------------------------------------------
 typedef unsigned short TextureHandle_t;
@@ -2739,7 +2739,7 @@ float CClientShadowMgr::ComputeLocalShadowOrigin( IClientRenderable* pRenderable
 	// bounding sphere surrounding the entity. This is necessary because otherwise,
 	// tall, thin objects would have their shadows appear + disappear as then spun about their origin
 
-	// Figure out the corner corresponding to the MIN + MAX projection
+	// Figure out the corner corresponding to the min + max projection
 	// along the shadow direction
 
 	// We're basically finding the point on the cube that has the largest and smallest
@@ -3052,7 +3052,7 @@ void CClientShadowMgr::BuildOrthoShadow( IClientRenderable* pRenderable,
 	// Clamp the minimum size
 	Vector2DMax( size, Vector2D(10.0f, 10.0f), size );
 
-	// Place the origin at the point with MIN dot product with shadow dir
+	// Place the origin at the point with min dot product with shadow dir
 	Vector org;
 	float falloffStart = ComputeLocalShadowOrigin( pRenderable, mins, maxs, localShadowDir, 2.0f, org );
 
@@ -3248,7 +3248,7 @@ void CClientShadowMgr::BuildRenderToTextureShadow( IClientRenderable* pRenderabl
 	size.x += 2.0f * TEXEL_SIZE_PER_CASTER_SIZE;
 	size.y += 2.0f * TEXEL_SIZE_PER_CASTER_SIZE;
 
-	// Place the origin at the point with MIN dot product with shadow dir
+	// Place the origin at the point with min dot product with shadow dir
 	Vector org;
 	float falloffStart = ComputeLocalShadowOrigin( pRenderable, mins, maxs, localShadowDir, 1.0f, org );
 

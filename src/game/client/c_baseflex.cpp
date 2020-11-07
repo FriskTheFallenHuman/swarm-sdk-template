@@ -687,7 +687,7 @@ Vector C_BaseFlex::SetViewTarget( CStudioHdr *pStudioHdr, const float *pGlobalFl
 		local = local + eyeDeflect;
 		VectorNormalize( local );
 
-		// check to see if the eye is aiming outside the MAX eye deflection
+		// check to see if the eye is aiming outside the max eye deflection
 		float flMaxEyeDeflection = pStudioHdr->MaxEyeDeflection();
 		if ( local.x < flMaxEyeDeflection )
 		{
@@ -1086,7 +1086,7 @@ void C_BaseFlex::GetToolRecordingState( KeyValues *msg )
 		mstudioflexcontroller_t *pflex = hdr->pFlexcontroller( i );
 
 		// rescale
-		s_pGlobalFlexWeight[pflex->localToGlobal] = m_flexWeight[i] * (pflex->MAX - pflex->MIN) + pflex->MIN;
+		s_pGlobalFlexWeight[pflex->localToGlobal] = m_flexWeight[i] * (pflex->max - pflex->min) + pflex->min;
 	}
 
 	ProcessSceneEvents( false, s_pGlobalFlexWeight );
@@ -1140,13 +1140,13 @@ void C_BaseFlex::GetToolRecordingState( KeyValues *msg )
 			float updown = s_pGlobalFlexWeight[ flexupdown->localToGlobal ];
 			float rightleft = s_pGlobalFlexWeight[ flexrightleft->localToGlobal ];
 
-			if ( flexupdown->MIN != flexupdown->MAX )
+			if ( flexupdown->min != flexupdown->max )
 			{
-				updown = RemapVal( updown, flexupdown->MIN, flexupdown->MAX, 0.0f, 1.0f );
+				updown = RemapVal( updown, flexupdown->min, flexupdown->max, 0.0f, 1.0f );
 			}
-			if ( flexrightleft->MIN != flexrightleft->MAX )
+			if ( flexrightleft->min != flexrightleft->max )
 			{
-				rightleft = RemapVal( rightleft, flexrightleft->MIN, flexrightleft->MAX, 0.0f, 1.0f );
+				rightleft = RemapVal( rightleft, flexrightleft->min, flexrightleft->max, 0.0f, 1.0f );
 			}
 	
 			s_pGlobalFlexWeight[ flexupdown->localToGlobal ] = updown;
@@ -1160,9 +1160,9 @@ void C_BaseFlex::GetToolRecordingState( KeyValues *msg )
 		mstudioflexcontroller_t *pflex = hdr->pFlexcontroller( i );
 
 		// rescale
-		if ( pflex->MAX != pflex->MIN )
+		if ( pflex->max != pflex->min )
 		{
-			s_pGlobalFlexWeight[pflex->localToGlobal] = ( s_pGlobalFlexWeight[pflex->localToGlobal] - pflex->MIN ) / ( pflex->MAX - pflex->MIN );
+			s_pGlobalFlexWeight[pflex->localToGlobal] = ( s_pGlobalFlexWeight[pflex->localToGlobal] - pflex->min ) / ( pflex->max - pflex->min );
 		}
 	}
 
@@ -1300,7 +1300,7 @@ void C_BaseFlex::SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightC
 		mstudioflexcontroller_t *pflex = hdr->pFlexcontroller( i );
 
 		// rescale
-		s_pGlobalFlexWeight[pflex->localToGlobal] = m_flexWeight[i] * (pflex->MAX - pflex->MIN) + pflex->MIN;
+		s_pGlobalFlexWeight[pflex->localToGlobal] = m_flexWeight[i] * (pflex->max - pflex->min) + pflex->min;
 	}
 
 	ProcessSceneEvents( false, s_pGlobalFlexWeight );
@@ -1688,9 +1688,9 @@ void C_BaseFlex::SetFlexWeight( LocalFlexController_t index, float value )
 
 		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index );
 
-		if (pflexcontroller->MAX != pflexcontroller->MIN)
+		if (pflexcontroller->max != pflexcontroller->min)
 		{
-			value = (value - pflexcontroller->MIN) / (pflexcontroller->MAX - pflexcontroller->MIN);
+			value = (value - pflexcontroller->min) / (pflexcontroller->max - pflexcontroller->min);
 			value = clamp( value, 0.0, 1.0 );
 		}
 
@@ -1709,9 +1709,9 @@ float C_BaseFlex::GetFlexWeight( LocalFlexController_t index )
 
 		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index );
 
-		if (pflexcontroller->MAX != pflexcontroller->MIN)
+		if (pflexcontroller->max != pflexcontroller->min)
 		{
-			return m_flexWeight[index] * (pflexcontroller->MAX - pflexcontroller->MIN) + pflexcontroller->MIN;
+			return m_flexWeight[index] * (pflexcontroller->max - pflexcontroller->min) + pflexcontroller->min;
 		}
 				
 		return m_flexWeight[index];

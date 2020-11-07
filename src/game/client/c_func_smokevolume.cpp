@@ -51,7 +51,7 @@ private:
 		float				m_RotationFactor;
 		float				m_CurRotation;
 		float				m_FadeAlpha;		// Set as it moves around.
-		unsigned char		m_ColorInterp;		// Amount between MIN and MAX colors.
+		unsigned char		m_ColorInterp;		// Amount between min and max colors.
 		unsigned char		m_Color[4];
 	};
 

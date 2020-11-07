@@ -153,9 +153,9 @@ void CBaseFlex::SetFlexWeight( LocalFlexController_t index, float value )
 
 		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index );
 
-		if (pflexcontroller->MAX != pflexcontroller->MIN)
+		if (pflexcontroller->max != pflexcontroller->min)
 		{
-			value = (value - pflexcontroller->MIN) / (pflexcontroller->MAX - pflexcontroller->MIN);
+			value = (value - pflexcontroller->min) / (pflexcontroller->max - pflexcontroller->min);
 			value = clamp( value, 0.0, 1.0 );
 		}
 
@@ -173,9 +173,9 @@ float CBaseFlex::GetFlexWeight( LocalFlexController_t index )
 
 		mstudioflexcontroller_t *pflexcontroller = pstudiohdr->pFlexcontroller( index );
 
-		if (pflexcontroller->MAX != pflexcontroller->MIN)
+		if (pflexcontroller->max != pflexcontroller->min)
 		{
-			return m_flexWeight[index] * (pflexcontroller->MAX - pflexcontroller->MIN) + pflexcontroller->MIN;
+			return m_flexWeight[index] * (pflexcontroller->max - pflexcontroller->min) + pflexcontroller->min;
 		}
 				
 		return m_flexWeight[index];

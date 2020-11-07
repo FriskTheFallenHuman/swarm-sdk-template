@@ -348,7 +348,7 @@ private:
 									// select[0] is the offset to where the cursor was dragged to. or -1 if no drag.
 	int				   _pixelsIndent;
 	int				   _charCount;
-	int				   _maxCharCount;  // MAX number of chars that can be in the text buffer
+	int				   _maxCharCount;  // max number of chars that can be in the text buffer
 	HFont              _font;		   // font of chars in the text buffer
 	HFont			   _smallfont;
 	bool			   _dataChanged;   // whether anything in the window has changed.

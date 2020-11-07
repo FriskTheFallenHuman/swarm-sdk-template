@@ -23,10 +23,12 @@ void RegisterUserMessages()
 	usermessages->Register( "ItemPickup", -1 );	// for item history on screen
 	usermessages->Register( "ShowMenu", -1 );	// show hud menu
 	usermessages->Register( "Shake", 13 );		// shake view
+	usermessages->Register( "ShakeDir", -1 ); // directional shake
 	usermessages->Register( "Fade", 10 );	// fade HUD in/out
 	usermessages->Register( "VGUIMenu", -1 );	// Show VGUI menu
 	usermessages->Register( "Rumble", 3 );	// Send a rumble to a controller
 	usermessages->Register( "CloseCaption", -1 ); // Show a caption (by string id number)(duration in 10th of a second)
+	usermessages->Register( "CloseCaptionDirect", -1 ); // Show a forced caption (by string id number)(duration in 10th of a second)
 
 	usermessages->Register( "SendAudio", -1 );	// play radion command
 
@@ -44,6 +46,8 @@ void RegisterUserMessages()
 
 	usermessages->Register( "AmmoDenied", 2 );
 	usermessages->Register( "AchievementEvent", -1 );
+	usermessages->Register( "CurrentTimescale", 4 );	// Send one float for the new timescale
+	usermessages->Register( "DesiredTimescale", 13 );	// Send timescale and some blending vars
 
 	usermessages->Register( "UpdateRadar", -1 );
 

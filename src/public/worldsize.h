@@ -31,7 +31,7 @@
 // COORD_EXTENT * sqrt(3)
 #define MAX_TRACE_LENGTH			( 1.732050807569 * COORD_EXTENT )		
 
-// This value is the LONGEST possible range (limited by MAX valid coordinate number, not 2x)
+// This value is the LONGEST possible range (limited by max valid coordinate number, not 2x)
 #define MAX_COORD_RANGE				(MAX_COORD_INTEGER)
 
 #define TEST_COORD( v )				(((v).x>=MIN_COORD_INTEGER*2) && ((v).x<=MAX_COORD_INTEGER*2) && \

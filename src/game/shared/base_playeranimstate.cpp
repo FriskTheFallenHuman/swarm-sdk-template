@@ -500,7 +500,7 @@ void CBasePlayerAnimState::UpdateInterpolators()
 {
 	VPROF( "CBasePlayerAnimState::UpdateInterpolators" );
 
-	// First, figure out their current MAX speed based on their current activity.
+	// First, figure out their current max speed based on their current activity.
 	float flCurMaxSpeed = GetCurrentMaxGroundSpeed();
 	m_flMaxGroundSpeed = flCurMaxSpeed;
 }
@@ -1060,7 +1060,7 @@ void CBasePlayerAnimState::DebugShowAnimState( int iStartLine )
 #endif
 	}
 
-	AnimStatePrintf( iLine++, "vel: %.2f, time: %.2f, MAX: %.2f, animspeed: %.2f", 
+	AnimStatePrintf( iLine++, "vel: %.2f, time: %.2f, max: %.2f, animspeed: %.2f", 
 		vOuterVel.Length2D(), gpGlobals->curtime, GetInterpolatedGroundSpeed(), m_pOuter->GetSequenceGroundSpeed(m_pOuter->GetSequence()) );
 	
 	if ( m_AnimConfig.m_LegAnimType == LEGANIM_8WAY )

@@ -739,7 +739,7 @@ void CWorld::Precache( void )
 
 #ifndef INFESTED_DLL
 	ConVarRef stepsize( "sv_stepsize" );
-	stepsize.SetValue( 24 );
+	stepsize.SetValue( 18 );
 #endif
 
 	ConVarRef roomtype( "room_type" );

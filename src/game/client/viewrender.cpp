@@ -1293,7 +1293,7 @@ void CViewRender::DrawUnderwaterOverlay( void )
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Returns the MIN/MAX fade distances
+// Purpose: Returns the min/max fade distances
 //-----------------------------------------------------------------------------
 static ConVar r_fade360style( "r_fade360style", "1" );
 void CViewRender::GetScreenFadeDistances( float *pMin, float *pMax )
@@ -5119,7 +5119,7 @@ void CShadowDepthView::Draw()
 	pRenderContext->ClearColor3ub(0xFF, 0xFF, 0xFF);
 
 #if defined( _X360 )
-	pRenderContext->PushVertexShaderGPRAllocation( 112 ); //almost all work is done in vertex shaders for depth rendering, MAX out their threads
+	pRenderContext->PushVertexShaderGPRAllocation( 112 ); //almost all work is done in vertex shaders for depth rendering, max out their threads
 #endif
 
 	pRenderContext.SafeRelease();
@@ -5222,7 +5222,7 @@ void CFreezeFrameView::Draw( void )
 	CMatRenderContextPtr pRenderContext( materials );
 
 #if defined( _X360 )
-	pRenderContext->PushVertexShaderGPRAllocation( 16 ); //MAX out pixel shader threads
+	pRenderContext->PushVertexShaderGPRAllocation( 16 ); //max out pixel shader threads
 #endif
 
 	pRenderContext->DrawScreenSpaceRectangle( m_pFreezeFrame, x, y, width, height,

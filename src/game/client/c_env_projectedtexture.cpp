@@ -299,7 +299,7 @@ void C_EnvProjectedTexture::UpdateLight( void )
 				VectorTransform( vFarRect[i].Base(), matOrientation, vOutRects[1][i].Base() );
 			}
 
-			// now take the MIN and MAX extents for the bbox, and see if it is visible.
+			// now take the min and max extents for the bbox, and see if it is visible.
 			Vector mins = **vOutRects; 
 			Vector maxs = **vOutRects; 
 			for ( int i = 1; i < 8 ; ++i )
@@ -432,7 +432,7 @@ bool C_EnvProjectedTexture::Simulate( void )
 
 bool C_EnvProjectedTexture::IsBBoxVisible( Vector vecExtentsMin, Vector vecExtentsMax )
 {
-	// Z position clamped to the MIN height (but must be less than the MAX)
+	// Z position clamped to the min height (but must be less than the max)
 	float flVisibleBBoxMinHeight = MIN( vecExtentsMax.z - 1.0f, m_flVisibleBBoxMinHeight );
 	vecExtentsMin.z = MAX( vecExtentsMin.z, flVisibleBBoxMinHeight );
 

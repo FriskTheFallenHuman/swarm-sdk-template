@@ -29,7 +29,7 @@
 #define MINIMUM_TICK_INTERVAL   (0.001)
 #define MAXIMUM_TICK_INTERVAL	(0.1)
 
-// This is the MAX # of players the engine can handle
+// This is the max # of players the engine can handle
 // Note, must be power of 2
 #define ABSOLUTE_PLAYER_LIMIT 64
 #define ABSOLUTE_PLAYER_LIMIT_DW	( (ABSOLUTE_PLAYER_LIMIT/32) + 1 )
@@ -58,7 +58,7 @@
 #define SP_MODEL_INDEX_BITS			11
 
 // How many bits to use to encode an edict.
-#define	MAX_EDICT_BITS				11			// # of bits needed to represent MAX edicts
+#define	MAX_EDICT_BITS				11			// # of bits needed to represent max edicts
 // Max # of edicts in a level
 #define	MAX_EDICTS					(1<<MAX_EDICT_BITS)
 
@@ -92,7 +92,7 @@
 #define MAX_PACKEDENTITY_PROPS	(4096)
 
 // a client can have up to 4 customization files (logo, sounds, models, txt).
-#define MAX_CUSTOM_FILES		4		// MAX 4 files
+#define MAX_CUSTOM_FILES		4		// max 4 files
 #define MAX_CUSTOM_FILE_SIZE	131072	
 
 //
@@ -243,7 +243,7 @@ enum
 	EF_NODRAW				= 0x020,	// don't draw entity
 	EF_NORECEIVESHADOW		= 0x040,	// Don't receive no shadow
 	EF_BONEMERGE_FASTCULL	= 0x080,	// For use with EF_BONEMERGE. If this is set, then it places this ent's origin at its
-										// parent and uses the parent's bbox + the MAX extents of the aiment.
+										// parent and uses the parent's bbox + the max extents of the aiment.
 										// Otherwise, it sets up the parent's bones every frame to figure out where to place
 										// the aiment, which is inefficient because it'll setup the parent's bones even if
 										// the parent is not in the PVS.
@@ -400,7 +400,7 @@ enum
 #define MAX_AREA_STATE_BYTES		32
 #define MAX_AREA_PORTAL_STATE_BYTES 24
 
-// user message MAX payload size (note, this value is used by the engine, so MODs cannot change it)
+// user message max payload size (note, this value is used by the engine, so MODs cannot change it)
 #define MAX_USER_MSG_BITS 12
 #define MAX_USER_MSG_DATA ( ( 1 << ( MAX_USER_MSG_BITS - 3 ) ) - 1 )
 #define MAX_ENTITY_MSG_DATA 255

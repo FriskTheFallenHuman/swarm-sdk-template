@@ -551,7 +551,7 @@ void GetSequenceLinearMotion( CStudioHdr *pstudiohdr, int iSequence, const float
 			static int msgCount = 0;
 			while ( ++msgCount < 10 )
 			{
-				Msg( "Bad sequence (%i out of %i MAX) in GetSequenceLinearMotion() for model '%s'!\n", iSequence, pstudiohdr->GetNumSeq(), pstudiohdr->pszName() );
+				Msg( "Bad sequence (%i out of %i max) in GetSequenceLinearMotion() for model '%s'!\n", iSequence, pstudiohdr->GetNumSeq(), pstudiohdr->pszName() );
 			}
 		}
 		pVec->Init();
@@ -582,7 +582,7 @@ float GetSequenceLinearMotionAndDuration( CStudioHdr *pstudiohdr, int iSequence,
 			static int msgCount = 0;
 			while ( ++msgCount < 10 )
 			{
-				Msg( "Bad sequence (%i out of %i MAX) in GetSequenceLinearMotion() for model '%s'!\n", iSequence, pstudiohdr->GetNumSeq(), pstudiohdr->pszName() );
+				Msg( "Bad sequence (%i out of %i max) in GetSequenceLinearMotion() for model '%s'!\n", iSequence, pstudiohdr->GetNumSeq(), pstudiohdr->pszName() );
 			}
 		}
 		return 0.0f;

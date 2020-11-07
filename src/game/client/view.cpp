@@ -115,7 +115,7 @@ static ConVar mat_viewportscale( "mat_viewportscale", "1.0", FCVAR_CHEAT, "Scale
 ConVar cl_leveloverview( "cl_leveloverview", "0", FCVAR_CHEAT );
 
 ConVar r_mapextents( "r_mapextents", "16384", FCVAR_CHEAT, 
-						   "Set the MAX dimension for the map.  This determines the far clipping plane" );
+						   "Set the max dimension for the map.  This determines the far clipping plane" );
 
 static ConVar cl_camera_follow_bone_index( "cl_camera_follow_bone_index"  , "-2", FCVAR_CHEAT, "Index of the bone to follow.  -2 == disabled.  -1 == root bone.  0+ is bone index." );
 Vector g_cameraFollowPos;

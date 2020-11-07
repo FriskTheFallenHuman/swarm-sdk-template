@@ -171,7 +171,7 @@ CParticleEffectBinding::~CParticleEffectBinding()
 	Term();
 }
 
-// The is the MAX size of the particles for use in bounding	computation
+// The is the max size of the particles for use in bounding	computation
 void CParticleEffectBinding::SetParticleCullRadius( float flMaxParticleRadius )
 {
 	if ( m_flParticleCullRadius != flMaxParticleRadius )
@@ -494,7 +494,7 @@ bool CParticleEffectBinding::EnlargeBBoxToContain( const Vector &pt )
 
 	bool bHasChanged = false;
 
-	// check MIN bounds
+	// check min bounds
 	if ( pt.x < m_Min.x ) 
 		{ m_Min.x = pt.x; bHasChanged = true; }
 
@@ -504,7 +504,7 @@ bool CParticleEffectBinding::EnlargeBBoxToContain( const Vector &pt )
 	if ( pt.z < m_Min.z ) 
 		{ m_Min.z = pt.z; bHasChanged = true; }
 
-	// check MAX bounds
+	// check max bounds
 	if ( pt.x > m_Max.x ) 
 		{ m_Max.x = pt.x; bHasChanged = true; }
 
@@ -1048,7 +1048,7 @@ void CParticleMgr::LevelInit()
 
 Particle *CParticleMgr::AllocParticle( int size )
 {
-	// Enforce MAX particle limit.
+	// Enforce max particle limit.
 	if ( m_nCurrentParticlesAllocated >= MAX_TOTAL_PARTICLES )
 		return NULL;
 		
@@ -1540,7 +1540,7 @@ int CParticleMgr::ComputeParticleDefScreenArea( int nInfoCount, RetireInfo_t *pI
 		float flMinY = MAX( view.y, vecScreenCenter.y - flProjRadius );
 		float flMaxY = MIN( view.y + view.height, vecScreenCenter.y + flProjRadius );
 
-		// Clamp the MIN/MAX values to the screen so that particles particle systems outside of the view don't cause early retirement.
+		// Clamp the min/max values to the screen so that particles particle systems outside of the view don't cause early retirement.
 		flMinX = clamp( flMinX, view.x, view.width );
 		flMaxX = clamp( flMaxX, view.x, view.width );
 		flMinY = clamp( flMinY, view.y, view.height );

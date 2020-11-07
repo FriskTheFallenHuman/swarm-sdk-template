@@ -37,7 +37,7 @@
 #define MAX_DISP_LIGHTMAP_DIM_INCLUDING_BORDER	128
 
 
-// This is the actual MAX.. (change if you change the brush lightmap dim or disp lightmap dim
+// This is the actual max.. (change if you change the brush lightmap dim or disp lightmap dim
 #define MAX_LIGHTMAP_DIM_WITHOUT_BORDER		MAX_DISP_LIGHTMAP_DIM_WITHOUT_BORDER
 #define MAX_LIGHTMAP_DIM_INCLUDING_BORDER	MAX_DISP_LIGHTMAP_DIM_INCLUDING_BORDER
 
@@ -355,7 +355,7 @@ enum
 	LUMP_FACES_HDR					= 58,	// HDR maps may have different face data.
 	LUMP_MAP_FLAGS                  = 59,   // extended level-wide flags. not present in all levels
 	LUMP_OVERLAY_FADES				= 60,	// Fade distances for overlays
-	LUMP_OVERLAY_SYSTEM_LEVELS		= 61,	// System level settings (MIN/MAX CPU & GPU to render this overlay) 
+	LUMP_OVERLAY_SYSTEM_LEVELS		= 61,	// System level settings (min/max CPU & GPU to render this overlay) 
 	LUMP_PHYSLEVEL                  = 62,
 	LUMP_DISP_MULTIBLEND			= 63,	// Displacement multiblend info
 };

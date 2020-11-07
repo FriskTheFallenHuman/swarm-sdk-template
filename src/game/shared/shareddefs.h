@@ -111,7 +111,7 @@ inline float FractionUnDucked( int msecs )
 }
 
 #define MAX_WEAPON_SLOTS		6	// hud item selection slots
-#define MAX_WEAPON_POSITIONS	20	// MAX number of items within a slot
+#define MAX_WEAPON_POSITIONS	20	// max number of items within a slot
 #define MAX_ITEM_TYPES			6	// hud item selection slots
 #define MAX_WEAPONS				48	// Max number of weapons available
 
@@ -170,10 +170,10 @@ inline float FractionUnDucked( int msecs )
 // But if you are brave or are doing something interesting, go for it...   ywb 9/22/03
 
 //You might be wondering why these aren't multiple of 2. Well the reason is that if servers decide to have HLTV or Replay enabled we need the extra slot.
-//This is ok since MAX_PLAYERS is used for code specific things like arrays and loops, but it doesn't really means that this is the MAX number of players allowed
+//This is ok since MAX_PLAYERS is used for code specific things like arrays and loops, but it doesn't really means that this is the max number of players allowed
 //Since this is decided by the gamerules (and it can be whatever number as long as its less than MAX_PLAYERS).
 
-	#define MAX_PLAYERS				33  // Absolute MAX players supported
+	#define MAX_PLAYERS				33  // Absolute max players supported
 
 
 #define MAX_PLACE_NAME_LENGTH		18

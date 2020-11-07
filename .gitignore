@@ -63,6 +63,7 @@ stats.txt
 modelsounds.cache
 settings.scr
 serverconfig.vdf
+_master.cache
 
 # shader files
 *.tmp

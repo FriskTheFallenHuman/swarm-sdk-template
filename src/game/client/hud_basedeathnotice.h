@@ -74,7 +74,7 @@ protected:
 	virtual Color GetTeamColor( int iTeamNumber, bool localplayerinvolved );
 	virtual void OnGameEvent( IGameEvent *event, DeathNoticeItem &deathNoticeItem ) {};
 	void DrawText( int x, int y, vgui::HFont hFont, Color clr, const wchar_t *szText );
- int AddDeathNoticeItem();
+	int AddDeathNoticeItem();
 	void GetBackgroundPolygonVerts( int x0, int y0, int x1, int y1, int iVerts, vgui::Vertex_t vert[] );
 	void CalcRoundedCorners();
 	CHudTexture *GetIcon( const char *szIcon, bool bInvert );

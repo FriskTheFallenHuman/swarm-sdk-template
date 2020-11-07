@@ -633,7 +633,7 @@ bool CIconLesson::ShouldDisplay( void ) const
 
 	if ( m_fRange > 0.0f && m_fCurrentDistance > m_fRange )
 	{
-		// Distance to target is more than the MAX range
+		// Distance to target is more than the max range
 		return false;
 	}
 

@@ -111,7 +111,7 @@ void C_AnimationLayer::SetWeight( float flWeight )
 
 C_BaseAnimatingOverlay::C_BaseAnimatingOverlay()
 {
-	// NOTE: We zero the memory in the MAX capacity m_Layer vector in dt_ultvector_common.h
+	// NOTE: We zero the memory in the max capacity m_Layer vector in dt_ultvector_common.h
 
 	// FIXME: where does this initialization go now?
 	// AddVar( m_Layer, &m_iv_AnimOverlay, LATCH_ANIMATION_VAR );

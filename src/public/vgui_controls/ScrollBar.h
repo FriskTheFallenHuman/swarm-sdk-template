@@ -39,9 +39,9 @@ public:
 	virtual int     GetValue();
 
 	// Set the rangeof numbers the slider can scroll through
-	virtual void    SetRange(int MIN,int MAX);
+	virtual void    SetRange(int min,int max);
 
-    virtual void    GetRange(int &MIN, int &MAX);
+    virtual void    GetRange(int &min, int &max);
 
 	// Set how many lines are displayed at one time 
 	// in the window the scroll bar is attached to.

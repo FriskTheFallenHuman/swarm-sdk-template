@@ -313,7 +313,7 @@ void CEntityFlame::FlameThink( void )
 		RadiusDamage( CTakeDamageInfo( this, this, FLAME_RADIUS_DAMAGE, DMG_BURN ), GetAbsOrigin(), m_flSize/2, CLASS_NONE, NULL );
 	}
 
-	//FireSystem_AddHeatInRadius( GetAbsOrigin(), m_flSize/2, 2.0f );
+	FireSystem_AddHeatInRadius( GetAbsOrigin(), m_flSize/2, 2.0f );
 
 }  
 

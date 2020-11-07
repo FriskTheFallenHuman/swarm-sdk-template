@@ -1062,7 +1062,7 @@ void CBeam::ComputeBounds( Vector& mins, Vector& maxs )
 	Vector vecAbsStart = GetAbsStartPos();
 	Vector vecAbsEnd = GetAbsEndPos();
 
-	// May need extra points for creating the MIN/MAX bounds
+	// May need extra points for creating the min/max bounds
 	bool bUseExtraPoints = false;
 	Vector vecAbsExtra1, vecAbsExtra2;
 

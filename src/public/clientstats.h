@@ -39,7 +39,7 @@ struct IClientStatsTextDisplay
 
 	virtual void SetDrawColor( unsigned char r, unsigned char g, unsigned char b ) = 0;
 
-	// Sets a color based on a value and its MAX acceptable limit
+	// Sets a color based on a value and its max acceptable limit
 	virtual void SetDrawColorFromStatValues( float limit, float value ) = 0;
 };
 

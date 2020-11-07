@@ -217,7 +217,7 @@ static float ResponseCurve( int curve, float x, int axis, float sensitivity )
 			//else
 			//	fall through and just return x*sensitivity below (as if using default curve)
 		}
-		//The idea is to create a MAX large walk zone surrounded by a MAX run zone.
+		//The idea is to create a max large walk zone surrounded by a max run zone.
 	case 7:
 		{
 			float xAbs = fabs(x);

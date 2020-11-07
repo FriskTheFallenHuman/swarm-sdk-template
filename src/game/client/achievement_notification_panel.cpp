@@ -124,7 +124,7 @@ void CAchievementNotificationPanel::FireGameEvent( IGameEvent * event )
 				return;
 			Q_wcsncpy( szLocalizedName, pchLocalizedName, sizeof( szLocalizedName ) );
 
-			// this is achievement progress, compose the message of form: "<name> (<#>/<MAX>)"
+			// this is achievement progress, compose the message of form: "<name> (<#>/<max>)"
 			wchar_t szFmt[128]=L"";
 			wchar_t szText[512]=L"";
 			wchar_t szNumFound[16]=L"";

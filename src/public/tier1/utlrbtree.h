@@ -335,7 +335,7 @@ protected:
 	void ResetDbgInfo() {}
 
 private:
-	// this doesn't make sense for fixed rbtrees, since there's no useful MAX pointer, and the index space isn't contiguous anyways
+	// this doesn't make sense for fixed rbtrees, since there's no useful max pointer, and the index space isn't contiguous anyways
 	I  MaxElement() const;
 };
 

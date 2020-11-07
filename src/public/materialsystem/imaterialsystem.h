@@ -1374,14 +1374,14 @@ public:
 	virtual void PopCustomClipPlane( void ) = 0;
 
 	// Returns the number of vertices + indices we can render using the dynamic mesh
-	// Passing true in the second parameter will return the MAX # of vertices + indices
+	// Passing true in the second parameter will return the max # of vertices + indices
 	// we can use before a flush is provoked and may return different values 
 	// if called multiple times in succession. 
 	// Passing false into the second parameter will return
 	// the maximum possible vertices + indices that can be rendered in a single batch
 	virtual void GetMaxToRender( IMesh *pMesh, bool bMaxUntilFlush, int *pMaxVerts, int *pMaxIndices ) = 0;
 
-	// Returns the MAX possible vertices + indices to render in a single draw call
+	// Returns the max possible vertices + indices to render in a single draw call
 	virtual int GetMaxVerticesToRender( IMaterial *pMaterial ) = 0;
 	virtual int GetMaxIndicesToRender( ) = 0;
 	virtual void DisableAllLocalLights() = 0;

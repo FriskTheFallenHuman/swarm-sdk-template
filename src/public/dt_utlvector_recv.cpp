@@ -44,7 +44,7 @@ void RecvProxy_UtlVectorElement( const CRecvProxyData *pData, void *pStruct, voi
 	CUtlVector<int> *pUtlVec = (CUtlVector<int>*)((char*)pStruct + pExtra->m_Offset);
 
 	// Call through to the proxy they passed in, making pStruct=the CUtlVector.
-	// Note: there should be space here as long as the element is < the MAX # elements
+	// Note: there should be space here as long as the element is < the max # elements
 	// that we ensured capacity for in DataTableRecvProxy_LengthProxy.
 	pExtra->m_ProxyFn( pData, pOut, (char*)pUtlVec->Base() + iElement*pExtra->m_ElementStride );
 }
