@@ -85,7 +85,7 @@ private:
 	string_t	m_iszPropName;				// Targetname of the models to control
 	string_t	m_iszPoseParameterName;		// Pose parameter name to control
 
-	CNetworkVar( float, m_fPoseValue );			// Normalized pose parameter value (maps to each pose parameter's MIN and MAX range)
+	CNetworkVar( float, m_fPoseValue );			// Normalized pose parameter value (maps to each pose parameter's min and max range)
 	CNetworkVar( float, m_fInterpolationTime );	// Interpolation speed for client matching absolute pose values
 	CNetworkVar( bool, m_bInterpolationWrap );	// Interpolation for the client wraps 0 to 1.
 

@@ -132,7 +132,7 @@ void CClientAlphaProperty::SetFade( float flGlobalFadeScale, float flDistFadeSta
 		V_swap( flDistFadeStart, flDistFadeEnd );
 	}
 
-	// If a negative value is provided for the MIN fade distance, then base it off the MAX.
+	// If a negative value is provided for the min fade distance, then base it off the max.
 	if( flDistFadeStart < 0 )
 	{
 		flDistFadeStart = flDistFadeEnd + flDistFadeStart;

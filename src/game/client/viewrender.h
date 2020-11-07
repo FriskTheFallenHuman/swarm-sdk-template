@@ -403,7 +403,7 @@ public:
 
 	virtual void	QueueOverlayRenderView( const CViewSetup &view, int nClearFlags, int whatToDraw );
 
-	virtual void	GetScreenFadeDistances( float *MIN, float *MAX );
+	virtual void	GetScreenFadeDistances( float *min, float *max );
 	virtual bool	AllowScreenspaceFade( void ) { return true; }
 
 	virtual C_BaseEntity *GetCurrentlyDrawingEntity();
@@ -534,8 +534,8 @@ protected:
 
 	CMaterialReference	m_WhiteMaterial;
 
-	CON_COMMAND_MEMBER_F( CViewRender, "screenfademinsize", OnScreenFadeMinSize, "Modify global screen fade MIN size in pixels", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
-	CON_COMMAND_MEMBER_F( CViewRender, "screenfademaxsize", OnScreenFadeMaxSize, "Modify global screen fade MAX size in pixels", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
+	CON_COMMAND_MEMBER_F( CViewRender, "screenfademinsize", OnScreenFadeMinSize, "Modify global screen fade min size in pixels", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
+	CON_COMMAND_MEMBER_F( CViewRender, "screenfademaxsize", OnScreenFadeMaxSize, "Modify global screen fade max size in pixels", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
 };
 
 #endif // VIEWRENDER_H

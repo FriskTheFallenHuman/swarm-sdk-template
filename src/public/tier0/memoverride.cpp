@@ -715,10 +715,12 @@ int __cdecl _CrtDbgReport( int nRptType, const char * szFile,
 #if defined( _DEBUG )
  
 // wrapper which passes no debug info; not available in debug
-//void __cdecl _invalid_parameter_noinfo(void)
-//{
-//    Assert(0);
-//}
+#ifndef	SUPPRESS_INVALID_PARAMETER_NO_INFO
+void __cdecl _invalid_parameter_noinfo(void)
+{
+    Assert(0);
+}
+#endif
 
 #endif /* defined( _DEBUG ) */
 
@@ -1159,9 +1161,9 @@ SIZE_T WINAPI XMemSize( PVOID pAddress, DWORD dwAllocAttributes )
 }
 #endif // _X360
 
-#define MAX_LANG_LEN        64  /* MAX language name length */
-#define MAX_CTRY_LEN        64  /* MAX country name length */
-#define MAX_MODIFIER_LEN    0   /* MAX modifier name length - n/a */
+#define MAX_LANG_LEN        64  /* max language name length */
+#define MAX_CTRY_LEN        64  /* max country name length */
+#define MAX_MODIFIER_LEN    0   /* max modifier name length - n/a */
 #define MAX_LC_LEN          (MAX_LANG_LEN+MAX_CTRY_LEN+MAX_MODIFIER_LEN+3)
 
 struct _is_ctype_compatible {

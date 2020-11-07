@@ -86,7 +86,7 @@ T abs( const T &a )
 #endif
 
 
-// #define COMPILETIME_MAX and COMPILETIME_MIN for MAX/MIN in constant expressions
+// #define COMPILETIME_MAX and COMPILETIME_MIN for max/min in constant expressions
 #define COMPILETIME_MIN( a, b ) ( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
 #define COMPILETIME_MAX( a, b ) ( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
 #ifndef MIN
@@ -126,7 +126,7 @@ inline T clamp( T const &val, Y const &minVal, Y const &maxVal )
 
 #else
 
-#define clamp(val, MIN, MAX) (((val) > (MAX)) ? (MAX) : (((val) < (MIN)) ? (MIN) : (val)))
+#define clamp(val, min, max) (((val) > (max)) ? (max) : (((val) < (min)) ? (min) : (val)))
 
 #endif
 

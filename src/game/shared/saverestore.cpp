@@ -2240,7 +2240,7 @@ int CRestore::ReadTick( int *pValue, int count, int nBytesAvailable )
 	// HACK HACK:  Adding 0.1f here makes sure that all tick times read
 	//  from .sav file which are near the basetime will end up just ahead of
 	//  the base time, because we are restoring we'll have a slow frame of the
-	//  MAX frametime of 0.1 seconds and that could otherwise cause all of our
+	//  max frametime of 0.1 seconds and that could otherwise cause all of our
 	//  think times to get synchronized to each other... sigh.  ywb...
 	int baseTick = TIME_TO_TICKS( m_pGameInfo->GetBaseTime() + 0.1f );
 	int nRead = ReadInt( pValue, count, nBytesAvailable );

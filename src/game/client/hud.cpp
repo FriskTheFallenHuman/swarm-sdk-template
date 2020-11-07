@@ -633,7 +633,7 @@ void CHudTexture::DrawSelfScalableCorners( int drawX, int drawY, int w, int h, i
 		}
 		else
 		{
-			//uvh - row 1, is tall - ( 2 * src_corner_height ) ( MIN 0 )
+			//uvh - row 1, is tall - ( 2 * src_corner_height ) ( min 0 )
 			uvh = MAX( 1.0 - 2 * flCornerHeightPercent, 0.0f );
 			drawH = MAX( 0, ( h - 2 * iDrawCornerH ) );
 		}
@@ -648,7 +648,7 @@ void CHudTexture::DrawSelfScalableCorners( int drawX, int drawY, int w, int h, i
 			}
 			else
 			{
-				//uvw - col 1, is wide - ( 2 * src_corner_width ) ( MIN 0 )
+				//uvw - col 1, is wide - ( 2 * src_corner_width ) ( min 0 )
 				uvw = MAX( 1.0 - 2 * flCornerWidthPercent, 0.0f );
 				drawW = MAX( 0, ( w - 2 * iDrawCornerW ) );
 			}

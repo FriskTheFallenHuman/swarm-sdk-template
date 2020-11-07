@@ -616,7 +616,7 @@ bool IsBoxIntersectingBoxExtents( const Vector& boxCenter1, const Vector& boxHal
 bool IsOBBIntersectingOBB( const Vector &vecOrigin1, const QAngle &vecAngles1, const Vector& boxMin1, const Vector& boxMax1, 
 						   const Vector &vecOrigin2, const QAngle &vecAngles2, const Vector& boxMin2, const Vector& boxMax2, float flTolerance )
 {
-	// FIXME: Simple case AABB check doesn't work because the MIN and MAX extents are not oriented based on the angle
+	// FIXME: Simple case AABB check doesn't work because the min and max extents are not oriented based on the angle
 	// this fast check would only be good for cubes.
 	/*if ( vecAngles1 == vecAngles2 )
 	{
@@ -2619,13 +2619,13 @@ bool IsRayIntersectingOBB( const Ray_t &ray, const Vector& org, const QAngle& an
 //-----------------------------------------------------------------------------
 // Purpose: find the minima and maxima of the 3 given values
 //-----------------------------------------------------------------------------
-inline void FindMinMax( float v1, float v2, float v3, float &MIN, float &MAX )
+inline void FindMinMax( float v1, float v2, float v3, float &min, float &max )
 {
-	MIN = MAX = v1;
-	if ( v2 < MIN ) { MIN = v2; }
-	if ( v2 > MAX ) { MAX = v2; }
-	if ( v3 < MIN ) { MIN = v3; }
-	if ( v3 > MAX ) { MAX = v3; }
+	min = max = v1;
+	if ( v2 < min ) { min = v2; }
+	if ( v2 > max ) { max = v2; }
+	if ( v3 < min ) { min = v3; }
+	if ( v3 > max ) { max = v3; }
 }
 
 //-----------------------------------------------------------------------------
@@ -2821,7 +2821,7 @@ bool IsBoxIntersectingTriangle( const Vector &vecBoxCenter, const Vector &vecBox
 						        const Vector &v1, const Vector &v2, const Vector &v3,
 						        const cplane_t &plane, float flTolerance )
 {
-	// Test the axial planes (x,y,z) against the MIN, MAX of the triangle.
+	// Test the axial planes (x,y,z) against the min, max of the triangle.
 	float flMin, flMax;
 	Vector p1, p2, p3;
 
@@ -3060,7 +3060,7 @@ bool RayHasFullyContainedIntersectionWithQuad( const Ray_t &ray,
 											  const Vector &vQuadExtent1_Normalized, float fQuadExtent1Length, 
 											  const Vector &vQuadExtent2_Normalized, float fQuadExtent2Length )
 {
-	Vector ptPlaneIntersections[(12 + 12 + 8)]; //absolute MAX possible: 12 lines to connect the start box, 12 more to connect the end box, 8 to connect the boxes to eachother
+	Vector ptPlaneIntersections[(12 + 12 + 8)]; //absolute max possible: 12 lines to connect the start box, 12 more to connect the end box, 8 to connect the boxes to eachother
 	
 	//8 points to make an AABB, 8 lines to connect each point from it's start to end point along the ray, 8 possible intersections
 	int iPlaneIntersectionsCount = 0;

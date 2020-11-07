@@ -105,7 +105,7 @@ struct SizerAddArgs_t
 	SizerAddArgs_t& MinX( int nMinX ) { m_nMinX = nMinX; return *this; }
 	SizerAddArgs_t& MinY( int nMinY ) { m_nMinY = nMinY; return *this; }
 
-	// IgnoreMemberMin --> MinX and MinY (when set) are the only criteria for minimum size; member-requested MIN size is ignored
+	// IgnoreMemberMin --> MinX and MinY (when set) are the only criteria for minimum size; member-requested min size is ignored
 	SizerAddArgs_t& IgnoreMemberMin( bool bIgnoreMemberMin = true ) { m_bIgnoreMemberMin = bIgnoreMemberMin; return *this; }
 
 	SizerAddArgs_t& FixedSize( int nX, int nY )
@@ -201,7 +201,7 @@ protected:
 		Panel *m_pPanel;
 		CSizerBase *m_pSizer;
 		
-		int m_nPadding; // if m_pPanel and m_pSizer are both NULL, this is the spacer MIN size
+		int m_nPadding; // if m_pPanel and m_pSizer are both NULL, this is the spacer min size
 		float m_flExpandFactor;
 		bool m_bMinorExpand;
 		bool m_bIgnoreMemberMin;

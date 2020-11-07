@@ -179,7 +179,7 @@ public:
 	virtual void SetMenuItemHeight(int itemHeight);
 	virtual int  GetMenuItemHeight() const;
 
-	// Set the MAX number of items visible (scrollbar appears with more)
+	// Set the max number of items visible (scrollbar appears with more)
 	virtual void SetNumberOfVisibleItems( int numItems );
 
 	// Set up the menu items layout

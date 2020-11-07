@@ -13,7 +13,7 @@
 
 enum
 {
-	SERIAL_MASK = 0x7fff // the MAX value of a serial number, rolls back to 0 when it hits this limit
+	SERIAL_MASK = 0x7fff // the max value of a serial number, rolls back to 0 when it hits this limit
 };
 
 void CEntInfo::ClearLinks()

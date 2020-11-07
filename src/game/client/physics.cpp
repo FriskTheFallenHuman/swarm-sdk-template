@@ -39,7 +39,7 @@
 extern IFileSystem *filesystem;
 
 static ConVar	cl_phys_timescale( "cl_phys_timescale", "1.0", FCVAR_CHEAT, "Sets the scale of time for client-side physics (ragdolls)" );
-static ConVar	cl_phys_maxticks( "cl_phys_maxticks", IsX360() ? "2" : "0", FCVAR_NONE, "Sets the MAX number of physics ticks allowed for client-side physics (ragdolls)" );
+static ConVar	cl_phys_maxticks( "cl_phys_maxticks", IsX360() ? "2" : "0", FCVAR_NONE, "Sets the max number of physics ticks allowed for client-side physics (ragdolls)" );
 ConVar	cl_ragdoll_gravity( "cl_ragdoll_gravity", "386", FCVAR_CHEAT, "Sets the gravity client-side ragdolls" );
 
 // blocked entity detecting
@@ -744,7 +744,7 @@ void CCollisionEvent::ObjectSound( int index, vcollisionevent_t *pEvent )
 		
 	if ( pGameData )
 	{
-		float volume = speed * (1.0f/(320.0f*320.0f));	// MAX volume at 320 in/s
+		float volume = speed * (1.0f/(320.0f*320.0f));	// max volume at 320 in/s
 		
 		if ( volume > 1.0f )
 			volume = 1.0f;

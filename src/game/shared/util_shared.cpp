@@ -1490,7 +1490,7 @@ bool UTIL_FindClosestPassableSpace( const Vector &vOriginalCenter, const Vector 
 		fOriginalExtentDists[7] = sqrt( fXSqr + fYSqr + fZSqr ); //diagonal on all axes
 	}
 
-	Vector ptExtents[8]; //ordering is going to be like 3 bits, where 0 is a MIN on the related axis, and 1 is a MAX on the same axis, axis order x y z
+	Vector ptExtents[8]; //ordering is going to be like 3 bits, where 0 is a min on the related axis, and 1 is a max on the same axis, axis order x y z
 	float fExtentsValidation[8]; //some points are more valid than others, and this is our measure
 
 	vCenter.z += 0.001f; //to satisfy m_IsSwept on first pass

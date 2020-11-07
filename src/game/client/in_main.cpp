@@ -1845,7 +1845,7 @@ void CInput::Init_All (void)
 
 	m_rgNewMouseParms[ MOUSE_ACCEL_THRESHHOLD1 ] = 0; // no 2x
 	m_rgNewMouseParms[ MOUSE_ACCEL_THRESHHOLD2 ] = 0; // no 4x
-	m_rgNewMouseParms[ MOUSE_SPEED_FACTOR ] = 1; // slowest (10 default, 20 MAX)
+	m_rgNewMouseParms[ MOUSE_SPEED_FACTOR ] = 1; // slowest (10 default, 20 max)
 
 	m_fMouseParmsValid	= false;
 	m_fJoystickAdvancedInit = false;

@@ -249,7 +249,7 @@ void C_TEShatterSurface::PostDataUpdate( DataUpdateType_t updateType )
 				pParticle->m_uchBackColor[2]	= (byte)(m_uchBackColor[2] * vecColor.z );
 			}
 
-			// Keep track of MIN and MAX speed for collision detection
+			// Keep track of min and max speed for collision detection
 			float  flForceSpeed = vForceVel.Length();
 			if (flForceSpeed > flMaxSpeed)
 			{

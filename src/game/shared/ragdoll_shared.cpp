@@ -723,7 +723,7 @@ void RagdollSolveSeparation( ragdoll_t &ragdoll, CBaseEntity *pEntity )
 // LRU
 //-----------------------------------------------------------------------------
 #ifdef _XBOX
-// xbox defaults to 4 ragdolls MAX
+// xbox defaults to 4 ragdolls max
 ConVar g_ragdoll_maxcount("g_ragdoll_maxcount", "4", FCVAR_REPLICATED );
 #else
 ConVar g_ragdoll_maxcount("g_ragdoll_maxcount", "8", FCVAR_REPLICATED );

@@ -255,7 +255,7 @@ inline void VectorNegate(vec_t *a)
 }
 
 
-//#define VectorMaximum(a)		( MAX( (a)[0], MAX( (a)[1], (a)[2] ) ) )
+//#define VectorMaximum(a)		( max( (a)[0], max( (a)[1], (a)[2] ) ) )
 #define Vector2Clear(x)			{(x)[0]=(x)[1]=0;}
 #define Vector2Negate(x)		{(x)[0]=-((x)[0]);(x)[1]=-((x)[1]);}
 #define Vector2Copy(a,b)		{(b)[0]=(a)[0];(b)[1]=(a)[1];}
@@ -630,9 +630,9 @@ template <class T> FORCEINLINE T AVG(T a, T b)
 #define XYZ(v) (v).x,(v).y,(v).z
 
 //
-// Returns a clamped value in the range [MIN, MAX].
+// Returns a clamped value in the range [min, max].
 //
-#define clamp(val, MIN, MAX) (((val) > (MAX)) ? (MAX) : (((val) < (MIN)) ? (MIN) : (val)))
+#define clamp(val, min, max) (((val) > (max)) ? (max) : (((val) < (min)) ? (min) : (val)))
 
 inline float Sign( float x )
 {
@@ -881,8 +881,8 @@ void ClearBounds (Vector& mins, Vector& maxs);
 void AddPointToBounds (const Vector& v, Vector& mins, Vector& maxs);
 
 //-----------------------------------------------------------------------------
-// Ensures that the MIN and MAX bounds values are valid. 
-// (ClearBounds() sets MIN > MAX, which is clearly invalid.)
+// Ensures that the min and max bounds values are valid. 
+// (ClearBounds() sets min > max, which is clearly invalid.)
 //-----------------------------------------------------------------------------
 bool AreBoundsValid( const Vector &vMin, const Vector &vMax );
 

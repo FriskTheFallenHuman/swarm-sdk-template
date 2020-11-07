@@ -137,7 +137,6 @@ void CTeamMenu::AutoAssign()
 //-----------------------------------------------------------------------------
 void CTeamMenu::ShowPanel(bool bShow)
 {
-
 	if ( BaseClass::IsVisible() == bShow )
 		return;
 

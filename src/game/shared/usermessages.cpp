@@ -152,7 +152,7 @@ bool CUserMessages::DispatchUserMessage( int msg_type, bf_read &msg_data )
 #if defined( CLIENT_DLL )
 	if ( msg_type < 0 || msg_type >= (int)m_UserMessages.Count() )
 	{
-		DevMsg( "CUserMessages::DispatchUserMessage:  Bogus msg type %i (MAX == %i)\n", msg_type, m_UserMessages.Count() );
+		DevMsg( "CUserMessages::DispatchUserMessage:  Bogus msg type %i (max == %i)\n", msg_type, m_UserMessages.Count() );
 		Assert( 0 );
 		return false;
 	}

@@ -259,10 +259,10 @@ bool CClampProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 	if (!CFunctionProxy::Init( pMaterial, pKeyValues ))
 		return false;
 
-	if (!m_Min.Init( pMaterial, pKeyValues, "MIN", 0 ))
+	if (!m_Min.Init( pMaterial, pKeyValues, "min", 0 ))
 		return false;
 
-	if (!m_Max.Init( pMaterial, pKeyValues, "MAX", 1 ))
+	if (!m_Max.Init( pMaterial, pKeyValues, "max", 1 ))
 		return false;
 
 	return true;
@@ -335,8 +335,8 @@ EXPOSE_MATERIAL_PROXY( CClampProxy, Clamp );
 //-----------------------------------------------------------------------------
 
 // sinePeriod: time that it takes to go through whole sine wave in seconds (default: 1.0f)
-// sineMax : the MAX value for the sine wave (default: 1.0f )
-// sineMin: the MIN value for the sine wave  (default: 0.0f )
+// sineMax : the max value for the sine wave (default: 1.0f )
+// sineMin: the min value for the sine wave  (default: 0.0f )
 class CSineProxy : public CResultProxy
 {
 public:
@@ -382,7 +382,7 @@ void CSineProxy::OnBind( void *pC_BaseEntity )
 
 	// get a value in [0,1]
 	flValue = ( sin( 2.0f * M_PI * (gpGlobals->curtime - flSineTimeOffset) / flSinePeriod ) * 0.5f ) + 0.5f;
-	// get a value in [MIN,MAX]	
+	// get a value in [min,max]	
 	flValue = ( flSineMax - flSineMin ) * flValue + flSineMin;
 	
 	SetFloatResult( flValue );
@@ -905,7 +905,7 @@ void CWrapMinMaxProxy::OnBind( void *pC_BaseEntity )
 {
 	Assert( m_pSrc1 && m_pResult );
 
-	if ( m_flMaxVal.GetFloat() <= m_flMinVal.GetFloat() ) // Bad input, just return the MIN
+	if ( m_flMaxVal.GetFloat() <= m_flMinVal.GetFloat() ) // Bad input, just return the min
 	{
 		SetFloatResult( m_flMinVal.GetFloat() );
 	}

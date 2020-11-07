@@ -2781,7 +2781,7 @@ void CDetailObjectSystem::RenderTranslucentDetailObjectsInLeaf( const DistanceFa
 	int nMaxVerts, nMaxIndices;
 	pRenderContext->GetMaxToRender( pMesh, false, &nMaxVerts, &nMaxIndices );
 
-	// needs to be * 4 since there are a MAX of 4 quads per detail object
+	// needs to be * 4 since there are a max of 4 quads per detail object
 	int nQuadCount = ( m_nSpriteCount - m_nFirstSprite ) * 4;
 	int nMaxQuadsToDraw = nMaxIndices/6;
 	if ( nMaxQuadsToDraw > nMaxVerts / 4 )

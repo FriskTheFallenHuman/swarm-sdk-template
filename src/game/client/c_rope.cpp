@@ -84,7 +84,7 @@ static ConVar rope_collide( "rope_collide", "1", 0, "Collide rope with the world
 static ConVar rope_smooth( "rope_smooth", "1", 0, "Do an antialiasing effect on ropes" );
 static ConVar rope_smooth_enlarge( "rope_smooth_enlarge", "1.4", 0, "How much to enlarge ropes in screen space for antialiasing effect" );
 
-static ConVar rope_smooth_minwidth( "rope_smooth_minwidth", "0.3", 0, "When using smoothing, this is the MIN screenspace width it lets a rope shrink to" );
+static ConVar rope_smooth_minwidth( "rope_smooth_minwidth", "0.3", 0, "When using smoothing, this is the min screenspace width it lets a rope shrink to" );
 static ConVar rope_smooth_minalpha( "rope_smooth_minalpha", "0.2", 0, "Alpha for rope antialiasing effect" );
 
 static ConVar rope_smooth_maxalphawidth( "rope_smooth_maxalphawidth", "1.75" );
@@ -95,7 +95,7 @@ static ConVar r_drawropes( "r_drawropes", "1", FCVAR_CHEAT );
 static ConVar r_ropetranslucent( "r_ropetranslucent", "1");
 
 static ConVar rope_wind_dist( "rope_wind_dist", "1000", 0, "Don't use CPU applying small wind gusts to ropes when they're past this distance." );
-static ConVar rope_averagelight( "rope_averagelight", "1", 0, "Makes ropes use average of cubemap lighting instead of MAX intensity." );
+static ConVar rope_averagelight( "rope_averagelight", "1", 0, "Makes ropes use average of cubemap lighting instead of max intensity." );
 
 
 static ConVar rope_rendersolid( "rope_rendersolid", "1" );
@@ -1690,7 +1690,7 @@ void C_RopeKeyframe::CalcLightValues()
 			// The engine averages the lighting across the 6 box faces, but we would rather just get the MAX intensity
 			// since we do our own half-lambert lighting in the rope shader to simulate directionality.
 			//
-			// So here, we take the average of all the incoming light, and scale it to use the MAX intensity of all the box sides.
+			// So here, we take the average of all the incoming light, and scale it to use the max intensity of all the box sides.
 			float flMaxIntensity = 0;
 			for ( int iSide=0; iSide < 6; iSide++ )
 			{

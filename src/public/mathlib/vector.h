@@ -223,7 +223,7 @@ public:
 	// Cross product between two vectors.
 	Vector	Cross(const Vector &vOther) const;		
 
-	// Returns a vector with the MIN or MAX in X, Y, and Z.
+	// Returns a vector with the min or max in X, Y, and Z.
 	Vector	Min(const Vector &vOther) const;
 	Vector	Max(const Vector &vOther) const;
 
@@ -542,7 +542,7 @@ FORCEINLINE vec_t DotProduct(const Vector& a, const Vector& b);
 // Cross product
 void CrossProduct(const Vector& a, const Vector& b, Vector& result );
 
-// Store the MIN or MAX of each of x, y, and z into the result.
+// Store the min or max of each of x, y, and z into the result.
 void VectorMin( const Vector &a, const Vector &b, Vector &result );
 void VectorMax( const Vector &a, const Vector &b, Vector &result );
 
@@ -1476,7 +1476,7 @@ inline void VectorAbs( const Vector& src, Vector& dst )
 #ifndef VECTOR_NO_SLOW_OPERATIONS
 
 //-----------------------------------------------------------------------------
-// Returns a vector with the MIN or MAX in X, Y, and Z.
+// Returns a vector with the min or max in X, Y, and Z.
 //-----------------------------------------------------------------------------
 inline Vector Vector::Min(const Vector &vOther) const
 {

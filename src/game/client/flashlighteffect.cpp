@@ -705,7 +705,7 @@ bool CFlashlightEffect::ComputeLightPosAndOrientation( const Vector &vecPos, con
 	}
 
 	m_flCurrentPullBackDist = Lerp( flDistDrag, m_flCurrentPullBackDist, flTargetPullBackDist );
-	m_flCurrentPullBackDist = MIN( m_flCurrentPullBackDist, flDistCutoff );	// clamp to MAX pullback dist
+	m_flCurrentPullBackDist = MIN( m_flCurrentPullBackDist, flDistCutoff );	// clamp to max pullback dist
 	vOrigin = vOrigin - vDir * m_flCurrentPullBackDist;
 
 	vecFinalPos = vOrigin;

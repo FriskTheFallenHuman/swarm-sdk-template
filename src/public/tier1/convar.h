@@ -393,7 +393,7 @@ public:
 	// Reset to default value
 	void						Revert( void );
 
-	// True if it has a MIN/MAX setting
+	// True if it has a min/max setting
 	bool						HasMin() const;
 	bool						HasMax() const;
 

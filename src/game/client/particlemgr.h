@@ -443,7 +443,7 @@ public:
 	// Get the current number of particles in the effect.
 	int				GetNumActiveParticles();
 
-	// The is the MAX size of the particles for use in bounding	computation
+	// The is the max size of the particles for use in bounding	computation
 	void			SetParticleCullRadius( float flMaxParticleRadius );
 
 	// Build a list of all active particles, returns actual count filled in

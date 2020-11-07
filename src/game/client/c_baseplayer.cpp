@@ -88,7 +88,7 @@ static ConVar	cl_smoothtime	(
 	"0.1", 
 	0, 
 	"Smooth client's view after prediction error over this many seconds",
-	true, 0.01,	// MIN/MAX is 0.01/2.0
+	true, 0.01,	// min/max is 0.01/2.0
 	true, 2.0
 	 );
 
@@ -547,7 +547,7 @@ void C_BasePlayer::SetObserverTarget( EHANDLE hObserverTarget )
 		if ( IsLocalPlayer( this ) )
 		{
 			ACTIVE_SPLITSCREEN_PLAYER_GUARD_ENT( this );
-			ResetToneMapping( -1.0f ); // This forces the tonemapping scalar to the average of MIN and MAX
+			ResetToneMapping( -1.0f ); // This forces the tonemapping scalar to the average of min and max
 		}
 		UpdateViewmodelVisibility( this );
 	}

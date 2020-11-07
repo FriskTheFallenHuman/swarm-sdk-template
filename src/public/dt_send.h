@@ -127,7 +127,7 @@ public:
 	void    ExcludeOnly( int iClient );
 
 public:
-	// Make sure we have enough room for the MAX possible player count
+	// Make sure we have enough room for the max possible player count
 	CPlayerBitVec	m_Bits;
 };
 
@@ -709,7 +709,7 @@ SendProp SendPropInt(
 	char *pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by SENDINFO macro.
-	int nBits=-1,					// Set to -1 to automatically pick (MAX) number of bits based on size of element.
+	int nBits=-1,					// Set to -1 to automatically pick (max) number of bits based on size of element.
 	int flags=0,
 	SendVarProxyFn varProxy=0,
 	byte priority = SENDPROP_DEFAULT_PRIORITY

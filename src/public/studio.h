@@ -69,7 +69,7 @@ struct studiohdr_t;
 #else
 #define MAXSTUDIOTRIANGLES	65536	// TODO: tune this
 #define MAXSTUDIOVERTS		65536	// TODO: tune this
-#define	MAXSTUDIOFLEXVERTS	10000	// MAX number of verts that can be flexed per mesh.  TODO: tune this
+#define	MAXSTUDIOFLEXVERTS	10000	// max number of verts that can be flexed per mesh.  TODO: tune this
 #endif
 #define MAXSTUDIOSKINS		32		// total textures
 #define MAXSTUDIOBONES		128		// total bones actually used
@@ -973,8 +973,8 @@ struct mstudioflexcontroller_t
 	int					sznameindex;
 	inline char * const pszName( void ) const { return ((char *)this) + sznameindex; }
 	mutable int			localToGlobal;	// remapped at load time to master list
-	float				MIN;
-	float				MAX;
+	float				min;
+	float				max;
 };
 
 
@@ -1637,7 +1637,7 @@ struct studioloddata_t
 
 	// For decals on hardware morphing, we must actually do hardware skinning
 	// For this to work, we have to hope that the total # of bones used by
-	// hw flexed verts is < than the MAX possible for the dx level we're running under
+	// hw flexed verts is < than the max possible for the dx level we're running under
 	int					*m_pHWMorphDecalBoneRemap;
 	int					m_nDecalBoneCount;
 };

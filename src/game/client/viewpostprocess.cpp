@@ -152,7 +152,7 @@ void CHistogramBucket::IssueQuery( int nFrameNum )
 	int nViewportX, nViewportY, nViewportWidth, nViewportHeight;
 	pRenderContext->GetViewport( nViewportX, nViewportY, nViewportWidth, nViewportHeight );
 
-	// Find MIN and MAX gamma-space text range
+	// Find min and max gamma-space text range
 	float flTestRangeMin = ( m_flMinLuminance == 0.0f ) ? -1e20f : m_flMinLuminance; // Count all pixels < 0.0 as 0.0 (for float HDR buffers)
 	float flTestRangeMax = ( m_flMaxLuminance == 1.0f ) ? 1e20f : m_flMaxLuminance; // Count all pixels >1.0 as 1.0
 
@@ -539,7 +539,7 @@ static float GetCurrentBloomScale( void )
 
 static void GetExposureRange( float *pflAutoExposureMin, float *pflAutoExposureMax )
 {
-	// Get MIN
+	// Get min
 	if ( ( g_bUseCustomAutoExposureMin ) && ( g_flCustomAutoExposureMin > 0.0f ) )
 	{
 		*pflAutoExposureMin = g_flCustomAutoExposureMin;
@@ -549,7 +549,7 @@ static void GetExposureRange( float *pflAutoExposureMin, float *pflAutoExposureM
 		*pflAutoExposureMin = mat_autoexposure_min.GetFloat();
 	}
 
-	// Get MAX
+	// Get max
 	if ( ( g_bUseCustomAutoExposureMax ) && ( g_flCustomAutoExposureMax > 0.0f ) )
 	{
 		*pflAutoExposureMax = g_flCustomAutoExposureMax;
@@ -566,7 +566,7 @@ static void GetExposureRange( float *pflAutoExposureMin, float *pflAutoExposureM
 		*pflAutoExposureMin = 0.0f;
 	}
 
-	// Make sure MIN <= MAX
+	// Make sure min <= max
 	if ( *pflAutoExposureMin > *pflAutoExposureMax )
 	{
 		*pflAutoExposureMax = *pflAutoExposureMin;
@@ -651,7 +651,7 @@ void CTonemapSystem::UpdateBucketRanges()
 			pBucket->m_flMaxLuminance = 100000.0f;
 		}
 
-		//Warning( "Bucket %d: MIN/MAX %f / %f ", nBucket, pBucket->m_flMinLuminance, pBucket->m_flMaxLuminance );
+		//Warning( "Bucket %d: min/max %f / %f ", nBucket, pBucket->m_flMinLuminance, pBucket->m_flMaxLuminance );
 	}
 }
 
@@ -735,7 +735,7 @@ void CTonemapSystem::DisplayHistogram()
 			np += e.m_nPixelsInRange;
 		int width = MAX( 1, 500 * ( e.m_flMaxLuminance - e.m_flMinLuminance ) );
 
-		//Warning( "Bucket %d: MIN/MAX %f / %f.  m_nPixelsInRange=%d   m_nPixels=%d\n", nBucket, e.m_flMinLuminance, e.m_flMaxLuminance, e.m_nPixelsInRange, e.m_nPixels );
+		//Warning( "Bucket %d: min/max %f / %f.  m_nPixelsInRange=%d   m_nPixels=%d\n", nBucket, e.m_flMinLuminance, e.m_flMaxLuminance, e.m_nPixelsInRange, e.m_nPixels );
 
 		if ( np )
 		{
@@ -896,7 +896,7 @@ void CTonemapSystem::ResetTonemappingScale( float flTonemapScale )
 {
 	if ( flTonemapScale <= 0.0f )
 	{
-		// L4D Hack to reset the tonemapping scale to the average of MIN and MAX since we have such dark lighting
+		// L4D Hack to reset the tonemapping scale to the average of min and max since we have such dark lighting
 		// compared to our other games. 1.0 is no longer a good value when changing spectator targets.
 		float flAutoExposureMin = 0.0f;
 		float flAutoExposureMax = 0.0f;
@@ -1734,14 +1734,14 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 	}
 
 	#if defined( _X360 )
-		pRenderContext->PushVertexShaderGPRAllocation( 16 ); //MAX out pixel shader threads
+		pRenderContext->PushVertexShaderGPRAllocation( 16 ); //max out pixel shader threads
 	#endif
 
 	GetTonemapSettingsFromEnvTonemapController();
 
 	g_bFlashlightIsOn = bFlashlightIsOn;
 
-	// Use the appropriate autoexposure MIN / MAX settings.
+	// Use the appropriate autoexposure min / max settings.
 	// Mapmaker's overrides the convar settings.
 	float flAutoExposureMin;
 	float flAutoExposureMax;

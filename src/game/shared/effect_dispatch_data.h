@@ -28,7 +28,7 @@
 
 #endif
 
-// NOTE: These flags are specifically *not* networked; so it's placed above the MAX effect flag bits
+// NOTE: These flags are specifically *not* networked; so it's placed above the max effect flag bits
 #define EFFECTDATA_NO_RECORD 0x80000000
 
 #define MAX_EFFECT_FLAG_BITS 8

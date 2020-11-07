@@ -297,7 +297,7 @@ Vector C_BeamSpotLight::SpotlightCurrentPos(void)
 //-----------------------------------------------------------------------------
 void C_BeamSpotLight::ComputeRenderInfo()
 {
-	// Fade out spotlight end if past MAX length.  
+	// Fade out spotlight end if past max length.  
 	if ( m_flSpotlightCurLength > 2*m_flSpotlightMaxLength )
 	{
 		SetRenderAlpha( 0 );
