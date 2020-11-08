@@ -161,6 +161,10 @@ CBaseModPanel::CBaseModPanel() : Panel(NULL, "BaseGameUIPanel")
 	m_iStorageID = XBX_INVALID_STORAGE_ID;
 	m_pAsyncJob = NULL;
 	m_pStorageDeviceValidatedNotify = NULL;
+	m_iRenderTargetImageID = -1;
+	m_iBackgroundImageID = -1;
+	m_iProductImageID = -1;
+	m_iLoadingImageID = -1;
 	m_flMovieFadeInTime = 0.0f;
 	m_flBlurScale = 0;
 	m_flLastBlurTime = 0;
@@ -305,6 +309,33 @@ void CBaseModPanel::ArmFirstMenuItem( void )
 CBaseModPanel::~CBaseModPanel()
 {
 	g_pBasePanel = NULL;
+
+	if ( vgui::surface() )
+	{
+		if ( m_iRenderTargetImageID != -1 )
+		{
+			vgui::surface()->DestroyTextureID( m_iRenderTargetImageID );
+			m_iRenderTargetImageID = -1;
+		}
+
+		if ( m_iBackgroundImageID != -1 )
+		{
+			vgui::surface()->DestroyTextureID( m_iBackgroundImageID );
+			m_iBackgroundImageID = -1;
+		}
+
+		if ( m_iProductImageID != -1 )
+		{
+			vgui::surface()->DestroyTextureID( m_iProductImageID );
+			m_iProductImageID = -1;
+		}
+
+		if ( m_iLoadingImageID != -1 )
+		{
+			vgui::surface()->DestroyTextureID( m_iLoadingImageID );
+			m_iLoadingImageID = -1;
+		}
+	}
 
 	ReleaseStartupGraphic();
 
@@ -1255,8 +1286,11 @@ void CBaseModPanel::ApplySchemeSettings(IScheme *pScheme)
 	if ( IsX360() )
 	{
 		// 360 uses FullFrameFB1 RT for map to map transitioning
-		m_iRenderTargetImageID = surface()->CreateNewTextureID();
-		surface()->DrawSetTextureFile( m_iRenderTargetImageID, "console/rt_background", false, false );
+		if ( m_iRenderTargetImageID == -1 )
+		{
+			m_iRenderTargetImageID = surface()->CreateNewTextureID();
+			surface()->DrawSetTextureFile( m_iRenderTargetImageID, "console/rt_background", false, false );
+		}
 	}
 
 	int screenWide, screenTall;
@@ -1283,22 +1317,33 @@ void CBaseModPanel::ApplySchemeSettings(IScheme *pScheme)
 		V_FileBase( pGameDir, gameName, sizeof( gameName ) );
 		V_snprintf( filename, sizeof( filename ), "vgui/appchooser/background_%s%s", gameName, ( bIsWidescreen ? "_widescreen" : "" ) );
 	}
-	m_iBackgroundImageID = surface()->CreateNewTextureID();
+
+	if ( m_iBackgroundImageID == -1 )
+	{
+		m_iBackgroundImageID = surface()->CreateNewTextureID();
+	}
 	surface()->DrawSetTextureFile( m_iBackgroundImageID, filename, false, false );
 
 	if ( IsX360() )
 	{
 		// 360 uses a product image during application exit
 		V_snprintf( filename, sizeof( filename ), "vgui/appchooser/background_orange%s", ( bIsWidescreen ? "_widescreen" : "" ) );
-		m_iProductImageID = surface()->CreateNewTextureID();
+
+		if ( m_iProductImageID == -1 )
+		{
+			m_iProductImageID = surface()->CreateNewTextureID();
+		}
 		surface()->DrawSetTextureFile( m_iProductImageID, filename, false, false );
 	}
 
 	if ( IsPC() )
 	{
 		// load the loading icon
-		m_iLoadingImageID = surface()->CreateNewTextureID();
-		surface()->DrawSetTextureFile( m_iLoadingImageID, "console/startup_loading", false, false );
+		if ( m_iLoadingImageID == -1 )
+		{
+			m_iLoadingImageID = surface()->CreateNewTextureID();
+			surface()->DrawSetTextureFile( m_iLoadingImageID, "console/startup_loading", false, false );
+		}
 	}
 }
 
@@ -3123,6 +3168,14 @@ void CBaseModPanel::SetMenuAlpha(int alpha)
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+int CBaseModPanel::GetMenuAlpha( void ) 
+{ 
+	return m_pGameMenu->GetAlpha(); 
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: starts the game
 //-----------------------------------------------------------------------------
 void CBaseModPanel::FadeToBlackAndRunEngineCommand( const char *engineCommand )
@@ -4433,7 +4486,7 @@ void CGameMenuItem::ApplySchemeSettings( IScheme *pScheme )
 	SetDepressedBorder(NULL);
 	SetKeyFocusBorder(NULL);
 
-	hMainMenuFont = pScheme->GetFont( "MainMenuFont", IsProportional() );
+	vgui::HFont hMainMenuFont = pScheme->GetFont( "MainMenuFont", IsProportional() );
 	if ( hMainMenuFont )
 		SetFont( hMainMenuFont );
 	else

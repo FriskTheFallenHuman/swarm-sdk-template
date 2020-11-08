@@ -581,6 +581,8 @@ void CGameUI::Shutdown()
 		Sys_ReleaseMutex(g_hWaitMutex);
 	}
 
+	BonusMapsDatabase()->WriteSaveData();
+
 	steamapicontext->Clear();
 #ifndef _X360
 	// SteamAPI_Shutdown(); << Steam shutdown is controlled by engine

@@ -182,14 +182,10 @@ public:
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 	virtual void PaintBackground( void );
-
-	void PaintButtonEx();
 	void SetRightAlignedText( bool state );
 
 private:
 	bool		m_bRightAligned;
-
-	vgui::HFont	hMainMenuFont;
 };
 
 //-----------------------------------------------------------------------------
@@ -312,6 +308,8 @@ public:
 #if defined( _X360 )
 	CON_COMMAND_MEMBER_F( CBaseModPanel, "gameui_reload_resources", Reload_Resources, "Reload the Xbox 360 UI res files", 0 );
 #endif
+
+	int  GetMenuAlpha( void );
 
 	virtual bool CheckAndDisplayErrorIfNotLoggedIn();	// Displays error if not logged into Steam (no-op on X360)
 	virtual void MakeGenericDialog( const char* title, const char* messge );
