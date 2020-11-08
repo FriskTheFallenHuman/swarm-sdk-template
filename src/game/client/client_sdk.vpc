@@ -51,6 +51,8 @@ $Project "Client (SDK)"
 
 		$Folder	"SDK"
 		{
+			$File	"sdk\c_sdk_vehicle_jeep.cpp"
+			$File	"sdk\c_sdk_vehicle_jeep.h"
 			$File	"sdk\c_sdk_env_sparkler.cpp"
 			$File	"sdk\c_te_firebullets.cpp"
 			$File	"sdk\clientmode_sdk.cpp"
