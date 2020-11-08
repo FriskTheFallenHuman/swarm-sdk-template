@@ -37,31 +37,31 @@ WeaponData
 	{
 		"weapon"
 		{
-				"font"		"WeaponIcons"
-				"character"	"k"
+			"font"		"WeaponIcons"
+			"character"	"k"
 		}
 		"weapon_s"
 		{	
-				"font"		"WeaponIconsSelected"
-				"character"	"k"
+			"font"		"WeaponIconsSelected"
+			"character"	"k"
 		}
 		"ammo"
 		{
-				"font"		"WeaponIcons"
-				"character"	"v"
+			"font"		"WeaponIcons"
+			"character"	"v"
 		}
 		"crosshair"
 		{
-				"font"		"Crosshairs"
-				"character"	"Q"
+			"font"		"Crosshairs"
+			"character"	"Q"
 		}
 		"autoaim"
 		{
-				"file"		"sprites/crosshairs"
-				"x"			"48"
-				"y"			"72"
-				"width"		"24"
-				"height"	"24"
+			"file"		"sprites/crosshairs"
+			"x"			"48"
+			"y"			"72"
+			"width"		"24"
+			"height"	"24"
 		}
 	}
 }
