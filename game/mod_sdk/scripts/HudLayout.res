@@ -103,16 +103,15 @@
 		"wide"	"102"
 		"tall"	"26"
 		
-		"AuxPowerLowColor" "255 0 0 220"
-		"AuxPowerHighColor" "255 220 0 220"
-		"AuxPowerDisabledAlpha" "70"
+		"StaminaColor" "255 220 0 220"
+		"StaminaDisabledAlpha" "70"
 
 		"BarInsetX" "8"
 		"BarInsetY" "15"
 		"BarWidth" "92"
 		"BarHeight" "4"
 		"BarChunkWidth" "6"
-		"BarChunkGap" "3"
+		"BarChunkGap" "0"
 
 		"text_xpos" "8"
 		"text_ypos" "4"
