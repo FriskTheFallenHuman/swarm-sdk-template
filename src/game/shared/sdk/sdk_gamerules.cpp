@@ -1226,11 +1226,7 @@ CAmmoDef* GetAmmoDef()
 
 		// def.AddAmmoType( BULLET_PLAYER_50AE,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_50AE_max",		2400, 0, 10, 14 );
 		def.AddAmmoType( "shotgun", DMG_BUCKSHOT, TRACER_NONE, 0, 0,	200/*MAX carry*/, 1, 0 );
-		def.AddAmmoType( "grenades", DMG_BLAST, TRACER_NONE, 0, 0,	4/*MAX carry*/, 1, 0 );
-
-		//Tony; added for the sdk_jeep
-		def.AddAmmoType( "JeepAmmo",	DMG_SHOCK,					TRACER_NONE,			"sdk_jeep_weapon_damage",		"sdk_jeep_weapon_damage", "sdk_jeep_max_rounds", BULLET_IMPULSE(650, 8000), 0 );
-	}
+		def.AddAmmoType( "grenades", DMG_BLAST, TRACER_NONE, 0, 0,	4/*MAX carry*/, 1, 0 );	}
 
 	return &def;
 }
