@@ -13,7 +13,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE;.\sdk;.\sdk\vgui;$SRCDIR\game\shared\sdk;$SRCDIR\game\shared\Multiplayer"
+		$AdditionalIncludeDirectories		"$BASE;.\sdk;.\sdk\vgui;.\sdk\hud;$SRCDIR\game\shared\sdk;$SRCDIR\game\shared\Multiplayer"
 		$PreprocessorDefinitions			"$BASE;ENABLE_HTMLWINDOW;SWARM_DLL"
 	}
 }
@@ -63,12 +63,12 @@ $Project "Client (SDK)"
 
 			$Folder	"GUI"
 			{
-				$File	"sdk\sdk_backgroundpanel.cpp"
-				$File	"sdk\sdk_backgroundpanel.h"
+				$File	"sdk\vgui\sdk_backgroundpanel.cpp"
+				$File	"sdk\vgui\sdk_backgroundpanel.h"
 				$File	"sdk\vgui\sdk_classmenu.cpp"
 				$File	"sdk\vgui\sdk_classmenu.h"
-				$File	"sdk\sdk_scoreboard.cpp"
-				$File	"sdk\sdk_scoreboard.h"
+				$File	"sdk\vgui\sdk_scoreboard.cpp"
+				$File	"sdk\vgui\sdk_scoreboard.h"
 				$File	"sdk\vgui\sdk_spectatorgui.cpp"
 				$File	"sdk\vgui\sdk_spectatorgui.h"
 				$File	"sdk\vgui\sdk_teammenu.cpp"
@@ -83,18 +83,18 @@ $Project "Client (SDK)"
 
 			$Folder	"Hud Elements"
 			{
-				$File	"sdk\hud_sdkdeathnotice.cpp"
-				$File	"sdk\sdk_hud_ammo.cpp"
-				$File	"sdk\sdk_hud_armor.cpp"
-				$File	"sdk\sdk_hud_chat.cpp"
-				$File	"sdk\sdk_hud_chat.h"
-				$File	"sdk\sdk_hud_damage.cpp"
-				$File	"sdk\sdk_hud_health.cpp"
-				$File	"sdk\sdk_hud_message.cpp"
-				$File	"sdk\sdk_hud_stamina.cpp"
-				$File	"sdk\sdk_hud_stamina.h"
-				$File	"sdk\sdk_hud_targetid.cpp"
-				$File	"sdk\sdk_hud_weaponselection.cpp"				
+				$File	"sdk\hud\hud_sdkdeathnotice.cpp"
+				$File	"sdk\hud\sdk_hud_ammo.cpp"
+				$File	"sdk\hud\sdk_hud_armor.cpp"
+				$File	"sdk\hud\sdk_hud_chat.cpp"
+				$File	"sdk\hud\sdk_hud_chat.h"
+				$File	"sdk\hud\sdk_hud_damage.cpp"
+				$File	"sdk\hud\sdk_hud_health.cpp"
+				$File	"sdk\hud\sdk_hud_message.cpp"
+				$File	"sdk\hud\sdk_hud_stamina.cpp"
+				$File	"sdk\hud\sdk_hud_stamina.h"
+				$File	"sdk\hud\sdk_hud_targetid.cpp"
+				$File	"sdk\hud\sdk_hud_weaponselection.cpp"				
 			}
 
 			$Folder	"Player"
