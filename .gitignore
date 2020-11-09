@@ -64,9 +64,7 @@ modelsounds.cache
 settings.scr
 serverconfig.vdf
 _master.cache
+textwindow_temp.html
 
 # shader files
 *.tmp
-
-# Game Content
-game/bin
