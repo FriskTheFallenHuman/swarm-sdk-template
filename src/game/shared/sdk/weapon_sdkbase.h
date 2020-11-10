@@ -15,6 +15,7 @@
 #include "sdk_shareddefs.h"
  
 #if defined( CLIENT_DLL )
+	#include "glow_outline_effect.h"
 	#define CWeaponSDKBase C_WeaponSDKBase
 #endif
  
@@ -27,15 +28,22 @@ public:
 	DECLARE_CLASS( CWeaponSDKBase, CBaseCombatWeapon );
 	DECLARE_NETWORKCLASS(); 
 	DECLARE_PREDICTABLE();
- 
+#ifdef GAME_DLL
+	DECLARE_DATADESC();
+#endif
+
 	CWeaponSDKBase();
  
-	#ifdef GAME_DLL
-		DECLARE_DATADESC();
-	#endif
-	#ifdef CLIENT_DLL
-       virtual bool ShouldPredict();
-	#endif
+#ifdef CLIENT_DLL
+	virtual bool ShouldPredict();
+
+	virtual void	AddViewmodelBob( CBaseViewModel *viewmodel, Vector &origin, QAngle &angles );
+	virtual	float	CalcViewmodelBob( void );
+
+	virtual void ClientThink();
+	virtual void OnDataChanged( DataUpdateType_t updateType );
+#endif
+
 	// All predicted weapons need to implement and return true
 	virtual bool	IsPredicted() const { return true; }
 	virtual int GetWeaponID( void ) const { return WEAPON_NONE; }
@@ -81,22 +89,21 @@ public:
 	//weapons with more, ie: a 5 round burst, can override and determine which firemode it's in.
 	virtual int MaxBurstShots() const { return 2; }
  
-	float GetWeaponFOV()
-	{
-		return GetSDKWpnData().m_flWeaponFOV;
-	}
+	float GetWeaponFOV() { return GetSDKWpnData().m_flWeaponFOV; }
+
 #ifdef GAME_DLL
 	void SetDieThink( bool bDie );
 	void Die( void );
-	void SetWeaponModelIndex( const char *pName )
-	{
- 		 m_iWorldModelIndex = modelinfo->GetModelIndex( pName );
-	}
+	void SetWeaponModelIndex( const char *pName ) { m_iWorldModelIndex = modelinfo->GetModelIndex( pName ); }
 #endif
  
 	virtual bool CanWeaponBeDropped() const {	return true; }
+
 private:
- 
+#ifdef CLIENT_DLL
+	CGlowObject m_GlowObject;
+#endif
+
 	CNetworkVar(float, m_flDecreaseShotsFired);
  
 	CWeaponSDKBase( const CWeaponSDKBase & );

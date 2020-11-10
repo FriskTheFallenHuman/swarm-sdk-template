@@ -9,11 +9,6 @@
 #include "baseentity.h"
 #include "world.h"
 
-#ifdef INFESTED_DLL
-	#include "asw_marine.h"
-	#include "asw_player.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -115,13 +110,6 @@ void CEnvInstructorHint::InputShowHint( inputdata_t &inputdata )
 		CBasePlayer *pActivator = NULL;
 		bool bFilterByActivator = m_bLocalPlayerOnly;
 
-#ifdef INFESTED_DLL
-		//CASW_Marine *pMarine = dynamic_cast<CASW_Marine*>( inputdata.pActivator );
-		//if ( pMarine )
-		//{
-		//	pActivator = pMarine->GetCommander();
-		//}
-#else
 		if ( inputdata.value.StringID() != NULL_STRING )
 		{
 			CBaseEntity *pTarget = gEntList.FindEntityByName( NULL, inputdata.value.String() );
@@ -143,7 +131,6 @@ void CEnvInstructorHint::InputShowHint( inputdata_t &inputdata )
 				Assert( 0 );
 			}
 		}
-#endif
 
 		const char *pActivatorCaption = m_iszActivatorCaption.ToCStr();
 		if ( !pActivatorCaption || pActivatorCaption[ 0 ] == '\0' )

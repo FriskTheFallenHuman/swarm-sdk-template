@@ -982,6 +982,32 @@ void UTIL_StringToVector( float *pVector, const char *pString )
 	UTIL_StringToFloatArray( pVector, 3, pString );
 }
 
+void UTIL_StringToIntArray(int *pVector, int count, const char *pString)
+{
+	char *pstr, *pfront, tempString[128];
+	int	j;
+
+	strcpy(tempString, pString);
+	pstr = pfront = tempString;
+
+	for (j = 0; j < count; j++)			// lifted from pr_edict.c
+	{
+		pVector[j] = atoi(pfront);
+
+		while (*pstr && *pstr != ' ')
+			pstr++;
+		if (!*pstr)
+			break;
+		pstr++;
+		pfront = pstr;
+	}
+
+	for (j++; j < count; j++)
+	{
+		pVector[j] = 0;
+	}
+}
+
 #ifndef _XBOX
 void UTIL_DecodeICE( unsigned char * buffer, int size, const unsigned char *key )
 {

@@ -46,9 +46,9 @@ public:
 	// This passes the event to the client's and server's CPlayerAnimState.
 	void DoAnimationEvent( PlayerAnimEvent_t event, int nData = 0 );
 
+	virtual int FlashlightIsOn( void );
 	virtual void FlashlightTurnOn( void );
 	virtual void FlashlightTurnOff( void );
-	virtual int FlashlightIsOn( void );
 
 	virtual void PreThink();
 	virtual void PostThink();

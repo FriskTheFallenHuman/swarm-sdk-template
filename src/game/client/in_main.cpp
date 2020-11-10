@@ -29,9 +29,7 @@
 extern ConVar in_joystick;
 extern ConVar cam_idealpitch;
 extern ConVar cam_idealyaw;
-#ifdef INFESTED_DLL
-extern ConVar asw_cam_marine_yaw;
-#endif
+
 // For showing/hiding the scoreboard
 #include <game/client/iviewport.h>
 
@@ -160,17 +158,6 @@ static	kbutton_t	in_score;
 static	kbutton_t	in_break;
 static  kbutton_t   in_grenade1;
 static  kbutton_t   in_grenade2;
-
-#ifdef INFESTED_DLL
-static  kbutton_t   in_currentability;
-static  kbutton_t   in_prevability;
-static  kbutton_t   in_nextability;
-static  kbutton_t   in_ability1;
-static  kbutton_t   in_ability2;
-static  kbutton_t   in_ability3;
-static  kbutton_t   in_ability4;
-static  kbutton_t   in_ability5;
-#endif
 
 /*
 ===========
@@ -595,28 +582,6 @@ void IN_Grenade2Up( const CCommand &args ) { KeyUp( &in_grenade2, args[1] ); }
 void IN_Grenade2Down( const CCommand &args ) { KeyDown( &in_grenade2, args[1] ); }
 void IN_XboxStub( const CCommand &args ) { /*do nothing*/ }
 
-
-
-#ifdef INFESTED_DLL
-void IN_PrevAbilityUp( const CCommand &args ) { KeyUp( &in_prevability, args[1] ); }
-void IN_PrevAbilityDown( const CCommand &args ) { KeyDown( &in_prevability, args[1] ); }
-void IN_NextAbilityUp( const CCommand &args ) { KeyUp( &in_nextability, args[1] ); }
-void IN_NextAbilityDown( const CCommand &args ) { KeyDown( &in_nextability, args[1] ); }
-void IN_CurrentAbilityUp( const CCommand &args ) { KeyUp( &in_currentability, args[1] ); }
-void IN_CurrentAbilityDown( const CCommand &args ) { KeyDown( &in_currentability, args[1] ); }
-
-void IN_Ability1Up( const CCommand &args ) { KeyUp( &in_ability1, args[1] ); }
-void IN_Ability1Down( const CCommand &args ) { KeyDown( &in_ability1, args[1] ); }
-void IN_Ability2Up( const CCommand &args ) { KeyUp( &in_ability2, args[1] ); }
-void IN_Ability2Down( const CCommand &args ) { KeyDown( &in_ability2, args[1] ); }
-void IN_Ability3Up( const CCommand &args ) { KeyUp( &in_ability3, args[1] ); }
-void IN_Ability3Down( const CCommand &args ) { KeyDown( &in_ability3, args[1] ); }
-void IN_Ability4Up( const CCommand &args ) { KeyUp( &in_ability4, args[1] ); }
-void IN_Ability4Down( const CCommand &args ) { KeyDown( &in_ability4, args[1] ); }
-void IN_Ability5Up( const CCommand &args ) { KeyUp( &in_ability5, args[1] ); }
-void IN_Ability5Down( const CCommand &args ) { KeyDown( &in_ability5, args[1] ); }
-#endif
-
 void IN_AttackDown( const CCommand &args )
 {
 	KeyDown( &in_attack, args[1] );
@@ -947,11 +912,7 @@ void CInput::ComputeSideMove( int nSlot, CUserCmd *cmd )
 	// thirdperson screenspace movement
 	if ( CAM_IsThirdPerson() && thirdperson_screenspace.GetInt() )
 	{
-#ifdef INFESTED_DLL
-		float ideal_yaw = asw_cam_marine_yaw.GetFloat() - 90.0f;
-#else
 		float ideal_yaw = cam_idealyaw.GetFloat();
-#endif
 		float ideal_sin = sin(DEG2RAD(ideal_yaw));
 		float ideal_cos = cos(DEG2RAD(ideal_yaw));
 		
@@ -1014,11 +975,7 @@ void CInput::ComputeForwardMove( int nSlot, CUserCmd *cmd )
 	// thirdperson screenspace movement
 	if ( CAM_IsThirdPerson() && thirdperson_screenspace.GetInt() )
 	{
-#ifdef INFESTED_DLL
-		float ideal_yaw = asw_cam_marine_yaw.GetFloat() - 90.0f;
-#else
 		float ideal_yaw = cam_idealyaw.GetFloat();
-#endif
 		float ideal_sin = sin(DEG2RAD(ideal_yaw));
 		float ideal_cos = cos(DEG2RAD(ideal_yaw));
 		
@@ -1612,19 +1569,6 @@ int CInput::GetButtonBits( bool bResetState )
 	CalcButtonBits( nSlot, bits, IN_GRENADE2, ignore, &in_grenade2, bResetState );
 	CalcButtonBits( nSlot, bits, IN_LOOKSPIN, ignore, &in_lookspin, bResetState );
 
-
-
-#ifdef INFESTED_DLL
-	CalcButtonBits( nSlot, bits, IN_PREV_ABILITY, ignore, &in_prevability, bResetState );
-	CalcButtonBits( nSlot, bits, IN_NEXT_ABILITY, ignore, &in_nextability, bResetState );
-	CalcButtonBits( nSlot, bits, IN_CURRENT_ABILITY, ignore, &in_currentability, bResetState );
-	CalcButtonBits( nSlot, bits, IN_ABILITY1, ignore, &in_ability1, bResetState );
-	CalcButtonBits( nSlot, bits, IN_ABILITY2, ignore, &in_ability2, bResetState );
-	CalcButtonBits( nSlot, bits, IN_ABILITY3, ignore, &in_ability3, bResetState );
-	CalcButtonBits( nSlot, bits, IN_ABILITY4, ignore, &in_ability4, bResetState );
-	CalcButtonBits( nSlot, bits, IN_ABILITY5, ignore, &in_ability5, bResetState );
-#endif
-
 	if ( KeyState(&in_ducktoggle) )
 	{
 		bits |= IN_DUCK;
@@ -1792,27 +1736,6 @@ static ConCommand endgrenade2( "-grenade2", IN_Grenade2Up );
 static ConCommand startgrenade2( "+grenade2", IN_Grenade2Down );
 static ConCommand startlookspin("+lookspin", IN_LookSpinDown);
 static ConCommand endlookspin("-lookspin", IN_LookSpinUp);
-
-
-
-#ifdef INFESTED_DLL
-static ConCommand endprevability( "-prevability", IN_PrevAbilityUp );
-static ConCommand startprevability( "+prevability", IN_PrevAbilityDown );
-static ConCommand endnextability( "-nextability", IN_NextAbilityUp );
-static ConCommand startnextability( "+nextability", IN_NextAbilityDown );
-static ConCommand endcurrentability( "-currentability", IN_CurrentAbilityUp );
-static ConCommand startcurrentability( "+currentability", IN_CurrentAbilityDown );
-static ConCommand endability1( "-ability1", IN_Ability1Up );
-static ConCommand startability1( "+ability1", IN_Ability1Down );
-static ConCommand endability2( "-ability2", IN_Ability2Up );
-static ConCommand startability2( "+ability2", IN_Ability2Down );
-static ConCommand endability3( "-ability3", IN_Ability3Up );
-static ConCommand startability3( "+ability3", IN_Ability3Down );
-static ConCommand endability4( "-ability4", IN_Ability4Up );
-static ConCommand startability4( "+ability4", IN_Ability4Down );
-static ConCommand endability5( "-ability5", IN_Ability5Up );
-static ConCommand startability5( "+ability5", IN_Ability5Down );
-#endif
 
 // Xbox 360 stub commands
 static ConCommand xboxmove("xmove", IN_XboxStub);

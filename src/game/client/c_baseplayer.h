@@ -315,6 +315,7 @@ public:
 
 	// returns the player name
 	const char *				GetPlayerName();
+
 	virtual const Vector		GetPlayerMins( void ) const; // uses local player
 	virtual const Vector		GetPlayerMaxs( void ) const; // uses local player
 
@@ -637,7 +638,10 @@ private:
 	friend class CPortalGameMovement;
 	friend class CASW_MarineGameMovement;
 	friend class CPaintGameMovement;
-	
+#if defined ( SDK_DLL )
+	friend class CSDKGameMovement;
+#endif
+
 public:
 	// Accessors for gamemovement
 	float GetStepSize( void ) const { return m_Local.m_flStepSize; }

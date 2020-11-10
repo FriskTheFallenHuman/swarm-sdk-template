@@ -227,11 +227,11 @@ float ClientModeSDKNormal::GetViewModelFOV( void )
 	//Tony; retrieve the fov from the view model script, if it overrides it.
 	float viewFov = 74.0;
 
-	//C_WeaponSDKBase *pWeapon = (C_WeaponSDKBase*)GetActiveWeapon();
-	//if ( pWeapon )
-	//{
-	//	viewFov = pWeapon->GetWeaponFOV();
-	//}
+	C_WeaponSDKBase *pWeapon = (C_WeaponSDKBase*)GetActiveWeapon();
+	if ( pWeapon )
+	{
+		viewFov = pWeapon->GetWeaponFOV();
+	}
 	return viewFov;
 }
 

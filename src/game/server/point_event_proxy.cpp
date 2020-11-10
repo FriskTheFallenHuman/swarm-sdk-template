@@ -9,11 +9,6 @@
 #include "baseentity.h"
 #include "world.h"
 
-#ifdef INFESTED_DLL
-	#include "asw_marine.h"
-	#include "asw_player.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -56,20 +51,9 @@ void CPointEventProxy::InputGenerateEvent( inputdata_t &inputdata )
 	{
 		CBasePlayer *pActivator = NULL;
 
-#ifdef INFESTED_DLL
-		//CASW_Marine *pMarine = dynamic_cast< CASW_Marine* >( inputdata.pActivator );
-		//if ( pMarine )
-		//{
-		//	pActivator = pMarine->GetCommander();
-		//}
-#else
 		pActivator = dynamic_cast< CBasePlayer* >( inputdata.pActivator );
-#endif
-
 		if ( m_bActivatorAsUserID )
-		{
 			event->SetInt( "userid", ( pActivator ? pActivator->GetUserID() : 0 ) );
-		}
 
 		gameeventmanager->FireEvent( event );
 	}

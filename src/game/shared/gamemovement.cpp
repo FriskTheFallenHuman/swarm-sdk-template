@@ -2452,13 +2452,7 @@ void CGameMovement::FullNoClipMove( float factor, float maxacceleration )
 	float wishspeed;
 	float maxspeed = sv_maxspeed.GetFloat() * factor;
 
-#ifdef INFESTED_DLL		// ignore roll component for Alien Swarm, this is used for vertical aiming
-	QAngle vecViewAngles = mv->m_vecViewAngles;
-	vecViewAngles[ROLL] = 0;
-	AngleVectors (vecViewAngles, &forward, &right, &up);  // Determine movement angles
-#else
 	AngleVectors (mv->m_vecViewAngles, &forward, &right, &up);  // Determine movement angles
-#endif
 
 	if ( mv->m_nButtons & IN_SPEED )
 	{
@@ -4732,13 +4726,7 @@ void CGameMovement::PlayerMove( void )
 
 	ReduceTimers();
 
-#ifdef INFESTED_DLL		// ignore roll component for Alien Swarm, this is used for vertical aiming
-	QAngle vecViewAngles = mv->m_vecViewAngles;
-	vecViewAngles[ROLL] = 0;
-	AngleVectors (vecViewAngles, &m_vecForward, &m_vecRight, &m_vecUp);  // Determine movement angles
-#else
 	AngleVectors (mv->m_vecViewAngles, &m_vecForward, &m_vecRight, &m_vecUp );  // Determine movement angles
-#endif
 
 	// Always try and unstick us unless we are using a couple of the movement modes
 	MoveType_t moveType = player->GetMoveType();

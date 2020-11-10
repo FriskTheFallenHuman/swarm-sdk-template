@@ -467,11 +467,6 @@ enum
 	BLOOD_COLOR_BLOB_FROZEN,
 #endif // HL2_EPISODIC
 
-#if defined( INFESTED_DLL )
-	BLOOD_COLOR_BLOB,
-	BLOOD_COLOR_BLOB_FROZEN,
-#endif // INFESTED_DLL
-
 	BLOOD_COLOR_BRIGHTGREEN,
 };
 
@@ -899,7 +894,9 @@ enum Class_T
 #define LAST_SHARED_FACTION			(FACTION_NONE)
 #define NUM_SHARED_FACTIONS			(FACTION_NONE + 1)
 
-// SDK template
+//Tony; including sdk_shareddefs.h because I use it in a _lot_ of places that needs to be seen before many other things.
+#ifdef SDK_DLL
 #include "sdk_shareddefs.h"
+#endif
 
 #endif // SHAREDDEFS_H

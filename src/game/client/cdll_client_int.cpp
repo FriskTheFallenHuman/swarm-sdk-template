@@ -124,17 +124,6 @@
 #include "c_rumble.h"
 #include "viewpostprocess.h"
 
-
-
-#ifdef INFESTED_PARTICLES
-#include "c_asw_generic_emitter.h"
-#endif
-
-#ifdef INFESTED_DLL
-#include "missionchooser/iasw_mission_chooser.h"
-
-#endif
-
 #include "tier1/UtlDict.h"
 #include "keybindinglistener.h"
 
@@ -175,9 +164,6 @@ IAvi *avi = NULL;
 IBik *bik = NULL;
 IUploadGameStats *gamestatsuploader = NULL;
 IBlackBox *blackboxrecorder = NULL;
-#ifdef INFESTED_DLL
-IASW_Mission_Chooser *missionchooser = NULL;
-#endif
 #if defined( REPLAY_ENABLED )
 IReplayHistoryManager *g_pReplayHistoryManager = NULL;
 #endif
@@ -516,9 +502,6 @@ public:
 		AddAppSystem( "scenefilecache", SCENE_FILE_CACHE_INTERFACE_VERSION );
 #ifdef GAMEUI_UISYSTEM2_ENABLED
 		AddAppSystem( "client", GAMEUISYSTEMMGR_INTERFACE_VERSION );
-#endif
-#ifdef INFESTED_DLL
-		AddAppSystem( "missionchooser", ASW_MISSION_CHOOSER_VERSION );
 #endif
 	}
 
@@ -1083,10 +1066,6 @@ int CHLClient::Connect( CreateInterfaceFn appSystemFactory, CGlobalVarsBase *pGl
 #ifndef _X360
 	SteamAPI_InitSafe();
 	g_SteamAPIContext.Init();
-
-#ifdef INFESTED_DLL
-	
-#endif
 #endif
 
 	// Initialize the console variables.
@@ -1168,12 +1147,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CGlobalVarsBase *pGloba
 	if (!g_pMatSystemSurface)
 		return false;
 
-#ifdef INFESTED_DLL
-	if ( (missionchooser = (IASW_Mission_Chooser *)appSystemFactory(ASW_MISSION_CHOOSER_VERSION, NULL)) == NULL )
-		return false;
-#endif
-
-
 	if ( !CommandLine()->CheckParm( "-noscripting") )
 	{
 		scriptmanager = (IScriptManager *)appSystemFactory( VSCRIPT_INTERFACE_VERSION, NULL );
@@ -1232,11 +1205,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CGlobalVarsBase *pGloba
 		bInitSuccess = InitGameSystems( appSystemFactory );
 		COM_TimestampedLog( "InitGameSystems - End" );
 	}
-
-
-#ifdef INFESTED_PARTICLES	// let the emitter cache load in our standard
-	g_ASWGenericEmitterCache.PrecacheTemplates();
-#endif
 
 	COM_TimestampedLog( "C_BaseAnimating::InitBoneSetupThreadPool" );
 
@@ -1325,9 +1293,6 @@ void CHLClient::Shutdown( void )
 #ifndef NO_STEAM
 	g_SteamAPIContext.Clear();
 	// SteamAPI_Shutdown(); << Steam shutdown is controlled by engine
-#ifdef INFESTED_DLL
-	
-#endif
 #endif
 	
 	DisconnectTier3Libraries( );
@@ -1990,13 +1955,11 @@ void CHLClient::LevelShutdown( void )
 //-----------------------------------------------------------------------------
 void CHLClient::SetCrosshairAngle( const QAngle& angle )
 {
-#ifndef INFESTED_DLL
 	CHudCrosshair *crosshair = GET_HUDELEMENT( CHudCrosshair );
 	if ( crosshair )
 	{
 		crosshair->SetCrosshairAngle( angle );
 	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -3025,11 +2988,7 @@ void CHLClient::ResetHudCloseCaption()
 
 bool CHLClient::SupportsRandomMaps()
 {
-#ifdef INFESTED_DLL
-	return true;
-#else
 	return false;
-#endif
 }
 
 extern IViewRender *view;

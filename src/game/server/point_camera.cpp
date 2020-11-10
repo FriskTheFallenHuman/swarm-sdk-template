@@ -33,9 +33,7 @@ CPointCamera* GetPointCameraList()
 //	DEFINE_KEYFIELD( m_iParent, FIELD_STRING, "parentname" ),
 //	DEFINE_KEYFIELD( m_target, FIELD_STRING, "target" ),
 
-#ifndef INFESTED_DLL
 LINK_ENTITY_TO_CLASS( point_camera, CPointCamera );
-#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 

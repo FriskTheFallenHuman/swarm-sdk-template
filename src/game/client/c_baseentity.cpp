@@ -1091,6 +1091,8 @@ C_BaseEntity::C_BaseEntity() :
 	m_spawnflags = 0;
 
 	m_flCreateTime = 0.0f;
+
+	m_bIsClientCreated = false;
 }
 
 
@@ -1250,7 +1252,7 @@ bool C_BaseEntity::Init( int entnum, int iSerialNum )
 	m_nCreationTick = gpGlobals->tickcount;
 
 	m_hScriptInstance = NULL;
-	
+
 	return true;
 }
 					  
@@ -1287,6 +1289,8 @@ bool C_BaseEntity::InitializeAsClientEntity( const char *pszModelName, bool bRen
 //-----------------------------------------------------------------------------
 bool C_BaseEntity::InitializeAsClientEntityByIndex( int iIndex, bool bRenderWithViewModels )
 {
+	m_bIsClientCreated = true;
+
 	// Setup model data.
 	RenderWithViewModels( bRenderWithViewModels );
 
@@ -1386,10 +1390,8 @@ const CBaseHandle& C_BaseEntity::GetRefEHandle() const
 //-----------------------------------------------------------------------------
 void C_BaseEntity::Release()
 {
-	{
-		C_BaseAnimating::AutoAllowBoneAccess boneaccess( true, true );
-		UnlinkFromHierarchy();
-	}
+	C_BaseAnimating::AutoAllowBoneAccess boneaccess( true, true );
+	UnlinkFromHierarchy();
 
 	// Note that this must be called from here, not the destructor, because otherwise the
 	//  vtable is hosed and the derived classes function is not going to get called!!!
@@ -4814,8 +4816,11 @@ const char *C_BaseEntity::GetClassname( void )
 	static char outstr[ 256 ];
 	outstr[ 0 ] = 0;
 	bool gotname = false;
+
+	
+
 #ifndef NO_ENTITY_PREDICTION
-	if ( GetPredDescMap() )
+	if ( !gotname && GetPredDescMap() )
 	{
 		const char *mapname =  GetClassMap().Lookup( GetPredDescMap()->dataClassName );
 		if ( mapname && mapname[ 0 ] ) 
@@ -4907,7 +4912,7 @@ bool C_BaseEntity::IsClientCreated( void ) const
 		return true;
 	}
 #endif
-	return false;
+	return m_bIsClientCreated;
 }
 
 //-----------------------------------------------------------------------------
@@ -4981,7 +4986,8 @@ C_BaseEntity *C_BaseEntity::CreatePredictedEntityByName( const char *classname, 
 	ent->m_nSplitUserPlayerPredictionSlot = slot;
 
 	// Add to client entity list
-	ClientEntityList().AddNonNetworkableEntity( ent );
+	if( !m_bDoNotRegisterEntity )
+		ClientEntityList().AddNonNetworkableEntity( ent );
 
 	//  and predictables
 	GetPredictables( slot )->AddToPredictableList( ent );

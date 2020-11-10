@@ -580,10 +580,6 @@ private:
 	enum { EFFECT_MATERIAL_HASH_SIZE = 8 };
 	CEffectMaterial *m_EffectMaterialHash[EFFECT_MATERIAL_HASH_SIZE];
 
-#ifdef INFESTED_PARTICLES
-	// We'll remove this when we move Infested to using the new particle system
-	public:
-#endif
 	// For faster iteration.
 	CUtlLinkedList<CEffectMaterial*, unsigned short> m_Materials;
 

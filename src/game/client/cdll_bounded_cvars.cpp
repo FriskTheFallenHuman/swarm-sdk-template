@@ -26,11 +26,7 @@ public:
 	CBoundedCvar_Predict() :
 	  ConVar_ServerBounded( "cl_predict", 
 		  "1.0", 
-#ifdef INFESTED_DLL
-		  FCVAR_USERINFO, 
-#else
-		  FCVAR_USERINFO | FCVAR_CHEAT, 
-#endif
+		  FCVAR_USERINFO | FCVAR_CHEAT,
 		  "Perform client side prediction." )
 	  {
 	  }

@@ -86,6 +86,11 @@ void WeaponsResource::LoadWeaponSprites( WEAPON_FILE_INFO_HANDLE hWeaponFileInfo
 	// WeaponsResource is a friend of C_BaseCombatWeapon
 	FileWeaponInfo_t *pWeaponInfo = GetFileWeaponInfoFromHandle( hWeaponFileInfo );
 
+	LoadWeaponSprites( pWeaponInfo );
+}
+
+void WeaponsResource::LoadWeaponSprites( FileWeaponInfo_t *pWeaponInfo )
+{
 	if ( !pWeaponInfo )
 		return;
 

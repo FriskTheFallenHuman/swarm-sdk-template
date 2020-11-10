@@ -581,7 +581,7 @@ public:
 			params.soundlevel, 
 			params.volume, 
 			ep.m_nFlags, 
-			params.pitch, 
+			params.pitch * engine->GetTimescale(), 
 			ep.m_pOrigin, 
 			ep.m_flSoundTime,
 			ep.m_UtlVecSoundOrigin );
@@ -613,7 +613,7 @@ public:
 			params.volume,
 			(soundlevel_t)params.soundlevel,
 			ep.m_nFlags,
-			params.pitch,
+			params.pitch * engine->GetTimescale(),
 			ep.m_pOrigin,
 			NULL,
 			&ep.m_UtlVecSoundOrigin,
@@ -662,23 +662,27 @@ public:
 
 	void EmitSound( IRecipientFilter& filter, int entindex, const EmitSound_t & ep )
 	{
+		EmitSound_t es;
+		es = ep;
+		es.m_nFlags |= SND_SHOULDPAUSE;
+
 		VPROF( "CSoundEmitterSystem::EmitSound (calls engine)" );
-		if ( ep.m_pSoundName && 
-			( Q_stristr( ep.m_pSoundName, ".wav" ) || 
-			  Q_stristr( ep.m_pSoundName, ".mp3" ) || 
+		if ( es.m_pSoundName && 
+			( Q_stristr( es.m_pSoundName, ".wav" ) || 
+			  Q_stristr( es.m_pSoundName, ".mp3" ) || 
 			  ep.m_pSoundName[0] == '!' ) )
 		{
 #if !defined( CLIENT_DLL )
 			bool bSwallowed = CEnvMicrophone::OnSoundPlayed( 
 				entindex, 
-				ep.m_pSoundName, 
-				ep.m_SoundLevel, 
-				ep.m_flVolume, 
-				ep.m_nFlags, 
-				ep.m_nPitch, 
-				ep.m_pOrigin, 
-				ep.m_flSoundTime,
-				ep.m_UtlVecSoundOrigin );
+				es.m_pSoundName, 
+				es.m_SoundLevel, 
+				es.m_flVolume, 
+				es.m_nFlags, 
+				es.m_nPitch * engine->GetTimescale(), 
+				es.m_pOrigin, 
+				es.m_flSoundTime,
+				es.m_UtlVecSoundOrigin );
 			if ( bSwallowed )
 				return;
 #endif
@@ -686,45 +690,45 @@ public:
 			// TERROR:
 			float startTime = Plat_FloatTime();
 
-			if ( ep.m_bWarnOnDirectWaveReference && 
-				Q_stristr( ep.m_pSoundName, ".wav" ) )
+			if ( es.m_bWarnOnDirectWaveReference && 
+				Q_stristr( es.m_pSoundName, ".wav" ) )
 			{
-				WaveTrace( ep.m_pSoundName, "Emitsound" );
+				WaveTrace( es.m_pSoundName, "Emitsound" );
 			}
 
 #if defined( _DEBUG ) && !defined( CLIENT_DLL )
-			if ( !enginesound->IsSoundPrecached( ep.m_pSoundName ) )
+			if ( !enginesound->IsSoundPrecached( es.m_pSoundName ) )
 			{
-				Msg( "Sound %s was not precached\n", ep.m_pSoundName );
+				Msg( "Sound %s was not precached\n", es.m_pSoundName );
 			}
 #endif
 			enginesound->EmitSound( 
 				filter, 
 				entindex, 
-				ep.m_nChannel, 
-				ep.m_pSoundName, 
-				ep.m_flVolume, 
-				ep.m_SoundLevel, 
-				ep.m_nFlags, 
-				ep.m_nPitch, 
-				ep.m_pOrigin,
+				es.m_nChannel, 
+				es.m_pSoundName, 
+				es.m_flVolume, 
+				es.m_SoundLevel, 
+				es.m_nFlags, 
+				es.m_nPitch * engine->GetTimescale(), 
+				es.m_pOrigin,
 				NULL, 
-				&ep.m_UtlVecSoundOrigin,
+				&es.m_UtlVecSoundOrigin,
 				true, 
-				ep.m_flSoundTime,
-				ep.m_nSpeakerEntity );
-			if ( ep.m_pflSoundDuration )
+				es.m_flSoundTime,
+				es.m_nSpeakerEntity );
+			if ( es.m_pflSoundDuration )
 			{
 				// TERROR:
 #ifdef GAME_DLL
-				UTIL_LogPrintf( "getting wav duration for %s\n", ep.m_pSoundName );
+				UTIL_LogPrintf( "getting wav duration for %s\n", es.m_pSoundName );
 #endif
 				VPROF( "CSoundEmitterSystem::EmitSound GetSoundDuration (calls engine)" );
-				*ep.m_pflSoundDuration = enginesound->GetSoundDuration( ep.m_pSoundName );
+				*es.m_pflSoundDuration = enginesound->GetSoundDuration( es.m_pSoundName );
 			}
 
 			TraceEmitSound( entindex, "%f EmitSound:  Raw wave emitted '%s' (ent %i) (vol %f)\n",
-				gpGlobals->curtime, ep.m_pSoundName, entindex, ep.m_flVolume );
+				gpGlobals->curtime, es.m_pSoundName, entindex, es.m_flVolume );
 
 			// TERROR:
 			float timeSpent = ( Plat_FloatTime() - startTime ) * 1000.0f;
@@ -733,24 +737,24 @@ public:
 			{
 #ifdef GAME_DLL
 				UTIL_LogPrintf( "CSoundEmitterSystem::EmitSound(%s) took %f milliseconds (server)\n",
-					ep.m_pSoundName, timeSpent );
+					es.m_pSoundName, timeSpent );
 #else
 				DevMsg( "CSoundEmitterSystem::EmitSound(%s) took %f milliseconds (client)\n",
-					ep.m_pSoundName, timeSpent );
+					es.m_pSoundName, timeSpent );
 #endif
 			}
 			return;
 		}
 
-		if ( ep.m_hSoundScriptHandle == SOUNDEMITTER_INVALID_HANDLE )
+		if ( es.m_hSoundScriptHandle == SOUNDEMITTER_INVALID_HANDLE )
 		{
-			ep.m_hSoundScriptHandle = (HSOUNDSCRIPTHANDLE)soundemitterbase->GetSoundIndex( ep.m_pSoundName );
+			es.m_hSoundScriptHandle = (HSOUNDSCRIPTHANDLE)soundemitterbase->GetSoundIndex( ep.m_pSoundName );
 		}
 
-		if ( ep.m_hSoundScriptHandle == -1 )
+		if ( es.m_hSoundScriptHandle == -1 )
 			return;
 
-		EmitSoundByHandle( filter, entindex, ep, ep.m_hSoundScriptHandle );
+		EmitSoundByHandle( filter, entindex, es, es.m_hSoundScriptHandle );
 	}
 
 	void EmitCloseCaption( IRecipientFilter& filter, int entindex, bool fromplayer, char const *token, CUtlVector< Vector >& originlist, float duration, bool warnifmissing /*= false*/, bool bForceSubtitle = false )
@@ -983,9 +987,9 @@ public:
 		}
 
 #if defined( CLIENT_DLL )
-		enginesound->EmitAmbientSound( params.soundname, params.volume, params.pitch, iFlags, soundtime );
+		enginesound->EmitAmbientSound( params.soundname, params.volume, params.pitch * engine->GetTimescale(), iFlags, soundtime );
 #else
-		engine->EmitAmbientSound(entindex, origin, params.soundname, params.volume, params.soundlevel, iFlags, params.pitch, soundtime );
+		engine->EmitAmbientSound(entindex, origin, params.soundname, params.volume, params.soundlevel, iFlags, params.pitch * engine->GetTimescale(), soundtime );
 #endif
 
 		bool needsCC = !( iFlags & ( SND_STOP | SND_CHANGE_VOL | SND_CHANGE_PITCH ) );
@@ -1107,7 +1111,7 @@ public:
 							soundlevel, 
 							volume, 
 							flags, 
-							pitch, 
+							pitch * engine->GetTimescale(), 
 							&origin, 
 							soundtime,
 							dummyorigins );
@@ -1118,9 +1122,9 @@ public:
 		if ( pSample && ( Q_stristr( pSample, ".wav" ) || Q_stristr( pSample, ".mp3" )) )
 		{
 #if defined( CLIENT_DLL )
-			enginesound->EmitAmbientSound( pSample, volume, pitch, flags, soundtime );
+			enginesound->EmitAmbientSound( pSample, volume, pitch * engine->GetTimescale(), flags, soundtime );
 #else
-			engine->EmitAmbientSound( entindex, origin, pSample, volume, soundlevel, flags, pitch, soundtime );
+			engine->EmitAmbientSound( entindex, origin, pSample, volume, soundlevel, flags, pitch * engine->GetTimescale(), soundtime );
 #endif
 
 			if ( duration )
@@ -1727,6 +1731,8 @@ int SENTENCEG_Lookup(const char *sample)
 
 void UTIL_EmitAmbientSound( int entindex, const Vector &vecOrigin, const char *samp, float vol, soundlevel_t soundlevel, int fFlags, int pitch, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 {
+	fFlags |= SND_SHOULDPAUSE;
+
 	if (samp && *samp == '!')
 	{
 		int sentenceIndex = SENTENCEG_Lookup(samp);
@@ -1735,9 +1741,9 @@ void UTIL_EmitAmbientSound( int entindex, const Vector &vecOrigin, const char *s
 			char name[32];
 			Q_snprintf( name, sizeof(name), "!%d", sentenceIndex );
 #if !defined( CLIENT_DLL )
-			engine->EmitAmbientSound( entindex, vecOrigin, name, vol, soundlevel, fFlags, pitch, soundtime );
+			engine->EmitAmbientSound( entindex, vecOrigin, name, vol, soundlevel, fFlags, pitch * engine->GetTimescale(), soundtime );
 #else
-			enginesound->EmitAmbientSound( name, vol, pitch, fFlags, soundtime );
+			enginesound->EmitAmbientSound( name, vol, pitch * engine->GetTimescale(), fFlags, soundtime );
 #endif
 			if ( duration )
 			{

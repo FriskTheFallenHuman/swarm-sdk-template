@@ -21,6 +21,20 @@
 #include "tier0/memdbgon.h"
 
 //-----------------------------------------------------------------------------
+// Purpose: Gets the local client's active weapon, if any.
+//-----------------------------------------------------------------------------
+C_BaseCombatWeapon *GetActiveWeapon( void )
+{
+	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
+
+	if ( !player )
+		return NULL;
+
+	return player->GetActiveWeapon();
+}
+
+
+//-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 void C_BaseCombatWeapon::SetDormant( bool bDormant )
@@ -163,13 +177,13 @@ ShadowType_t C_BaseCombatWeapon::ShadowCastType()
 	if ( IsEffectActive( /*EF_NODRAW |*/ EF_NOSHADOW ) )
 		return SHADOWS_NONE;
 
-	if (!IsBeingCarried())
+	//if (!IsBeingCarried())
 		return SHADOWS_RENDER_TO_TEXTURE;
 
-	if (IsCarriedByLocalPlayer())
+	/*if (IsCarriedByLocalPlayer())
 		return SHADOWS_NONE;
 
-	return (m_iState != WEAPON_IS_CARRIED_BY_PLAYER) ? SHADOWS_RENDER_TO_TEXTURE : SHADOWS_NONE;
+	return (m_iState != WEAPON_IS_CARRIED_BY_PLAYER) ? SHADOWS_RENDER_TO_TEXTURE : SHADOWS_NONE;*/
 }
 
 //-----------------------------------------------------------------------------
@@ -190,7 +204,7 @@ void C_BaseCombatWeapon::Redraw()
 //-----------------------------------------------------------------------------
 void C_BaseCombatWeapon::DrawCrosshair()
 {
-#ifndef INFESTED_DLL
+
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 	if ( !player )
 		return;
@@ -262,7 +276,6 @@ void C_BaseCombatWeapon::DrawCrosshair()
 		else
 			crosshair->ResetCrosshair();
 	}
-	#endif
 }
 //-----------------------------------------------------------------------------
 // Purpose: This weapon is the active weapon, and the viewmodel for it was just drawn.

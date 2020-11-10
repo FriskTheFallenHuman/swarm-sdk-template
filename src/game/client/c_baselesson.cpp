@@ -17,11 +17,6 @@
 #include "view.h"
 #include "vstdlib/ikeyvaluessystem.h"
 
-#ifdef INFESTED_DLL
-	#include "c_asw_marine.h"
-	#include "c_asw_marine_resource.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -804,9 +799,6 @@ void CIconLesson::UpdateLocatorTarget( CLocatorTarget *pLocatorTarget, C_BaseEnt
 	}
 
 	const char *pchDisplayParamText = m_szDisplayParamText.String();
-//#ifdef INFESTED_DLL
-//	char szCustomName[ 256 ];
-//#endif
 
 	// Check if the parameter is the be the player display name
 	if ( Q_stricmp( pchDisplayParamText, "use_name" ) == 0 )
@@ -820,20 +812,6 @@ void CIconLesson::UpdateLocatorTarget( CLocatorTarget *pLocatorTarget, C_BaseEnt
 		else
 		{
 			bool bNoName = true;
-
-//#ifdef INFESTED_DLL
-//			C_ASW_Marine *pMarine = dynamic_cast< C_ASW_Marine* >( pIconTarget );
-//			if ( pMarine )
-//			{
-//				C_ASW_Marine_Resource *pMR = pMarine->GetMarineResource();
-//				if ( pMR )
-//				{
-//					pMR->GetDisplayName( szCustomName, sizeof( szCustomName ) );
-//					pchDisplayParamText = szCustomName;
-//					bNoName = false;
-//				}
-//			}
-//#endif
 
 			if ( bNoName )
 			{

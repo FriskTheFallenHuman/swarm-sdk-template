@@ -56,7 +56,7 @@
 #include "c_entityflame.h"
 #include "npcevent.h"
 #include "replay_ragdoll.h"
-
+#include "object_motion_blur_effect.h"
 #include "clientalphaproperty.h"
 
 #ifdef DEMOPOLISH_ENABLED
@@ -247,6 +247,7 @@ BEGIN_DATADESC( C_ClientRagdoll )
 	DEFINE_FIELD( m_clrRender, FIELD_COLOR32 ),
 	DEFINE_FIELD( m_flEffectTime, FIELD_TIME ),
 	DEFINE_FIELD( m_bFadingOut, FIELD_BOOLEAN ),
+	DEFINE_FIELD( m_bClientSideRagdoll, FIELD_BOOLEAN ),	// why Volvo didn't do that?
 
 	DEFINE_AUTO_ARRAY( m_flScaleEnd, FIELD_FLOAT ),
 	DEFINE_AUTO_ARRAY( m_flScaleTimeStart, FIELD_FLOAT ),
@@ -759,6 +760,7 @@ C_BaseAnimating::C_BaseAnimating() :
 //-----------------------------------------------------------------------------
 C_BaseAnimating::~C_BaseAnimating()
 {
+	
 	Assert( !g_bInThreadedBoneSetup );
 	if ( m_iMostRecentBoneSetupRequest == g_iPreviousBoneCounter )
 	{
@@ -1077,6 +1079,11 @@ CStudioHdr *C_BaseAnimating::OnNewModel()
 		SetBoneController( i, 0.0 );
 	}
 
+	if( IsNPC() )
+	{
+		g_ObjectMotionBlurManager.RegisterObject( this, 1 );
+	}
+
 	InitModelEffects();
 
 	// lookup generic eye attachment, if exists
@@ -1099,7 +1106,7 @@ CStudioHdr *C_BaseAnimating::OnNewModel()
 	{
 		SetSequence(0);
 	}
-
+	
 	return hdr;
 }
 
@@ -1849,6 +1856,9 @@ void C_BaseAnimating::StandardBlendingRules( CStudioHdr *hdr, Vector pos[], Quat
 	if ( !hdr )
 		return;
 
+	if ( !pos )
+		return;
+
 	if ( !hdr->SequencesAvailable() )
 	{
 		return;
@@ -2558,7 +2568,8 @@ CMouthInfo *C_BaseAnimating::GetMouth( void )
 #ifdef DEBUG_BONE_SETUP_THREADING
 ConVar cl_warn_thread_contested_bone_setup("cl_warn_thread_contested_bone_setup", "0" );
 #endif
-ConVar cl_threaded_bone_setup("cl_threaded_bone_setup", ( IsX360() ) ? "1" : "0", 0, "Enable parallel processing of C_BaseAnimating::SetupBones()" );
+ConVar cl_threaded_bone_setup("cl_threaded_bone_setup", "0", 0, "Enable parallel processing of C_BaseAnimating::SetupBones()" );
+//ConVar cl_threaded_bone_setup("cl_threaded_bone_setup", ( IsX360() ) ? "1" : "0", 0, "Enable parallel processing of C_BaseAnimating::SetupBones()" );
 
 //-----------------------------------------------------------------------------
 // Purpose: Do the default sequence blending rules as done in HL1
@@ -2728,7 +2739,17 @@ bool C_BaseAnimating::SetupBones( matrix3x4a_t *pBoneToWorldOut, int nMaxBones, 
 {
 	VPROF_BUDGET( "C_BaseAnimating::SetupBones", ( !g_bInThreadedBoneSetup ) ? VPROF_BUDGETGROUP_CLIENT_ANIMATION : "Client_Animation_Threaded" );
 
-	if ( !IsBoneAccessAllowed() )
+	//=============================================================================
+	// HPE_BEGIN:
+	// [pfreese] Added the check for pBoneToWorldOut != NULL in this debug warning
+	// code. SetupBones is called in the CSS anytime an attachment wants its
+	// parent's transform, hence this warning is hit extremely frequently.
+	// I'm not actually sure if this is the right "fix" for this, as the bones are
+	// actually accessed as part of the setup process, but since I'm not clear on the
+	// purpose of this dev warning, I'm including this comment block.
+	//=============================================================================
+
+	if ( pBoneToWorldOut != NULL && !IsBoneAccessAllowed() )
 	{
 		static float lastWarning = 0.0f;
 
@@ -2914,12 +2935,23 @@ bool C_BaseAnimating::SetupBones( matrix3x4a_t *pBoneToWorldOut, int nMaxBones, 
 			// Setting this flag forces move children to keep their abs transform invalidated.
 			AddFlag( EFL_SETTING_UP_BONES );
 
-// NOTE: For model scaling, we need to opt out of IK because it will mark the bones as already being calculated
-#if defined( INFESTED )
 			// only allocate an ik block if the npc can use it
-			if ( !m_pIk && hdr->numikchains() > 0 && !(m_EntClientFlags & ENTCLIENTFLAG_DONTUSEIK) )
-				m_pIk = new CIKContext;
-#endif
+			// NOTE: For model scaling, we need to opt out of IK because it will mark the bones as already being calculated
+			if (!(GetModelScale() > 1.0f + FLT_EPSILON || GetModelScale() < 1.0f - FLT_EPSILON))
+			{
+				// only allocate an ik block if the npc can use it
+				if ( !m_pIk && hdr->numikchains() > 0 && !(m_EntClientFlags & ENTCLIENTFLAG_DONTUSEIK) )
+					m_pIk = new CIKContext;
+			}
+			else
+			{
+				// Reset the IK
+				if ( m_pIk )
+				{
+					delete m_pIk;
+					m_pIk = NULL;
+				}
+			}
 
 			Vector		pos[MAXSTUDIOBONES];
 			QuaternionAligned	q[MAXSTUDIOBONES];
@@ -3495,7 +3527,7 @@ int C_BaseAnimating::InternalDrawModel( int flags, const RenderableInstance_t &i
 		// Suppress unlocking
 		CMatRenderDataReference rd( pRenderContext );
 		DrawModelState_t state;
-		matrix3x4_t *pBoneToWorld;
+		matrix3x4_t *pBoneToWorld = NULL;
 		bMarkAsDrawn = modelrender->DrawModelSetup( *pInfo, &state, &pBoneToWorld );
 
 		// Scale the base transform if we don't have a bone hierarchy
@@ -3565,6 +3597,8 @@ void C_BaseAnimating::ProcessMuzzleFlashEvent()
 //-----------------------------------------------------------------------------
 void C_BaseAnimating::DoAnimationEvents( CStudioHdr *pStudioHdr )
 {
+	if ( !pStudioHdr )
+		return;
 	bool watch = false;//IsPlayer(); // Q_strstr( hdr->name, "rifle" ) ? true : false;
 
 	//Adrian: eh? This should never happen.
@@ -4172,13 +4206,52 @@ void C_BaseAnimating::FireEvent( const Vector& origin, const QAngle& angles, int
 	case CL_EVENT_EJECTBRASS1:
 		if ( m_Attachments.Count() > 0 )
 		{
-			DevWarning( "Unhandled eject brass animevent\n" );
+			if ( MainViewOrigin(0).DistToSqr( GetAbsOrigin() ) < (256 * 256) )
+			{
+				Vector attachOrigin;
+				QAngle attachAngles; 
+				
+				if( GetAttachment( 2, attachOrigin, attachAngles ) )
+				{
+					tempents->EjectBrass( attachOrigin, attachAngles, GetAbsAngles(), atoi( options ) );
+				}
+			}
 		}
 		break;
 
 	case AE_MUZZLEFLASH:
 		{
 			// Send out the effect for a player
+#if defined ( HL2MP ) || defined ( SDK_DLL ) // works for the modified CSS weapons included in the new template sdk.
+			// HL2MP - Make third person muzzleflashes as reliable as the first person ones
+			// while in third person the view model dispatches the muzzleflash event - note: the weapon models dispatch them too, but not frequently.
+			if ( IsViewModel() )
+			{
+				C_BasePlayer *pPlayer = ToBasePlayer( dynamic_cast<C_BaseViewModel *>(this)->GetOwner() );
+				if ( pPlayer && pPlayer == C_BasePlayer::GetLocalPlayer())
+				{
+					if ( ::input->CAM_IsThirdPerson() )
+					{
+						// Dispatch on the weapon - the player model doesn't have the attachments in hl2mp.
+						C_BaseCombatWeapon *pWeapon = pPlayer->GetActiveWeapon();
+						if ( !pWeapon )
+							break;
+						pWeapon->DispatchMuzzleEffect( options, false );
+						break;
+					}
+				}
+			}
+
+			// Check if we're a weapon, if we belong to the local player, and if the local player is in third person - if all are true, don't do a muzzleflash in this instance, because
+			// we're using the view models dispatch for smoothness.
+			if ( dynamic_cast< C_BaseCombatWeapon *>(this) != NULL )
+			{
+				C_BaseCombatWeapon *pWeapon = dynamic_cast< C_BaseCombatWeapon *>(this);
+				if ( pWeapon && pWeapon->GetOwner() == C_BasePlayer::GetLocalPlayer() && ::input->CAM_IsThirdPerson() )
+					break;
+			}
+			
+#endif
 			DispatchMuzzleEffect( options, true );
 			break;
 		}
@@ -5445,7 +5518,7 @@ void C_BaseAnimating::OnNewSequence( void )
 	if ( pStudioHdr )
 	{
 		m_bSequenceLoops = ((GetSequenceFlags( pStudioHdr, GetSequence() ) & STUDIO_LOOPING) != 0);
-		m_flGroundSpeed = GetSequenceGroundSpeed( pStudioHdr, GetSequence() );
+		m_flGroundSpeed = GetSequenceGroundSpeed( pStudioHdr, GetSequence() ) * GetModelScale();
 
 		// FIXME: why is this called here?  Nothing should have changed to make this nessesary
 		SetEventIndexForSequence( pStudioHdr->pSeqdesc( GetSequence() ) );
@@ -5531,6 +5604,8 @@ void C_BaseAnimating::StudioFrameAdvance()
 		return;
 	}
 
+	UpdateModelScale();
+
 	//anim.prevanimtime = m_flAnimTime;
 	float cycleAdvance = flInterval * GetSequenceCycleRate( hdr, GetSequence() ) * GetPlaybackRate();
 	float flNewCycle = GetCycle() + cycleAdvance;
@@ -5557,7 +5632,7 @@ void C_BaseAnimating::StudioFrameAdvance()
 
 	SetCycle( flNewCycle );
 
-	m_flGroundSpeed = GetSequenceGroundSpeed( hdr, GetSequence() );
+	m_flGroundSpeed = GetSequenceGroundSpeed( hdr, GetSequence() ) * GetModelScale();
 
 #if 0
 	// I didn't have a test case for this, but it seems like the right thing to do.  Check multi-player!
@@ -6448,8 +6523,51 @@ void C_BaseAnimating::SetModelScale( float scale )
 	if ( m_flModelScale != scale )
 	{
 		m_flModelScale = scale;
+
+		RefreshCollisionBounds();
+
+		if ( HasDataObjectType( MODELSCALE ) )
+		{
+			DestroyDataObject( MODELSCALE );
+		}
+
 		InvalidatePhysicsRecursive( BOUNDS_CHANGED );
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void C_BaseAnimating::UpdateModelScale()
+{
+	ModelScale *mvs = ( ModelScale * )GetDataObject( MODELSCALE );
+	if ( !mvs )
+	{
+		return;
+	}
+
+	float dt = mvs->m_flModelScaleFinishTime - mvs->m_flModelScaleStartTime;
+	Assert( dt > 0.0f );
+
+	float frac = ( gpGlobals->curtime - mvs->m_flModelScaleStartTime ) / dt;
+	frac = clamp( frac, 0.0f, 1.0f );
+
+	if ( gpGlobals->curtime >= mvs->m_flModelScaleFinishTime )
+	{
+		m_flModelScale = mvs->m_flModelScaleGoal;
+		DestroyDataObject( MODELSCALE );
+	}
+	else
+	{
+		m_flModelScale = Lerp( frac, mvs->m_flModelScaleStart, mvs->m_flModelScaleGoal );
+	}
+
+	RefreshCollisionBounds();
+}
+
+void C_BaseAnimating::RefreshCollisionBounds( void )
+{
+	CollisionProp()->RefreshScaledCollisionBounds();
 }
 
 //-----------------------------------------------------------------------------

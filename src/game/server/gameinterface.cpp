@@ -105,15 +105,9 @@
 #include "tier2/tier2_logging.h"
 #include "fmtstr.h"
 
-#ifdef INFESTED_DLL
-#include "missionchooser/iasw_mission_chooser.h"
-#include "missionchooser/iasw_mission_chooser_source.h"
-#include "matchmaking/swarm/imatchext_swarm.h"
-#include "asw_gamerules.h"
-#endif
-
-// Activate SDK gamerules
+#if defined ( SDK_DLL )
 #include "sdk_gamerules.h"
+#endif
 
 #ifdef _WIN32
 #include "IGameUIFuncs.h"
@@ -182,11 +176,6 @@ IGameUIFuncs *gameuifuncs = NULL;
 IXboxSystem *xboxsystem = NULL;	// Xbox 360 only
 IScriptManager *scriptmanager = NULL;
 IBlackBox *blackboxrecorder = NULL;
-
-#ifdef INFESTED_DLL
-IASW_Mission_Chooser *missionchooser = NULL;
-IMatchExtSwarm *g_pMatchExtSwarm = NULL;
-#endif
 
 IGameSystem *SoundEmitterSystem();
 void SoundSystemPreloadSounds( void );
@@ -713,13 +702,6 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	}
 #endif // SERVER_USES_VGUI
 
-#ifdef INFESTED_DLL
-	if ( (missionchooser = (IASW_Mission_Chooser *)appSystemFactory(ASW_MISSION_CHOOSER_VERSION, NULL)) == NULL )
-		return false;
-	if ( (g_pMatchExtSwarm = (IMatchExtSwarm *)appSystemFactory(IMATCHEXT_SWARM_INTERFACE, NULL)) == NULL )
-		return false;
-#endif
-
 	if ( !g_pMatchFramework )
 		return false;
 	if ( IMatchExtensions *pIMatchExtensions = g_pMatchFramework->GetMatchExtensions() )
@@ -1041,10 +1023,6 @@ bool CServerGameDLL::IsRestoring()
 
 bool CServerGameDLL::SupportsSaveRestore()
 {
-#ifdef INFESTED_DLL
-	return false;
-#endif
-
 	return true;
 }
 
@@ -1218,8 +1196,10 @@ void CServerGameDLL::ServerActivate( edict_t *pEdictList, int edictCount, int cl
 	TheNavMesh->Load();
 #endif
 
-	// Activate SDK gamerules
+//Tony; call activate on the gamerules
+#if defined ( SDK_DLL )
 	SDKGameRules()->ServerActivate();
+#endif
 
 }
 
@@ -1860,11 +1840,7 @@ bool CServerGameDLL::ShouldPreferSteamAuth()
 
 bool CServerGameDLL::SupportsRandomMaps()
 {
-#ifdef INFESTED_DLL
-	return true;
-#else
 	return false;
-#endif
 }
 
 // return true to disconnect client due to timeout (used to do stricter timeouts when the game is sure the client isn't loading a map)
@@ -1895,61 +1871,6 @@ void CServerGameDLL::GetMatchmakingTags( char *buf, size_t bufSize )
 
 	Q_strncpy( buf, mp_gamemode.GetString(), bufSize );
 #endif
-
-//#ifdef INFESTED_DLL
-//	extern ConVar asw_marine_ff_absorption;
-//	extern ConVar asw_sentry_friendly_fire_scale;
-//	extern ConVar asw_horde_override;
-//	extern ConVar asw_wanderer_override;
-//	extern ConVar asw_skill;
-//
-//	char * const bufBase = buf;
-//	int len = 0;
-//
-//	// hardcore friendly fire
-//	if ( CAlienSwarm::IsHardcoreFF() )
-//	{
-//		Q_strncpy( buf, "HardcoreFF,", bufSize );
-//		len = strlen( buf );
-//		buf += len;
-//		bufSize -= len;
-//	}
-//
-//	// onslaught
-//	if ( CAlienSwarm::IsOnslaught() )
-//	{
-//		Q_strncpy( buf, "Onslaught,", bufSize );
-//		len = strlen( buf );
-//		buf += len;
-//		bufSize -= len;
-//	}
-//
-//	// difficulty level
-//	const char *szSkill = "Normal,";
-//	switch( asw_skill.GetInt() )
-//	{
-//		case 1: szSkill = "Easy,"; break;
-//		case 3: szSkill = "Hard,"; break;
-//		case 4: szSkill = "Insane,"; break;
-//		case 5: szSkill = "Imba,"; break;
-//	}
-//	Q_strncpy( buf, szSkill, bufSize );
-//	len = strlen( buf );
-//	buf += len;
-//	bufSize -= len;
-//	
-//	if ( ASWGameRules() && ASWGameRules()->GetGameState() == ASW_GS_BRIEFING )
-//	{
-//		Q_strncpy( buf, "Briefing,", bufSize );
-//		len = strlen( buf );
-//		buf += len;
-//		bufSize -= len;
-//	}
-//
-//	// Trim the last comma if anything was written
-//	if ( buf > bufBase )
-//		buf[ -1 ] = 0;
-//#endif
 }
 
 void CServerGameDLL::GetMatchmakingGameData( char *buf, size_t bufSize )
@@ -2013,13 +1934,6 @@ void CServerGameDLL::GetMatchmakingGameData( char *buf, size_t bufSize )
 void CServerGameDLL::ServerHibernationUpdate( bool bHibernating )
 {
 	m_bIsHibernating = bHibernating;
-
-#ifdef INFESTED_DLL
-	if ( engine && engine->IsDedicatedServer() && m_bIsHibernating && ASWGameRules() )
-	{
-		ASWGameRules()->OnServerHibernating();
-	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -3419,9 +3333,6 @@ public:
 	{
 		AddAppSystem( "soundemittersystem", SOUNDEMITTERSYSTEM_INTERFACE_VERSION );
 		AddAppSystem( "scenefilecache", SCENE_FILE_CACHE_INTERFACE_VERSION );
-#ifdef INFESTED_DLL
-		AddAppSystem( "missionchooser", ASW_MISSION_CHOOSER_VERSION );
-#endif
 	}
 
 	virtual int	Count()

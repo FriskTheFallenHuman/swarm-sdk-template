@@ -20,37 +20,37 @@ void SDK_EjectBrass( int shell, const CEffectData &data )
 	if( !pPlayer )
 		return;
 
-//	tempents->CSEjectBrass( data.m_vOrigin, data.m_vAngles, data.m_fFlags, shell, pPlayer );
+	tempents->CSEjectBrass( data.m_vOrigin, data.m_vAngles, data.m_fFlags, shell, pPlayer );
 }
 
 void SDK_FX_EjectBrass_9mm_Callback( const CEffectData &data )
 {
-	//SDK_EjectBrass( CS_SHELL_9MM, data );
+	SDK_EjectBrass( CS_SHELL_9MM, data );
 }
 
 void SDK_FX_EjectBrass_12Gauge_Callback( const CEffectData &data )
 {
-	//SDK_EjectBrass( CS_SHELL_12GAUGE, data );
+	SDK_EjectBrass( CS_SHELL_12GAUGE, data );
 }
 
 void SDK_FX_EjectBrass_57_Callback( const CEffectData &data )
 {
-	//SDK_EjectBrass( CS_SHELL_57, data );
+	SDK_EjectBrass( CS_SHELL_57, data );
 }
 
 void SDK_FX_EjectBrass_556_Callback( const CEffectData &data )
 {
-	//SDK_EjectBrass( CS_SHELL_556, data );
+	SDK_EjectBrass( CS_SHELL_556, data );
 }
 
 void SDK_FX_EjectBrass_762Nato_Callback( const CEffectData &data )
 {
-	//SDK_EjectBrass( CS_SHELL_762NATO, data );
+	SDK_EjectBrass( CS_SHELL_762NATO, data );
 }
 
 void SDK_FX_EjectBrass_338Mag_Callback( const CEffectData &data )
 {
-	//SDK_EjectBrass( CS_SHELL_338MAG, data );
+	SDK_EjectBrass( CS_SHELL_338MAG, data );
 }
 
 

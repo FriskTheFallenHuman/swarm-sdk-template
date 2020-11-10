@@ -32,6 +32,7 @@ public:
 
 	// Sprite handling
 	void LoadWeaponSprites( WEAPON_FILE_INFO_HANDLE hWeaponFileInfo );
+	void LoadWeaponSprites( FileWeaponInfo_t *weaponInfo );
 	void LoadAllWeaponSprites( void );
 
 	// Ammo Handling

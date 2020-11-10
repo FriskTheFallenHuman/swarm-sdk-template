@@ -29,6 +29,9 @@ public:
 	~C_SDKPlayer();
 
 	static C_SDKPlayer* GetLocalSDKPlayer();
+	
+	// Should this object cast shadows?
+	virtual ShadowType_t		ShadowCastType();
 
 	virtual const QAngle& GetRenderAngles();
 	virtual void UpdateClientSideAnimation();

@@ -260,7 +260,6 @@ void C_EnvProjectedTexture::UpdateLight( void )
 		// should bother to create it, if it doesn't exist, or cull it, if it does.
 		if ( m_bSimpleProjection == false )
 		{
-#pragma message("OPTIMIZATION: this should be made SIMD")
 			// get the half-widths of the near and far planes, 
 			// based on the FOV which is in degrees. Remember that
 			// on planet Valve, x is forward, y left, and z up. 

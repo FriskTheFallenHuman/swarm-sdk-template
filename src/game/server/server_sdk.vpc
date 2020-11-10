@@ -14,7 +14,7 @@ $Configuration
 	$Compiler
 	{
 		$AdditionalIncludeDirectories	"$BASE;.\sdk,$SRCDIR\game\shared\sdk,$SRCDIR\game\shared\Multiplayer"
-		$PreprocessorDefinitions		"$BASE;SWARM_DLL"
+		$PreprocessorDefinitions		"$BASE;SDK_DLL;SWARM_DLL"
 	}
 }
 

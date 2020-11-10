@@ -1361,11 +1361,7 @@ public:
 	virtual bool		IsJumpLegal( const Vector &startPos, const Vector &apex, const Vector &endPos ) const; // Override for specific creature types
 	virtual bool		IsJumpLegal( const Vector &startPos, const Vector &apex, const Vector &endPos, float maxUp, float maxDown, float maxDist ) const;
 	bool 				ShouldMoveWait();
-#ifdef INFESTED_DLL
-	virtual float		StepHeight() const			{ return 24.0f; }			// NOTE: Have to set this here rather than in the Infested derived AI classes, as this value is used by the AI node network generation
-#else
 	virtual float		StepHeight() const			{ return 18.0f; }
-#endif
 	float				GetStepDownMultiplier() const;
 	virtual float		GetMaxJumpSpeed() const		{ return 350.0f; }
 	virtual float		GetJumpGravity() const		{ return GetDefaultJumpGravity(); }

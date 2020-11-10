@@ -552,6 +552,14 @@ C_SDKPlayer* C_SDKPlayer::GetLocalSDKPlayer()
 	return ToSDKPlayer( C_BasePlayer::GetLocalPlayer() );
 }
 
+//-----------------------------------------------------------------------------
+// Should this object cast shadows?
+//-----------------------------------------------------------------------------
+ShadowType_t C_SDKPlayer::ShadowCastType()
+{
+	return SHADOWS_RENDER_TO_DEPTH_TEXTURE;
+}
+
 const QAngle &C_SDKPlayer::EyeAngles()
 {
 	if( IsLocalPlayer() )

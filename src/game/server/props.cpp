@@ -1882,11 +1882,9 @@ void CBreakableProp::Break( CBaseEntity *pBreaker, const CTakeDamageInfo &info )
 //=============================================================================================================
 // DYNAMIC PROPS
 //=============================================================================================================
-#ifndef INFESTED_DLL
 LINK_ENTITY_TO_CLASS( dynamic_prop, CDynamicProp );
 LINK_ENTITY_TO_CLASS( prop_dynamic, CDynamicProp );	
 LINK_ENTITY_TO_CLASS( prop_dynamic_override, CDynamicProp );	
-#endif
 
 BEGIN_DATADESC( CDynamicProp )
 
@@ -2506,11 +2504,9 @@ void COrnamentProp::InputDetach( inputdata_t &inputdata )
 //=============================================================================
 // PHYSICS PROPS
 //=============================================================================
-#ifndef INFESTED_DLL
 LINK_ENTITY_TO_CLASS( physics_prop, CPhysicsProp );
 LINK_ENTITY_TO_CLASS( prop_physics, CPhysicsProp );	
 LINK_ENTITY_TO_CLASS( prop_physics_override, CPhysicsProp );	
-#endif
 
 BEGIN_DATADESC( CPhysicsProp )
 

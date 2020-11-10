@@ -23,13 +23,7 @@ const float JumpHeight = 41.8f;					// if delta Z is less than this, we can jump
 const float JumpCrouchHeight = 64.0f;			// (48) if delta Z is less than or equal to this, we can jumpcrouch up on it
 
 // There are 3 different definitions of StepHeight throughout the code, waiting to produce bugs if the 18.0 is ever changed.
-#ifdef INFESTED_DLL
-const float StepHeight = 24.0f;					///< if delta Z is greater than this, we have to jump to get up
-#else
 const float StepHeight = 18.0f;					// if delta Z is greater than this, we have to jump to get up
-#endif // INFESTED_DLL
-
-
 
 // TERROR: Increased DeathDrop from 200, since zombies don't take falling damage
 const float DeathDrop = 400.0f;					// (300) distance at which we will die if we fall - should be about 600, and pay attention to fall damage during pathfind

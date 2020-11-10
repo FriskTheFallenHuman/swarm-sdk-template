@@ -288,12 +288,21 @@ CMultiplayRules::CMultiplayRules()
 	// override some values for multiplay.
 
 		// suitcharger
-
-	//	ConVarRef suitcharger( "sk_suitcharger" );
-	//	suitcharger.SetValue( 30 );
+#if !defined ( TF_DLL ) && !defined ( SDK_DLL )
+//=============================================================================
+// HPE_BEGIN:
+// [menglish] CS doesn't have the suitcharger either
+//=============================================================================
+#ifndef CSTRIKE_DLL
+		ConVarRef suitcharger( "sk_suitcharger" );
+		suitcharger.SetValue( 30 );
+ #endif
+//=============================================================================
+// HPE_END
+//=============================================================================
+#endif
 
 	}
-
 
 	//=========================================================
 	//=========================================================

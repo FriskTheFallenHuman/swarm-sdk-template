@@ -174,6 +174,17 @@ CBaseModPanel::CBaseModPanel() : Panel(NULL, "BaseGameUIPanel")
 	// needed to allow engine to exec startup commands (background map signal is 1 frame behind) 
 	m_DelayActivation = 3;
 
+	vgui::HScheme m_UIScheme = vgui::scheme()->LoadSchemeFromFileEx( 0, "resource/SourceScheme.res", "SourceScheme" );
+	SetScheme( m_UIScheme );
+
+	// Precache critical font characters for the 360, dampens severity of these runtime i/o hitches
+	IScheme *pScheme = vgui::scheme()->GetIScheme( m_UIScheme );
+	vgui::HFont m_hDefaultFont = pScheme->GetFont( "Default", true );
+	vgui::surface()->PrecacheFontCharacters( m_hDefaultFont, NULL );
+	vgui::surface()->PrecacheFontCharacters( pScheme->GetFont( "DefaultBold", true ), NULL );
+	vgui::surface()->PrecacheFontCharacters( pScheme->GetFont( "DefaultLarge", true ), NULL );
+	vgui::surface()->PrecacheFontCharacters( pScheme->GetFont( "FrameTitle", true ), NULL );
+
 	if ( GameUI().IsConsoleUI() )
 	{
 		m_pConsoleAnimationController = new AnimationController( this );

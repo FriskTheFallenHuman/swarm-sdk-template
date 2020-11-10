@@ -15,10 +15,6 @@
 #include "cdll_client_int.h"
 #endif // CLIENT_DLL
 
-#ifdef INFESTED_DLL
-	#include "asw_gamerules.h"
-#endif
-
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
 
@@ -196,20 +192,6 @@ void CBaseAchievement::Event_EntityKilled( CBaseEntity *pVictim, CBaseEntity *pA
 //-----------------------------------------------------------------------------
 void CBaseAchievement::IncrementCount()
 {
-#ifdef INFESTED_DLL
-#ifndef _DEBUG
-	// No incrementing if they cheated!
-	if ( ASWGameRules() && ASWGameRules()->m_bCheated )
-	{
-		if ( g_nAchivementBitchCount++ < 10 )
-		{
-			DevMsg( "Achievements can't be earned if SV_CHEATS was used in this mission!\n", GetName() );
-		}
-		return;
-	}
-#endif
-#endif
-
 	if ( !IsAchieved() )
 	{
 		if ( !m_pAchievementMgr->CheckAchievementsEnabled() )
@@ -263,18 +245,10 @@ void CBaseAchievement::IncrementCount()
 			// Upload user data to commit the change to Steam so if the client crashes, progress isn't lost.
 			// Only upload if we haven't uploaded recently, to keep us from spamming Steam with uploads.  If we don't
 			// upload now, it will get uploaded no later than level shutdown.
-#ifdef INFESTED_DLL
-			if ( ( m_pAchievementMgr->GetTimeLastUpload() == 0 ) || ( Plat_FloatTime() - m_pAchievementMgr->GetTimeLastUpload() > 60 * 15 ) 
-				|| ( ASWGameRules() && ASWGameRules()->GetGameState() != ASW_GS_INGAME && ( Plat_FloatTime() - m_pAchievementMgr->GetTimeLastUpload() > 0 ) ) )	// allow achievements to update each second if in the briefing/debrief
-			{
-				m_pAchievementMgr->UploadUserData( m_nUserSlot );
-			}
-#else
 			if ( ( m_pAchievementMgr->GetTimeLastUpload() == 0 ) || ( Plat_FloatTime() - m_pAchievementMgr->GetTimeLastUpload() > 60 * 15 ) )
 			{
 				m_pAchievementMgr->UploadUserData( m_nUserSlot );
 			}
-#endif
 		}
 #endif
 
@@ -383,20 +357,6 @@ void CBaseAchievement::OnMapEvent( const char *pEventName )
 //-----------------------------------------------------------------------------
 void CBaseAchievement::AwardAchievement()
 {
-#ifdef INFESTED_DLL
-#ifndef _DEBUG
-	// No awarding if they cheated!
-	if ( ASWGameRules() && ASWGameRules()->m_bCheated )
-	{
-		if ( g_nAchivementBitchCount++ < 10 )
-		{
-			DevMsg( "Achievements can't be earned if SV_CHEATS was used in this mission!\n", GetName() );
-		}
-		return;
-	}
-#endif
-#endif
-
 	Assert( !IsAchieved() );
 	if ( IsAchieved() )
 		return;
@@ -426,20 +386,6 @@ void CBaseAchievement::OnComponentEvent( const char *pchComponentName )
 //-----------------------------------------------------------------------------
 void CBaseAchievement::EnsureComponentBitSetAndEvaluate( int iBitNumber )
 {
-#ifdef INFESTED_DLL
-#ifndef _DEBUG
-	// No incrementing if they cheated!
-	if ( ASWGameRules() && ASWGameRules()->m_bCheated )
-	{
-		if ( g_nAchivementBitchCount++ < 10 )
-		{
-			DevMsg( "Achievements can't be earned if SV_CHEATS was used in this mission!\n", GetName() );
-		}
-		return;
-	}
-#endif
-#endif
-
 	Assert( iBitNumber < 64 );	// this is bit #, not a bit mask
 
 	if ( IsAchieved() )

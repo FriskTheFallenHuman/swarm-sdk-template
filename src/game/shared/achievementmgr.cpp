@@ -940,17 +940,6 @@ bool CAchievementMgr::CheckAchievementsEnabled( )
 		}
 	}
 
-#ifdef INFESTED_DLL
-#ifndef _DEBUG
-	// no achievements in singleplayer
-	if ( gpGlobals->maxClients <= 1 )
-	{
-		DevMsg( "Achievements disabled in singleplayer.\n" );
-		return false;
-	}
-#endif
-#endif
-
 	return true;
 }
 
@@ -1564,17 +1553,13 @@ void CAchievementMgr::Steam_OnUserStatsReceived( UserStatsReceived_t *pUserStats
 	for ( int i = 0; i < m_vecAchievement[STEAM_PLAYER_SLOT].Count(); ++i )
 	{
 		CBaseAchievement *pAchievement = m_vecAchievement[STEAM_PLAYER_SLOT][i];
-#ifndef INFESTED_DLL
+
 		char szFieldName[64];
-#endif
 		int nCount = 0;
 		int nComponentBits = 0;
 		bool bAchieved = false;
 		bool bRet1 = steamapicontext->SteamUserStats()->GetAchievement( pAchievement->GetName(), &bAchieved );
 
-#ifdef INFESTED_DLL
-		if ( bRet1 )
-#else
 		// TODO: these look hardcoded for L4D2 - remove?
 		Q_snprintf( szFieldName, sizeof( szFieldName ), "TD2.Achievements.Count.%02d", i );
 		bool bRet2 = steamapicontext->SteamUserStats()->GetStat( szFieldName, &nCount );
@@ -1583,7 +1568,6 @@ void CAchievementMgr::Steam_OnUserStatsReceived( UserStatsReceived_t *pUserStats
 		bool bRet3 = steamapicontext->SteamUserStats()->GetStat( szFieldName, &nComponentBits );
 
 		if ( bRet1 && bRet2 && bRet3 )
-#endif
 		{
 			// set local achievement state
 			pAchievement->SetAchieved( bAchieved );

@@ -63,7 +63,7 @@ CON_COMMAND( ai_debug_node_connect, "Debug the attempted connection between two 
 
 ConVar g_ai_norebuildgraph( "ai_norebuildgraph", "0" );
 
-ConVar g_ai_threadedgraphbuild( "g_ai_threadedgraphbuild", "0", FCVAR_NONE, "If true, use experimental threaded node graph building." );
+ConVar g_ai_threadedgraphbuild( "g_ai_threadedgraphbuild", "1", FCVAR_NONE, "If true, use experimental threaded node graph building." );
 
 //-----------------------------------------------------------------------------
 // CAI_NetworkManager

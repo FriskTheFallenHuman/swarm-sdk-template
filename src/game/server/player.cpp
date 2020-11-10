@@ -156,8 +156,8 @@ extern void AddMultiDamage( const CTakeDamageInfo &info, CBaseEntity *pEntity );
 
 #define CMD_MOSTRECENT 0
 
-//#define	FLASH_DRAIN_TIME	 1.2 //100 units/3 minutes
-//#define	FLASH_CHARGE_TIME	 0.2 // 100 units/20 seconds  (seconds per unit)
+#define	FLASH_DRAIN_TIME	 1.2 //100 units/3 minutes
+#define	FLASH_CHARGE_TIME	 0.2 // 100 units/20 seconds  (seconds per unit)
 
 
 //#define PLAYER_MAX_SAFE_FALL_DIST	20// falling any farther than this many feet will inflict damage
@@ -196,7 +196,7 @@ void CC_GiveCurrentAmmo( void )
 					pPlayer->GiveAmmo( giveAmount, GetAmmoDef()->GetAmmoOfIndex(ammoIndex)->pName );
 				}
 			}
-			if( pWeapon->UsesSecondaryAmmo() && pWeapon->HasSecondaryAmmo() )
+			if( pWeapon->UsesSecondaryAmmo() )
 			{
 				// Give secondary ammo out, as long as the player already has some
 				// from a presumeably natural source. This prevents players on XBox
@@ -1688,7 +1688,7 @@ void CBasePlayer::Event_Killed( const CTakeDamageInfo &info )
 	}
 
 	// don't let the status bar glitch for players with <0 health.
-	if (m_iHealth < -99)
+	if (m_iHealth < 0)
 	{
 		m_iHealth = 0;
 	}
@@ -5898,11 +5898,11 @@ void CBasePlayer::ImpulseCommands( )
         // temporary flashlight for level designers
         if ( FlashlightIsOn() )
 		{
-			FlashlightTurnOff( PLAY_FLASHLIGHT_SOUND );
+			FlashlightTurnOff();
 		}
         else 
 		{
-			FlashlightTurnOn( PLAY_FLASHLIGHT_SOUND );
+			FlashlightTurnOn();
 		}
 		break;
 

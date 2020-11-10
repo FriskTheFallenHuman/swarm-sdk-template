@@ -17,9 +17,6 @@
 #include "debugoverlay_shared.h"
 #include "c_impact_effects.h"
 #include "tier0/vprof.h"
-#ifdef INFESTED_DLL
-#include "c_asw_fx.h"
-#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -339,13 +336,6 @@ static void PerformNewCustomEffects( const Vector &vecOrigin, trace_t &tr, const
 		
 	Vector vecImpactPoint = ( tr.fraction != 1.0f ) ? tr.endpos : vecOrigin;
 	AssertMsg( VectorsAreEqual( vecOrigin, tr.endpos, 1e-1 ), "Impact decal drawn too far from the surface impacted." );
-
-#ifdef INFESTED_DLL	// Randomly spawn a persistent jet of steam
-	if ( iMaterial == CHAR_TEX_STEAM_PIPE )
-	{
-		FX_ASW_Potential_Burst_Pipe( vecImpactPoint, vecReflect, vecShotBackward, tr.plane.normal );
-	}
-#endif
 
 	CSmartPtr<CNewParticleEffect> pEffect = CNewParticleEffect::CreateOrAggregatePrecached( NULL, nEffectIndex, vecImpactPoint );
 	if ( !pEffect->IsValid() )

@@ -657,10 +657,8 @@ void CInput::GetFullscreenMousePos( int *mx, int *my, int *unclampedx /*=NULL*/,
 	Assert( mx );
 	Assert( my );
 
-#if !(INFESTED_DLL)
 	if ( g_pInputStackSystem->IsTopmostEnabledContext( m_hInputContext ) )
 		return;
-#endif
 
 	int x, y;
 	GetWindowCenter( x,  y );

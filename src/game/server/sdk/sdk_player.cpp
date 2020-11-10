@@ -23,7 +23,7 @@
 #include "tier0/memdbgon.h"
 
 extern int gEvilImpulse101;
-
+extern ConVar flashlight;
 
 ConVar SDK_ShowStateTransitions( "sdk_ShowStateTransitions", "-2", FCVAR_CHEAT, "sdk_ShowStateTransitions <ent index or -1 for all>. Show player state transitions." );
 
@@ -43,9 +43,9 @@ public:
 	DECLARE_CLASS( CTEPlayerAnimEvent, CBaseTempEntity );
 	DECLARE_SERVERCLASS();
 
-					CTEPlayerAnimEvent( const char *name ) : CBaseTempEntity( name )
-					{
-					}
+	CTEPlayerAnimEvent( const char *name ) : CBaseTempEntity( name )
+	{
+	}
 
 	CNetworkHandle( CBasePlayer, m_hPlayer );
 	CNetworkVar( int, m_iEvent );
@@ -300,7 +300,12 @@ void CSDKPlayer::Precache()
 	{
 		PrecacheModel( pszPossiblePlayerModels[i] );
 		i++;
-	}	
+	}
+
+	PrecacheScriptSound( "Player.Jump" );
+	PrecacheScriptSound( "Player.JumpLanding" );
+	PrecacheScriptSound( "Player.FlashlightOn" );
+	PrecacheScriptSound( "Player.FlashlightOff" );
 
 	BaseClass::Precache();
 }
@@ -801,6 +806,8 @@ void CSDKPlayer::Event_Killed( const CTakeDamageInfo &info )
 	//Tony; after transition, remove remaining items
 	RemoveAllItems( true );
 
+	FlashlightTurnOff();
+
 	BaseClass::Event_Killed( info );
 
 }
@@ -978,12 +985,19 @@ void CSDKPlayer::CheatImpulseCommands( int iImpulse )
 
 void CSDKPlayer::FlashlightTurnOn( void )
 {
-	AddEffects( EF_DIMLIGHT );
+	if( flashlight.GetInt() > 0 && IsAlive() )
+	{
+		AddEffects( EF_DIMLIGHT );
+		EmitSound( "Player.FlashlightOn" );
+	}
 }
 
 void CSDKPlayer::FlashlightTurnOff( void )
 {
 	RemoveEffects( EF_DIMLIGHT );
+	
+	if( IsAlive() )
+		EmitSound( "Player.FlashlightOff" );
 }
 
 int CSDKPlayer::FlashlightIsOn( void )

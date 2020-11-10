@@ -79,7 +79,7 @@ enum TERecordingType_t
 void ToolFramework_AdjustEngineViewport( int& x, int& y, int& width, int& height );
 bool ToolFramework_SetupEngineView( Vector &origin, QAngle &angles, float &fov );
 bool ToolFramework_SetupAudioState( AudioState_t &audioState );
-
+void ToolFramework_RecordMaterialParams( IMaterial *pMaterial );
 //-----------------------------------------------------------------------------
 // Helper class to indicate ownership of effects
 //-----------------------------------------------------------------------------
