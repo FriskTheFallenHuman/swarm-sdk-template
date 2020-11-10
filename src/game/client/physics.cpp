@@ -40,7 +40,7 @@ extern IFileSystem *filesystem;
 
 static ConVar	cl_phys_timescale( "cl_phys_timescale", "1.0", FCVAR_CHEAT, "Sets the scale of time for client-side physics (ragdolls)" );
 static ConVar	cl_phys_maxticks( "cl_phys_maxticks", IsX360() ? "2" : "0", FCVAR_NONE, "Sets the max number of physics ticks allowed for client-side physics (ragdolls)" );
-ConVar	cl_ragdoll_gravity( "cl_ragdoll_gravity", "386", FCVAR_CHEAT, "Sets the gravity client-side ragdolls" );
+ConVar	cl_ragdoll_gravity( "cl_ragdoll_gravity", "800", FCVAR_CHEAT, "Sets the gravity client-side ragdolls" );
 
 // blocked entity detecting
 static ConVar cl_phys_block_fraction("cl_phys_block_fraction", "0.1");
@@ -1251,13 +1251,6 @@ void CCollisionEvent::FluidStartTouch( IPhysicsObject *pObject, IPhysicsFluidCon
 		
 		if ( timeSinceLastCollision < 0.5f )
 			return;
-
-#ifdef INFESTED_DLL
-		// prevent too many splashes spawning at once across different entities
-		float flGlobalTimeSinceLastSplash = gpGlobals->curtime - m_flLastSplashTime;
-		if ( flGlobalTimeSinceLastSplash < 0.1f )
-			return;
-#endif
 
 		//Msg( "ent %d %s doing splash. delta = %f\n", pEntity->entindex(), pEntity->GetModelName(), timeSinceLastCollision );
 		PhysicsSplash( pFluid, pObject, pEntity );

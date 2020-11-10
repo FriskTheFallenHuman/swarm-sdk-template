@@ -24,11 +24,7 @@
 #include "env_wind_shared.h"
 #include "filesystem.h"
 #include "engine/IEngineSound.h"
-#ifdef INFESTED_DLL
-#include "asw_fire.h"
-#else
 #include "fire.h"
-#endif
 #include "te_effect_dispatch.h"
 #include "Sprite.h"
 #include "precipitation_shared.h"
@@ -1485,35 +1481,23 @@ public:
 	void	Spawn( void );
 
 	CNetworkVar( PrecipitationType_t, m_nPrecipType );
-#ifdef INFESTED_DLL
-	CNetworkVar( int, m_nSnowDustAmount );
-#endif
 };
 
 LINK_ENTITY_TO_CLASS( func_precipitation, CPrecipitation );
 
 BEGIN_DATADESC( CPrecipitation )
 	DEFINE_KEYFIELD( m_nPrecipType, FIELD_INTEGER, "preciptype" ),
-#ifdef INFESTED_DLL
-	DEFINE_KEYFIELD( m_nSnowDustAmount, FIELD_INTEGER, "snowDustAmt" ),
-#endif
 END_DATADESC()
 
 // Just send the normal entity crap
 IMPLEMENT_SERVERCLASS_ST( CPrecipitation, DT_Precipitation)
 	SendPropInt( SENDINFO( m_nPrecipType ), Q_log2( NUM_PRECIPITATION_TYPES ) + 1, SPROP_UNSIGNED ),
-#ifdef INFESTED_DLL
-	SendPropInt( SENDINFO( m_nSnowDustAmount ) ),
-#endif
 END_SEND_TABLE()
 
 
 CPrecipitation::CPrecipitation()
 {
 	m_nPrecipType = PRECIPITATION_TYPE_RAIN; // default to rain.
-#ifdef INFESTED_DLL
-	m_nSnowDustAmount = 0;
-#endif
 }
 
 int CPrecipitation::UpdateTransmitState()

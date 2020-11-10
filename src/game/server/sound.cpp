@@ -234,20 +234,6 @@ void UTIL_RestartAmbientSounds( void )
 			pAmbient->SendSound( SND_CHANGE_VOL ); // fake a change, so we don't create 2 sounds
 		}
 	}
-#ifdef INFESTED_DLL
-	pAmbient = NULL;
-	while ( ( pAmbient = (CAmbientGeneric*) gEntList.FindEntityByClassname( pAmbient, "asw_ambient_generic" ) ) != NULL )
-	{
-		if (pAmbient->m_fActive )
-		{
-			if ( strstr( STRING( pAmbient->m_iszSound ), "mp3" ) )
-			{
-				pAmbient->SendSound( SND_CHANGE_VOL ); // fake a change, so we don't create 2 sounds
-			}
-			pAmbient->SendSound( SND_CHANGE_VOL ); // fake a change, so we don't create 2 sounds
-		}
-	}
-#endif
 }
 
 

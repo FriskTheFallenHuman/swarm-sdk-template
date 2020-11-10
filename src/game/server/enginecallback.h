@@ -56,11 +56,6 @@ extern IXboxSystem				*xboxsystem; // 360 only
 extern IScriptManager			*scriptmanager;
 extern CSteamAPIContext			*steamapicontext; // available on game clients
 extern CSteamGameServerAPIContext *steamgameserverapicontext; //available on game servers
-#ifdef INFESTED_DLL
-class IASW_Mission_Chooser;
-extern IASW_Mission_Chooser *missionchooser;
-#endif
-
 
 //-----------------------------------------------------------------------------
 // Precaches a material

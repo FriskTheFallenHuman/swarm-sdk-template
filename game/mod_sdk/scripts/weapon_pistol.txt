@@ -39,34 +39,31 @@ WeaponData
 	{
 		"weapon"
 		{
-				"font"		"WeaponIcons"
-				"character"	"a"
+			"font"		"WeaponIcons"
+			"character"	"a"
 		}
 		"weapon_s"
 		{	
-				"font"		"WeaponIconsSelected"
-				"character"	"a"
+			"font"		"WeaponIconsSelected"
+			"character"	"a"
 		}
 		"ammo"
 		{
-				"font"		"WeaponIcons"
-				"character"	"r"
+			"font"		"WeaponIcons"
+			"character"	"r"
 		}
 		"crosshair"
 		{
-				"file"		"sprites/crosshairs"
-				"x"		"0"
-				"y"		"48"
-				"width"		"24"
-				"height"	"24"
+			"font"		"Crosshairs"
+			"character"	"Q"
 		}
 		"autoaim"
 		{
-				"file"		"sprites/crosshairs"
-				"x"			"0"
-				"y"			"48"
-				"width"		"24"
-				"height"	"24"
+			"file"		"sprites/crosshairs"
+			"x"			"0"
+			"y"			"48"
+			"width"		"24"
+			"height"	"24"
 		}
 	}
 	ModelBounds

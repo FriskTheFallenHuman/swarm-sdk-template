@@ -23,9 +23,6 @@
 #include "datacache/idatacache.h"
 #include "soundemittersystem/isoundemittersystembase.h"
 #include "tier3/tier3.h"
-#ifdef INFESTED_DLL
-	#include "asw_input.h"
-#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -1029,25 +1026,6 @@ void CHudCloseCaption::Paint( void )
 	float desiredAlpha = visibleitems.Count() >= 1 ? 1.0f : 0.0f;
 
 	m_bMouseOverFade = false;
-
-#ifdef INFESTED_DLL
-	if ( desiredAlpha > 0.0f )
-	{
-		int nMouseX = 0;
-		int nMouseY = 0;
-		ASWInput()->GetFullscreenMousePos( &nMouseX, &nMouseY );
-		ScreenToLocal( nMouseX, nMouseY );
-
-		int nPosX, nPosY, nWide, nTall; 
-		GetBounds( nPosX, nPosY, nWide, nTall );
-
-		if ( nMouseX > rcText.left && nMouseX < rcText.right && 
-			 nMouseY > rcText.top && nMouseY < rcText.bottom )
-		{
-			m_bMouseOverFade = true;
-		}
-	}
-#endif
 
 	if ( m_bMouseOverFade )
 	{

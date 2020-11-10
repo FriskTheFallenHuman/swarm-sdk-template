@@ -110,14 +110,6 @@ enum Hint_e
 
 	// CS port hints
 	HINT_CSTRIKE_HOSTAGE_ESCAPE = 1100,
-
-
-
-
-
-#ifdef INFESTED_DLL
-	HINT_ASW_COVERED_SPAWN = 1300,
-#endif
 };
 const char *GetHintTypeDescription( Hint_e iHintType );
 const char *GetHintTypeDescription( CAI_Hint *pHint );

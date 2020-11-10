@@ -456,13 +456,13 @@ public:
 	virtual void			ExitLadder() {}
 	virtual surfacedata_t	*GetLadderSurface( const Vector &origin );
 
-	#define PLAY_FLASHLIGHT_SOUND true
+	//#define PLAY_FLASHLIGHT_SOUND true
 	virtual void			SetFlashlightEnabled( bool bState ) { };
 	virtual int				FlashlightIsOn( void ) { return false; }
-	virtual bool			FlashlightTurnOn( bool playSound = false ) { return false; };		// Skip sounds when not necessary
-	virtual void			FlashlightTurnOff( bool playSound = false ) { };	// Skip sounds when not necessary
-	virtual bool			IsIlluminatedByFlashlight( CBaseEntity *pEntity, float *flReturnDot ) {return false; }
-	
+	virtual void			FlashlightTurnOn( void ) { };
+	virtual void			FlashlightTurnOff( void ) { };
+	virtual bool			IsIlluminatedByFlashlight( CBaseEntity *pEntity, float *flReturnDot ) { return false; }
+		
 	virtual void			UpdatePlayerSound ( void );
 	virtual void			UpdateStepSound( surfacedata_t *psurface, const Vector &vecOrigin, const Vector &vecVelocity );
 	virtual void			PlayStepSound( Vector &vecOrigin, surfacedata_t *psurface, float fvol, bool force );
@@ -1162,7 +1162,10 @@ public:
 	friend class CPortalGameMovement;
 	friend class CASW_MarineGameMovement;
 	friend class CPaintGameMovement;
-	
+#if defined ( SDK_DLL )
+	friend class CSDKGameMovement;
+#endif
+
 	// Accessors for gamemovement
 	bool IsDucked( void ) const { return m_Local.m_bDucked; }
 	bool IsDucking( void ) const { return m_Local.m_bDucking; }

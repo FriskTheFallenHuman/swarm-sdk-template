@@ -57,6 +57,7 @@ void CWeaponSDKMelee::Spawn( void )
 	m_fMinRange2	= 0;
 	m_fMaxRange1	= 64;
 	m_fMaxRange2	= 64;
+
 	//Call base class first
 	BaseClass::Spawn();
 }
@@ -67,6 +68,10 @@ void CWeaponSDKMelee::Spawn( void )
 void CWeaponSDKMelee::Precache( void )
 {
 	//Call base class first
+#ifndef CLIENT_DLL
+	PrecacheEffect( "watersplash" );
+#endif
+
 	BaseClass::Precache();
 }
 
@@ -90,6 +95,7 @@ void CWeaponSDKMelee::ItemPostFrame( void )
 	else 
 	{
 		WeaponIdle();
+		return;
 	}
 }
 
@@ -107,6 +113,7 @@ void CWeaponSDKMelee::PrimaryAttack()
 	// Move other players back to history positions based on local player's lag
 	lagcompensation->StartLagCompensation( pPlayer, LAG_COMPENSATE_BOUNDS );
 #endif
+
 	Swing( false );
 
 #ifndef CLIENT_DLL
@@ -123,9 +130,20 @@ void CWeaponSDKMelee::PrimaryAttack()
 //------------------------------------------------------------------------------
 void CWeaponSDKMelee::SecondaryAttack()
 {
-	Swing( true );
-}
+#ifndef CLIENT_DLL
+	CSDKPlayer *pPlayer = ToSDKPlayer( GetPlayerOwner() );
+	pPlayer->NoteWeaponFired();
+	// Move other players back to history positions based on local player's lag
+	lagcompensation->StartLagCompensation( pPlayer, LAG_COMPENSATE_BOUNDS );
+#endif
 
+	Swing( true );
+
+#ifndef CLIENT_DLL
+	// Move other players back to history positions based on local player's lag
+	lagcompensation->FinishLagCompensation( pPlayer );
+#endif
+}
 
 //------------------------------------------------------------------------------
 // Purpose: Implement impact function
@@ -135,7 +153,7 @@ void CWeaponSDKMelee::Hit( trace_t &traceHit, Activity nHitActivity )
 	CSDKPlayer *pPlayer = ToSDKPlayer( GetOwner() );
 	
 	//Do view kick
-//	AddViewKick();
+	AddViewKick();
 
 	CBaseEntity	*pHitEntity = traceHit.m_pEnt;
 
@@ -229,12 +247,12 @@ bool CWeaponSDKMelee::ImpactWater( const Vector &start, const Vector &end )
 	//		 right now anyway...
 	
 	// We must start outside the water
-	//if ( UTIL_PointContents( start ) & (CONTENTS_WATER|CONTENTS_SLIME))
-	//	return false;
+	if ( UTIL_PointContents( start, MASK_WATER ) & (CONTENTS_WATER|CONTENTS_SLIME))
+		return false;
 
-	//// We must end inside of water
-	//if ( !(UTIL_PointContents( end ) & (CONTENTS_WATER|CONTENTS_SLIME)))
-	//	return false;
+	// We must end inside of water
+	if ( !(UTIL_PointContents( end, MASK_WATER ) & (CONTENTS_WATER|CONTENTS_SLIME)))
+		return false;
 
 	trace_t	waterTrace;
 
@@ -302,6 +320,8 @@ void CWeaponSDKMelee::Swing( int bIsSecondary )
 #ifndef CLIENT_DLL
 	// Like bullets, melee traces have to trace against triggers.
 	CTakeDamageInfo triggerInfo( GetOwner(), GetOwner(), GetDamageForActivity( nHitActivity ), DMG_CLUB );
+	triggerInfo.SetDamagePosition( traceHit.startpos );
+	triggerInfo.SetDamageForce( vec3_origin );
 	TraceAttackToTriggers( triggerInfo, traceHit.startpos, traceHit.endpos, vec3_origin );
 #endif
 

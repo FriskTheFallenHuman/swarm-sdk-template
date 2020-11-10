@@ -37,6 +37,7 @@ public:
 	bool IsActive( void );
 	float GetFadeout( float flCurTime );
 
+	//void SetOrder(int nOrder);
 	void SetSequence( int nSequence );
 	void SetCycle( float flCycle );
 	void SetPrevCycle( float flCycle );
@@ -100,24 +101,27 @@ inline C_AnimationLayer::C_AnimationLayer()
 	Reset();
 }
 
-#ifdef GAME_DLL
+#ifndef CLIENT_DLL
+FORCEINLINE void C_AnimationLayer::SetOrder( int nOrder )
+{
+	m_nOrder = nOrder;
+}
 
-inline void C_AnimationLayer::SetSequence( int nSequence )
+FORCEINLINE void C_AnimationLayer::SetSequence( int nSequence )
 {
 	m_nSequence = nSequence;
 }
 
-inline void C_AnimationLayer::SetCycle( float flCycle )
+FORCEINLINE void C_AnimationLayer::SetCycle( float flCycle )
 {
 	m_flCycle = flCycle;
 }
 
-inline void C_AnimationLayer::SetWeight( float flWeight )
+FORCEINLINE void C_AnimationLayer::SetWeight( float flWeight )
 {
 	m_flWeight = flWeight;
 }
-
-#endif // GAME_DLL
+#endif
 
 FORCEINLINE void C_AnimationLayer::SetPrevCycle( float flPrevCycle )
 {

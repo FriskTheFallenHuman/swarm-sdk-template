@@ -1277,9 +1277,8 @@ void CBaseHudChat::StartMessageMode( int iMessageModeType )
 		// Place the mouse cursor near the text so people notice it.
 		int x, y, w, h;
 		GetChatHistory()->GetBounds( x, y, w, h );
-#ifndef INFESTED_DLL
 		vgui::input()->SetCursorPos( x + ( w/2), y + (h/2) );
-#endif
+
 		m_pFilterPanel->SetVisible( false );
 	}
 

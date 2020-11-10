@@ -196,6 +196,7 @@ public:
 		m_pProgressBar->SetBarInset( 2 );
 		float currentProgress = m_pProgressBar->GetProgress();
 		m_pProgressBar->SetProgress( progress );
+		SetText( statusText );
 
 		return m_pProgressBar->GetProgress() != currentProgress;
 	}

@@ -103,6 +103,9 @@ ConVar ent_show_contexts( "ent_show_contexts", "0", 0, "Show entity contexts in 
 
 ConVar sv_script_think_interval("sv_script_think_interval", "0.1");
 
+// Game crashes on Precache? Turn it on and see what model cause it. [str]
+ConVar sv_modelprecache_debug( "sv_modelprecache_debug", "1", FCVAR_CHEAT, "Game crashes on Precache? Turn it on and see what model cause it." ); 
+
 // This table encodes edict data.
 void SendProxy_AnimTime( const SendProp *pProp, const void *pStruct, const void *pVarData, DVariant *pOut, int iElement, int objectID )
 {
@@ -611,11 +614,7 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE( CBaseEntity, DT_BaseEntity )
 	SendPropInt		(SENDINFO(m_fEffects),		EF_MAX_BITS, SPROP_UNSIGNED),
 	SendPropInt		(SENDINFO(m_clrRender),	32, SPROP_UNSIGNED, SendProxy_Color32ToInt32 ),
 	SendPropInt		(SENDINFO(m_iTeamNum),		TEAMNUM_NUM_BITS, 0),
-#ifdef INFESTED_DLL
-	SendPropInt		(SENDINFO(m_CollisionGroup), 6, SPROP_UNSIGNED),
-#else
 	SendPropInt		(SENDINFO(m_CollisionGroup), 5, SPROP_UNSIGNED),
-#endif
 	SendPropFloat	(SENDINFO(m_flElasticity), 0, SPROP_COORD),
 	SendPropFloat	(SENDINFO(m_flShadowCastDistance), 12, SPROP_UNSIGNED ),
 	SendPropEHandle (SENDINFO(m_hOwnerEntity)),
@@ -624,8 +623,6 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE( CBaseEntity, DT_BaseEntity )
 	SendPropInt		(SENDINFO(m_iParentAttachment), NUM_PARENTATTACHMENT_BITS, SPROP_UNSIGNED),
 
 	SendPropStringT( SENDINFO( m_iName ) ),
-
-
 
 	SendPropInt		(SENDINFO_NAME( m_MoveType, movetype ), MOVETYPE_MAX_BITS, SPROP_UNSIGNED ),
 	SendPropInt		(SENDINFO_NAME( m_MoveCollide, movecollide ), MOVECOLLIDE_MAX_BITS, SPROP_UNSIGNED ),
@@ -5423,13 +5420,13 @@ void CBaseEntity::PrecacheModelComponents( int nModelIndex )
 		}
 	}
 }
-		
+
 //-----------------------------------------------------------------------------
 // Purpose: Add model to level precache list
 // Input  : *name - model name
 // Output : int -- model index for model
 //-----------------------------------------------------------------------------
-int CBaseEntity::PrecacheModel( const char *name )
+int CBaseEntity::PrecacheModel( const char *name, bool bPreload )
 {
 	if ( !name || !*name )
 	{
@@ -5453,10 +5450,52 @@ int CBaseEntity::PrecacheModel( const char *name )
 	}
 #endif
 
-	int idx = engine->PrecacheModel( name, true );
+	// Fix up old models
+	int idx = -1;
+	if ( sv_modelprecache_debug.GetBool() )
+		ConColorMsg( Color( 255, 136, 10, 255 ), " !! CBaseEntity::PrecacheModel : (pre) modelinfo->PrecacheModel %s \n", name );
+
+	char pa[MAX_PATH];
+	Q_ExtractFilePath(name, pa, MAX_PATH);
+	if ( filesystem->FileExists( UTIL_VarArgs( "%s.dx9.vtx", pa ), "MOD" ) )
+	{
+		if ( !filesystem->FileExists( UTIL_VarArgs( "%s.vtx", pa ), "MOD" ) )
+			filesystem->RenameFile( UTIL_VarArgs( "%s.dx9.vtx", pa ), UTIL_VarArgs( "%s.vtx", pa ), "MOD" );
+		else
+			filesystem->RemoveFile( UTIL_VarArgs( "%s.dx9.vtx", pa ), "MOD" );
+	}
+	if ( filesystem->FileExists( UTIL_VarArgs( "%s.dx8.vtx", pa ), "MOD" ) )
+		filesystem->RemoveFile( UTIL_VarArgs( "%s.dx8.vtx", pa ), "MOD" );
+	if ( filesystem->FileExists( UTIL_VarArgs( "%s.sw.vtx", pa ), "MOD" ) )
+		filesystem->RemoveFile( UTIL_VarArgs( "%s.sw.vtx", pa ), "MOD" );
+
+
+	idx = engine->PrecacheModel( name, bPreload ); // Precache is giving model an index.
+	if ( sv_modelprecache_debug.GetBool() )
+		ConColorMsg( Color( 255, 136, 10, 255 ), " !! CBaseEntity::PrecacheModel : (post) modelinfo->PrecacheModel %s, index: %i \n", name, idx );
+
 	if ( idx != -1 )
 	{
-		PrecacheModelComponents( idx );
+		const model_t *model = modelinfo->GetModel( idx );
+		if ( model )
+		{
+			studiohdr_t *pStudioHdr = modelinfo->GetStudiomodel( model );
+			if ( pStudioHdr )
+			{
+				if ( !Studio_ConvertStudioHdrToNewVersion( pStudioHdr ) ) // Conversion itself
+				{
+					Warning( "Unable to convert %s\n", name );
+					//return -1;
+				}
+				else 
+				{
+					PrecacheModelComponents( idx ); // Conversion done, precaching what's left of model.
+
+					if ( sv_modelprecache_debug.GetBool() )
+						ConColorMsg( Color( 255, 136, 10, 255 ), " !! CBaseEntity::PrecacheModel : PrecacheModelComponents \n" );
+				}
+			}
+		}
 	}
 
 #if defined( WATCHACCESS )
@@ -7405,12 +7444,8 @@ void CBaseEntity::InputClearContext( inputdata_t& inputdata )
 //-----------------------------------------------------------------------------
 IResponseSystem *CBaseEntity::GetResponseSystem()
 {
-#ifndef INFESTED_DLL
-	return NULL;
-#else
 	extern IResponseSystem *g_pResponseSystem;
 	return g_pResponseSystem;
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -8385,6 +8420,102 @@ bool CBaseEntity::ShouldLagCompensate() const
 //------------------------------------------------------------------------------
 // Purpose: Create an NPC of the given type
 //------------------------------------------------------------------------------
+struct ClassNamePrefix_t
+{
+	ClassNamePrefix_t(const char *pszPrefix, bool bKeepPrefix) : m_pszPrefix(pszPrefix), m_bKeepPrefix(bKeepPrefix)
+	{
+		m_nLength = strlen(pszPrefix);
+	}
+
+	const char *m_pszPrefix;
+	size_t m_nLength;
+	bool m_bKeepPrefix;
+};
+
+
+// Add class name prefixes to show in the "give" command autocomplete here
+static ClassNamePrefix_t s_pEntityPrefixes[] =
+{
+	ClassNamePrefix_t("npc_", true),
+};
+
+
+static int StringSortFunc(const void *p1, const void *p2)
+{
+	const char *psz1 = (const char *)p1;
+	const char *psz2 = (const char *)p2;
+
+	return V_stricmp(psz1, psz2);
+}
+
+
+int EntCreateAutocomplete(const char *partial, char commands[COMMAND_COMPLETION_MAXITEMS][COMMAND_COMPLETION_ITEM_LENGTH])
+{
+	// Find the first space in our input
+	const char *firstSpace = V_strstr(partial, " ");
+	if (!firstSpace)
+		return 0;
+
+	int commandLength = firstSpace - partial;
+
+	// Extract the command name from the input
+	char commandName[COMMAND_COMPLETION_ITEM_LENGTH];
+	V_StrSlice(partial, 0, commandLength, commandName, sizeof(commandName));
+
+	// Calculate the length of the command string (minus the command name)
+	partial += commandLength + 1;
+	int partialLength = V_strlen(partial);
+
+	// Grab the factory dictionary
+	if (!EntityFactoryDictionary())
+		return 0;
+
+	const EntityFactoryDict_t &factoryDict = EntityFactoryDictionary()->GetFactoryDictionary();
+	int numMatches = 0;
+
+	// Iterate through all entity factories
+	for (int i = factoryDict.First(); i != factoryDict.InvalidIndex() && numMatches < COMMAND_COMPLETION_MAXITEMS; i = factoryDict.Next(i))
+	{
+		const char *pszClassName = factoryDict.GetElementName(i);
+
+		// See if this entity classname has a prefix that we show in the
+		// autocomplete
+		// TODO: optimise by caching all autocompletable classnames into a hash
+		// table on first run
+		int j;
+		const ClassNamePrefix_t *pPrefix = NULL;
+
+		for (j = 0; j < ARRAYSIZE(s_pEntityPrefixes); ++j)
+		{
+			pPrefix = &s_pEntityPrefixes[j];
+
+			if (Q_strncmp(pszClassName, pPrefix->m_pszPrefix, pPrefix->m_nLength))
+				continue;
+
+			break;
+		}
+
+		// If this entity factory had no prefixes, we could not find the prefix, skip this entity
+		if (j == ARRAYSIZE(s_pEntityPrefixes))
+			continue;
+
+		// Skip past the prefix if it shouldn't be kept
+		if (!pPrefix->m_bKeepPrefix)
+			pszClassName += pPrefix->m_nLength;
+
+		// Does this entity match our partial completion?
+		if (Q_strnicmp(pszClassName, partial, partialLength))
+			continue;
+
+		Q_snprintf(commands[numMatches++], COMMAND_COMPLETION_ITEM_LENGTH, "%s %s", commandName, pszClassName);
+	}
+
+	// Sort the commands alphabetically
+	qsort(commands, numMatches, COMMAND_COMPLETION_ITEM_LENGTH, StringSortFunc);
+
+	return numMatches;
+}
+
 void CC_Ent_Create( const CCommand& args )
 {
 	MDLCACHE_CRITICAL_SECTION();
@@ -8392,8 +8523,29 @@ void CC_Ent_Create( const CCommand& args )
 	bool allowPrecache = CBaseEntity::IsPrecacheAllowed();
 	CBaseEntity::SetAllowPrecache( true );
 
+	char pszClassName[64];
+	Q_strncpy(pszClassName, args.Arg(1), sizeof(pszClassName));
+
+	for (int i = 0; i < ARRAYSIZE(s_pEntityPrefixes) && !CanCreateEntityClass(pszClassName); ++i)
+	{
+		// If we keep the prefix in the autocomplete, there's no point
+		// checking this prefix
+		if (s_pEntityPrefixes[i].m_bKeepPrefix)
+			continue;
+
+		Q_snprintf(pszClassName, sizeof(pszClassName), "%s%s", s_pEntityPrefixes[i].m_pszPrefix, args.Arg(1));
+	}
+
+	// If this is class name does not have an entity factory, complain to the
+	// client
+	if (!CanCreateEntityClass(pszClassName))
+	{
+		ClientPrint(UTIL_GetCommandClient(), HUD_PRINTCONSOLE, UTIL_VarArgs("ent_create: Unknown entity \"%s\"\n", args.Arg(1)));
+		return;
+	}
+	
 	// Try to create entity
-	CBaseEntity *entity = dynamic_cast< CBaseEntity * >( CreateEntityByName(args[1]) );
+	CBaseEntity *entity = dynamic_cast< CBaseEntity * >( CreateEntityByName(pszClassName) );
 	if (entity)
 	{
 		if ( entity->IsPlayer() )
@@ -8425,7 +8577,7 @@ void CC_Ent_Create( const CCommand& args )
 	}
 	CBaseEntity::SetAllowPrecache( allowPrecache );
 }
-static ConCommand ent_create("ent_create", CC_Ent_Create, "Creates an entity of the given type where the player is looking.", FCVAR_GAMEDLL | FCVAR_CHEAT);
+static ConCommand ent_create("ent_create", CC_Ent_Create, "Creates an entity of the given type where the player is looking.", FCVAR_GAMEDLL | FCVAR_CHEAT, EntCreateAutocomplete);
 
 //------------------------------------------------------------------------------
 // Purpose: Teleport a specified entity to where the player is looking

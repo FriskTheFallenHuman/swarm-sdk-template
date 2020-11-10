@@ -57,10 +57,10 @@ STUB_WEAPON_CLASS( weapon_cubemap,  WeaponCubemap,  C_BaseCombatWeapon );
 // HACK: the detail sway convars are archive, and default to 0.  Existing CS:S players thus have no detail
 // prop sway.  We'll force them to DoD's default values for now.  What we really need in the long run is
 // a system to apply changes to archived convars' defaults to existing players.
-//extern ConVar cl_detail_max_sway;
-//extern ConVar cl_detail_avoid_radius;
-//extern ConVar cl_detail_avoid_force;
-//extern ConVar cl_detail_avoid_recover_speed;
+extern ConVar cl_detail_max_sway;
+extern ConVar cl_detail_avoid_radius;
+extern ConVar cl_detail_avoid_force;
+extern ConVar cl_detail_avoid_recover_speed;
 
 extern ConVar mat_object_motion_blur_enable;
 
@@ -164,16 +164,16 @@ void CSDKModeManager::LevelInit( const char *newmap )
 
 	// HACK: the detail sway convars are archive, and default to 0.  Existing CS:S players thus have no detail
 	// prop sway.  We'll force them to DoD's default values for now.
-	//if ( !cl_detail_max_sway.GetFloat() &&
-	//	!cl_detail_avoid_radius.GetFloat() &&
-	//	!cl_detail_avoid_force.GetFloat() &&
-	//	!cl_detail_avoid_recover_speed.GetFloat() )
-	//{
-	//	cl_detail_max_sway.SetValue( "5" );
-	//	cl_detail_avoid_radius.SetValue( "64" );
-	//	cl_detail_avoid_force.SetValue( "0.4" );
-	//	cl_detail_avoid_recover_speed.SetValue( "0.25" );
-	//}
+	if ( !cl_detail_max_sway.GetFloat() &&
+		!cl_detail_avoid_radius.GetFloat() &&
+		!cl_detail_avoid_force.GetFloat() &&
+		!cl_detail_avoid_recover_speed.GetFloat() )
+	{
+		cl_detail_max_sway.SetValue( "5" );
+		cl_detail_avoid_radius.SetValue( "64" );
+		cl_detail_avoid_force.SetValue( "0.4" );
+		cl_detail_avoid_recover_speed.SetValue( "0.25" );
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -227,11 +227,11 @@ float ClientModeSDKNormal::GetViewModelFOV( void )
 	//Tony; retrieve the fov from the view model script, if it overrides it.
 	float viewFov = 74.0;
 
-	//C_WeaponSDKBase *pWeapon = (C_WeaponSDKBase*)GetActiveWeapon();
-	//if ( pWeapon )
-	//{
-	//	viewFov = pWeapon->GetWeaponFOV();
-	//}
+	C_WeaponSDKBase *pWeapon = (C_WeaponSDKBase*)GetActiveWeapon();
+	if ( pWeapon )
+	{
+		viewFov = pWeapon->GetWeaponFOV();
+	}
 	return viewFov;
 }
 

@@ -51,7 +51,6 @@
 		"SearchPaths"
 		{
 			"Game"          "|gameinfo_path|."
-			"Game"          "|gameinfo_path|.../pak01"
 			"Game"          "swarm"
 			"Game"          "swarm_base"
 			"Game"          "platform"

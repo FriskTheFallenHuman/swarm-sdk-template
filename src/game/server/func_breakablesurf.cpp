@@ -344,14 +344,6 @@ int CBreakableSurface::OnTakeDamage( const CTakeDamageInfo &info )
 		return 0;
 	}
 
-#ifdef INFESTED_DLL
-	if ( m_nSurfaceType == SHATTERSURFACE_GLASS && (info.GetDamageType() & DMG_CLUB) )
-	{
-		Die( info.GetAttacker(), info.GetDamageForce() );
-		return 0;
-	}
-#endif
-
 	return 0;
 }
 

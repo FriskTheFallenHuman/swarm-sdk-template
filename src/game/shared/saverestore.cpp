@@ -3069,13 +3069,8 @@ CSaveRestoreData *SaveInit( int size )
 {
 	CSaveRestoreData	*pSaveData;
 
-#if ( defined( CLIENT_DLL ) || defined( DISABLE_DEBUG_HISTORY ) )
-	if ( size <= 0 )
-		size = 2*1024*1024;		// Reserve 2048K for now, UNDONE: Shrink this after compressing strings
-#else
 	if ( size <= 0 )
 		size = 3*1024*1024;		// Reserve 3096K for now, UNDONE: Shrink this after compressing strings
-#endif
 
 	int numentities;
 

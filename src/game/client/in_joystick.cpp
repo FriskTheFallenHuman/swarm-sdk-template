@@ -124,9 +124,6 @@ extern ConVar cl_yawspeed;
 extern ConVar cl_pitchdown;
 extern ConVar cl_pitchup;
 extern ConVar cl_pitchspeed;
-#ifdef INFESTED_DLL
-extern ConVar asw_cam_marine_yaw;
-#endif
 extern ConVar cam_idealpitch;
 extern ConVar cam_idealyaw;
 extern ConVar thirdperson_platformer;
@@ -1119,11 +1116,7 @@ void CInput::JoyStickApplyMovement( CUserCmd *cmd, float joyForwardMove, float j
 	// apply player motion relative to screen space
 	if ( CAM_IsThirdPerson() && thirdperson_screenspace.GetInt() )
 	{
-#ifdef INFESTED_DLL
-		float ideal_yaw = asw_cam_marine_yaw.GetFloat();
-#else
 		float ideal_yaw = cam_idealyaw.GetFloat();
-#endif
 		float ideal_sin = sin(DEG2RAD(ideal_yaw));
 		float ideal_cos = cos(DEG2RAD(ideal_yaw));
 		float side_movement = ideal_cos*joySideMove - ideal_sin*joyForwardMove;

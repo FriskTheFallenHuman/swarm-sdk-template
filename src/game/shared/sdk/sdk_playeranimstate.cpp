@@ -132,7 +132,7 @@ Activity CSDKPlayerAnimState::TranslateActivity( Activity actDesired )
 void CSDKPlayerAnimState::Update( float eyeYaw, float eyePitch )
 {
 	// Profile the animation update.
-	VPROF( "CMultiPlayerAnimState::Update" );
+	VPROF( "CSDKPlayerAnimState::Update" );
 
 	// Get the SDK player.
 	CSDKPlayer *pSDKPlayer = GetSDKPlayer();
@@ -421,7 +421,7 @@ void CSDKPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event, int nData )
 			pWeapon->EnsureCorrectRenderingModel();
 			pWeapon->SendWeaponAnim( iGestureActivity );
 			// Force animation events!
-//			pWeapon->ResetEventsParity();		// reset event parity so the animation events will occur on the weapon. 
+			pWeapon->ResetEventsParity();		// reset event parity so the animation events will occur on the weapon. 
 			pWeapon->DoAnimationEvents( pWeapon->GetModelPtr() );
 		}
 	}

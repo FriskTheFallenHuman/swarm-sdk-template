@@ -21,12 +21,10 @@
 
 
 ConVar cl_blobulator_freezing_max_metaball_radius( "cl_blobulator_freezing_max_metaball_radius", 
-												#ifdef INFESTED_DLL
-												  "25.0", // Don't need as much precision in Alien swarm because everything is zoomed out
-												#else
-												  "12.0", 
-												#endif
-												  FCVAR_NONE, "Setting this can create more complex surfaces on large hitboxes at the cost of performance.", true, 12.0f, true, 100.0f );
+													"12.0", 
+													FCVAR_NONE, 
+													"Setting this can create more complex surfaces on large hitboxes at the cost of performance.", 
+													true, 12.0f, true, 100.0f );
 
 
 //PRECACHE_REGISTER_BEGIN( GLOBAL, PrecacheEffectFreezing )

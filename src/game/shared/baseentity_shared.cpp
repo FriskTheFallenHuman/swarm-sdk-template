@@ -691,7 +691,13 @@ void CBaseEntity::DecalTrace( trace_t *pTrace, char const *decalName )
 void CBaseEntity::ImpactTrace( trace_t *pTrace, int iDamageType, char *pCustomImpactName )
 {
 	VPROF( "CBaseEntity::ImpactTrace" );
-	Assert( pTrace->m_pEnt );
+
+	// hit no entity?
+	if( !pTrace->m_pEnt )
+	{
+		Assert(0);
+		return;
+	}
 
 	CBaseEntity *pEntity = pTrace->m_pEnt;
  

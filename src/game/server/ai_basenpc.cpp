@@ -80,9 +80,7 @@
 #include "eventlist.h"
 #include "globalstate.h"
 #include "physics_prop_ragdoll.h"
-#if defined( INFESTED_DLL )
 #include "physics_prop_statue.h"
-#endif
 #include "vphysics/friction.h"
 #include "physics_npc_solver.h"
 #include "death_pose.h"
@@ -93,8 +91,6 @@
 #ifdef HL2_EPISODIC
 #include "npc_alyx_episodic.h"
 #endif
-
-
 
 #include "env_debughistory.h"
 #include "collisionutils.h"
@@ -8898,11 +8894,7 @@ void CAI_BaseNPC::DrawDebugGeometryOverlays(void)
 		vRightDir.y			= vEyeDir.x * fSin + vEyeDir.y * fCos;
 		vRightDir.z			=  vEyeDir.z;
 
-#ifdef INFESTED_DLL	// Swarm wants to see sight range as well as angle
-		const float flDistLook = GetSenses() ? GetSenses()->GetDistLook() : 200.0f;
-#else
 		const float flDistLook = 200.0f;
-#endif
 
 		// Visualize it
 		NDebugOverlay::VertArrow( EyePosition(), EyePosition() + ( vLeftDir * flDistLook ), 64, 255, 0, 0, 50, false, 0 );

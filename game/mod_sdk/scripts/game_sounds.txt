@@ -364,23 +364,55 @@
 	}
 }
 
-// "Player.FlashlightOn"
-// {
-	// "channel"	"CHAN_ITEM"
-	// "volume"	"1"
-	// "CompatibilityAttenuation"	"1.0"
+"Player.Jump"
+{
+	"channel"		"CHAN_BODY"
+	"volume"		"VOL_NORM"
+	"soundlevel"		"SNDLVL_65dB"
+	"pitch"			"PITCH_NORM"
 
-	// "wave"	"items/flashlight1.wav"
-// }
+	"rndwave"
+	{
+		"wave"		"player/jumplanding2.wav"
+		"wave"		"player/jumplanding3.wav"
+		"wave"		"player/jumplanding4.wav"
+	}
+}
 
-// "Player.FlashlightOff"
-// {
-	// "channel"	"CHAN_ITEM"
-	// "volume"	"1"
-	// "CompatibilityAttenuation"	"1.0"
-	
-	// "wave"	"items/flashlight1.wav"
-// }
+"Player.JumpLanding"
+{
+	"channel"		"CHAN_BODY"
+	"volume"		"VOL_NORM"
+	"soundlevel"		"SNDLVL_65dB"
+	"pitch"			"PITCH_NORM"
+
+	"rndwave"
+	{
+		"wave"		"player/land2.wav"
+		"wave"		"player/land3.wav"
+		"wave"		"player/land4.wav"
+	}
+}
+
+"Player.FlashLightOn"
+{
+	"channel"	"CHAN_WEAPON"
+	"volume"	"0.8"
+	"soundlevel"    "SNDLVL_75dB"
+	"pitch"	"PITCH_NORM"
+
+	"wave" "items/flashlight1.wav"
+}
+
+"Player.FlashLightOff"
+{
+	"channel"	"CHAN_WEAPON"
+	"volume"	"0.8"
+	"soundlevel"  "SNDLVL_75dB"
+	"pitch"	"PITCH_NORM"
+
+	"wave" "items/flashlight1.wav"
+}
 
 "SprayCan.Paint"
 {
@@ -574,13 +606,12 @@
 	"pitch"		"PITCH_NORM"
 	"volume"	"0.8"
 	"CompatibilityAttenuation"	"1.0"
-	// "rndwave"
-	// {
-		// "wave" "player/pl_shell1.wav"
-		// "wave" "player/pl_shell2.wav"
-		// "wave" "player/pl_shell3.wav"
-	// }
-	"wave" "common/null.wav"	
+	"rndwave"
+	{
+		"wave" "player/pl_shell1.wav"
+		"wave" "player/pl_shell2.wav"
+		"wave" "player/pl_shell3.wav"
+	}
 }
 
 "Bounce.RifleShell"
@@ -595,7 +626,6 @@
 		"wave" "player/pl_shell3.wav"
 	}
 }
-
 
 "Default.Reload"
 {

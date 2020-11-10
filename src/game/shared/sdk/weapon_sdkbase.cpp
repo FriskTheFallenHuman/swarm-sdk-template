@@ -1,4 +1,3 @@
-//\src\game\shared\sdk\weapon_sdkbase.cpp
 //========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: http://pastebin.com/pHfTRTjp
@@ -11,17 +10,12 @@
 #include "takedamageinfo.h"
 #include "weapon_sdkbase.h"
 #include "ammodef.h"
- 
 #include "sdk_fx_shared.h"
  
 #if defined( CLIENT_DLL )
- 
 	#include "c_sdk_player.h"
- 
 #else
- 
 	#include "sdk_player.h"
- 
 #endif
  
 // ----------------------------------------------------------------------------- //
@@ -45,19 +39,30 @@ BEGIN_PREDICTION_DATA( CWeaponSDKBase )
 	DEFINE_PRED_FIELD( m_flTimeWeaponIdle, FIELD_FLOAT, FTYPEDESC_OVERRIDE | FTYPEDESC_NOERRORCHECK ),
 END_PREDICTION_DATA()
 #endif
- 
-LINK_ENTITY_TO_CLASS( weapon_sdk_base, CWeaponSDKBase );
- 
- 
+
 #ifdef GAME_DLL
- 
-	BEGIN_DATADESC( CWeaponSDKBase )
- 
-		// New weapon Think and Touch Functions go here..
- 
-	END_DATADESC()
- 
+BEGIN_DATADESC( CWeaponSDKBase )
+ 	// New weapon Think and Touch Functions go here..
+ END_DATADESC() 
 #endif
+ 
+// ----------------------------------------------------------------------------- //
+// CWeaponCSBase implementation. 
+// ----------------------------------------------------------------------------- //
+CWeaponSDKBase::CWeaponSDKBase()
+#ifdef CLIENT_DLL
+	:m_GlowObject( this )
+#endif
+{
+	SetPredictionEligible( true );
+ 
+	AddSolidFlags( FSOLID_TRIGGER ); // Nothing collides with these but it gets touches.
+
+#ifdef CLIENT_DLL
+	m_GlowObject.SetColor( Vector( 0.3f, 0.6f, 0.1f ) );
+	m_GlowObject.SetRenderFlags( false, true );
+#endif
+}
  
 #ifdef CLIENT_DLL
 bool CWeaponSDKBase::ShouldPredict()
@@ -67,28 +72,39 @@ bool CWeaponSDKBase::ShouldPredict()
  
        return BaseClass::ShouldPredict();
 }
-#endif
-// ----------------------------------------------------------------------------- //
-// CWeaponCSBase implementation. 
-// ----------------------------------------------------------------------------- //
-CWeaponSDKBase::CWeaponSDKBase()
+
+void CWeaponSDKBase::OnDataChanged( DataUpdateType_t updateType )
 {
-	SetPredictionEligible( true );
- 
-	AddSolidFlags( FSOLID_TRIGGER ); // Nothing collides with these but it gets touches.
+	BaseClass::OnDataChanged( updateType );
+
+	if ( updateType == DATA_UPDATE_CREATED )
+	{
+		SetNextClientThink( CLIENT_THINK_ALWAYS );
+	}
 }
- 
+
+void CWeaponSDKBase::ClientThink()
+{
+	BaseClass::ClientThink();
+
+	if ( !GetOwner() )
+		m_GlowObject.SetRenderFlags( true, true );
+	else
+		m_GlowObject.SetRenderFlags( false, false );
+}
+#endif
+
 const CSDKWeaponInfo &CWeaponSDKBase::GetSDKWpnData() const
 {
 	const FileWeaponInfo_t *pWeaponInfo = &GetWpnData();
 	const CSDKWeaponInfo *pSDKInfo;
  
-	#ifdef _DEBUG
-		pSDKInfo = dynamic_cast< const CSDKWeaponInfo* >( pWeaponInfo );
-		Assert( pSDKInfo );
-	#else
-		pSDKInfo = static_cast< const CSDKWeaponInfo* >( pWeaponInfo );
-	#endif
+#ifdef _DEBUG
+	pSDKInfo = dynamic_cast< const CSDKWeaponInfo* >( pWeaponInfo );
+	Assert( pSDKInfo );
+#else
+	pSDKInfo = static_cast< const CSDKWeaponInfo* >( pWeaponInfo );
+#endif
  
 	return *pSDKInfo;
 }
@@ -437,5 +453,96 @@ void CWeaponSDKBase::SetDieThink( bool bDie )
 void CWeaponSDKBase::Die( void )
 {
 	UTIL_Remove( this );
+}
+#endif
+
+#ifdef CLIENT_DLL
+ConVar cl_bobcycle( "cl_bobcycle", "0.45", 0 , "How fast the bob cycles", true, 0.01f, false, 0.0f );
+ConVar cl_bobup( "cl_bobup", "0.5", 0 , "Don't change...", true, 0.01f, true, 0.99f );
+ConVar cl_bobvertscale( "cl_bobvertscale", "0.6", 0, "Vertical scale" ); // Def. is 0.1
+ConVar cl_boblatscale( "cl_boblatscale", "0.8", 0, "Lateral scale" );
+ConVar cl_bobenable( "cl_bobenable", "1" );
+
+float g_lateralBob;
+float g_verticalBob;
+
+float CWeaponSDKBase::CalcViewmodelBob()
+{
+    static float	bobtime;
+    static float	lastbobtime;
+    float	cycle;
+
+    float	bobup = cl_bobup.GetFloat();
+    float	bobcycle = cl_bobcycle.GetFloat();
+
+    C_BasePlayer* player = GetPlayerOwner();
+
+    //NOTENOTE: For now, let this cycle continue when in the air, because it snaps badly without it
+    if (!player || !gpGlobals->frametime || bobcycle <= 0.0f || bobup <= 0.0f || bobup >= 1.0f )
+        return 0.0f;
+
+    float speed = player->GetLocalVelocity().Length2D();
+
+    speed = clamp( speed, -320, 320 );
+
+    float bob_offset = RemapVal( speed, 0, 320, 0.0f, 1.0f );
+    
+    bobtime += ( gpGlobals->curtime - lastbobtime ) * bob_offset;
+    lastbobtime = gpGlobals->curtime;
+
+    //Calculate the vertical bob
+    cycle = bobtime - (int)(bobtime/bobcycle)*bobcycle;
+    cycle /= bobcycle;
+
+    if ( cycle < bobup )
+        cycle = M_PI * cycle / bobup;
+    else
+        cycle = M_PI + M_PI*(cycle-bobup)/(1.0 - bobup);
+   
+    g_verticalBob = speed*0.005f;
+    g_verticalBob = g_verticalBob*0.3 + g_verticalBob*0.7*sin(cycle);
+
+    g_verticalBob = clamp( g_verticalBob, -7.0f, 4.0f );
+
+    //Calculate the lateral bob
+    cycle = bobtime - (int)(bobtime/bobcycle*2)*bobcycle*2;
+    cycle /= bobcycle*2;
+
+    if ( cycle < bobup )
+        cycle = M_PI * cycle / bobup;
+    else
+        cycle = M_PI + M_PI*(cycle-bobup)/(1.0 - bobup);
+
+    g_lateralBob = speed*0.005f;
+    g_lateralBob = g_lateralBob*0.3 + g_lateralBob*0.7*sin(cycle);
+    g_lateralBob = clamp( g_lateralBob, -7.0f, 4.0f );
+    
+    //NOTENOTE: We don't use this return value in our case (need to restructure the calculation function setup!)
+    return 0.0f;
+}
+
+void CWeaponSDKBase::AddViewmodelBob( CBaseViewModel *viewmodel, Vector& origin, QAngle& angles )
+{
+    if ( !cl_bobenable.GetBool() )
+        return;
+
+    Vector	forward, right;
+    AngleVectors( angles, &forward, &right, NULL );
+
+    CalcViewmodelBob();
+
+    // Apply bob, but scaled down to 40%
+    VectorMA( origin, g_verticalBob * cl_bobvertscale.GetFloat(), forward, origin );
+    
+    // Z bob a bit more
+    origin[2] += g_verticalBob * 0.1f;
+    
+    // bob the angles
+    angles[ ROLL ]	+= g_verticalBob * 0.5f;
+    angles[ PITCH ]	-= g_verticalBob * 0.4f;
+
+    angles[ YAW ]	-= g_lateralBob  * 0.3f;
+
+    VectorMA( origin, g_lateralBob * cl_boblatscale.GetFloat(), right, origin );
 }
 #endif

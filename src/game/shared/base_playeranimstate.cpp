@@ -71,7 +71,7 @@ CBasePlayerAnimState::CBasePlayerAnimState()
 	m_flEyePitch = 0.0f;
 	m_bCurrentFeetYawInitialized = false;
 	m_flCurrentTorsoYaw = 0.0f;
-	m_flCurrentTorsoYaw = TURN_NONE;
+	m_nTurningInPlace = TURN_NONE;
 	m_flMaxGroundSpeed = 0.0f;
 	m_flStoredCycle = 0.0f;
 
@@ -688,7 +688,6 @@ void CBasePlayerAnimState::ComputePoseParam_MoveYaw( CStudioHdr *pStudioHdr )
 			// This makes the 8-way blend act like a 9-way blend by blending to 
 			// an idle sequence as he slows down.
 #if defined(CLIENT_DLL)
-#ifndef INFESTED_DLL
 			bool bIsMoving;
 			CAnimationLayer *pLayer = m_pOuter->GetAnimOverlay( MAIN_IDLE_SEQUENCE_LAYER );
 			
@@ -718,7 +717,6 @@ void CBasePlayerAnimState::ComputePoseParam_MoveYaw( CStudioHdr *pStudioHdr )
 			pLayer->SetCycle( pLayer->GetCycle() + m_pOuter->GetSequenceCycleRate( pStudioHdr, pLayer->GetSequence() ) * gpGlobals->frametime );
 			pLayer->SetCycle( fmod( pLayer->GetCycle(), 1 ) );
 			pLayer->SetOrder( MAIN_IDLE_SEQUENCE_LAYER );
-#endif
 #endif
 		}
 	}

@@ -62,17 +62,17 @@ PRECACHE_REGISTER_BEGIN( GLOBAL, PrecacheEffectMuzzleFlash )
 PRECACHE_REGISTER_END()
 
 
-ConVar func_break_max_pieces( "func_break_max_pieces", "15", FCVAR_ARCHIVE | FCVAR_REPLICATED );
-
 ConVar cl_fasttempentcollision( "cl_fasttempentcollision", "5" );
 
+ConVar cl_brass_time( "cl_brass_time", "1.0", 0, "Amount of time brass/shell casings remain after being fired." );
+extern ConVar cl_ejectbrass;
+
+#if !defined( HL1_CLIENT_DLL )		// HL1 implements a derivative of CTempEnts
 // Temp entity interface
 static CTempEnts g_TempEnts;
 // Expose to rest of the client .dll
 ITempEnts *tempents = ( ITempEnts * )&g_TempEnts;
-
-
-
+#endif
 
 C_LocalTempEntity::C_LocalTempEntity()
 {
@@ -1003,6 +1003,8 @@ void CTempEnts::BreakModel( const Vector &pos, const QAngle &angles, const Vecto
 		count = (size[0] * size[1] + size[1] * size[2] + size[2] * size[0])/(3 * SHARD_VOLUME * SHARD_VOLUME);
 	}
 
+	static ConVarRef func_break_max_pieces("func_break_max_pieces");
+
 	if ( count > func_break_max_pieces.GetInt() )
 	{
 		count = func_break_max_pieces.GetInt();
@@ -1626,6 +1628,241 @@ void CTempEnts::Sprite_Smoke( C_LocalTempEntity *pTemp, float scale )
 
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : pos1 - 
+//			angles - 
+//			type - 
+//-----------------------------------------------------------------------------
+void CTempEnts::EjectBrass( const Vector &pos1, const QAngle &angles, const QAngle &gunAngles, int type )
+{
+	if ( cl_ejectbrass.GetBool() == false )
+		return;
+
+	const model_t *pModel = m_pShells[type];
+	
+	if ( pModel == NULL )
+		return;
+
+	C_LocalTempEntity	*pTemp = TempEntAlloc(pos1, (model_t*)pModel );
+
+	if ( pTemp == NULL )
+		return;
+
+	//Keep track of shell type
+	if ( type == 2 )
+		pTemp->hitSound = BOUNCE_SHOTSHELL;
+	else
+		pTemp->hitSound = BOUNCE_SHELL;
+
+	pTemp->SetBody(0);
+
+	pTemp->flags |= ( FTENT_COLLIDEWORLD | FTENT_FADEOUT | FTENT_GRAVITY | FTENT_ROTATE );
+
+	pTemp->m_vecTempEntAngVelocity[0] = random->RandomFloat(-1024,1024);
+	pTemp->m_vecTempEntAngVelocity[1] = random->RandomFloat(-1024,1024);
+	pTemp->m_vecTempEntAngVelocity[2] = random->RandomFloat(-1024,1024);
+
+	//Face forward
+	pTemp->SetAbsAngles( gunAngles );
+
+	pTemp->SetRenderMode( kRenderNormal );
+	pTemp->tempent_renderamt = 255;		// Set this for fadeout
+
+	Vector	dir;
+
+	AngleVectors( angles, &dir );
+
+	dir *= random->RandomFloat( 150.0f, 200.0f );
+
+	pTemp->SetVelocity( Vector(dir[0] + random->RandomFloat(-64,64),
+						dir[1] + random->RandomFloat(-64,64),
+						dir[2] + random->RandomFloat(  0,64) ) );
+
+	pTemp->die = gpGlobals->curtime + cl_brass_time.GetFloat() + random->RandomFloat( 0.0f, 1.0f );	// Add an extra 0-1 secs of life	
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : vecPosition - 
+//			angAngles - 
+//			vecVelocity - 
+//			nType - 
+//-----------------------------------------------------------------------------
+void CTempEnts::HL1EjectBrass( const Vector &vecPosition, const QAngle &angAngles, const Vector &vecVelocity, int nType )
+{
+	const model_t *pModel = NULL;
+
+#if defined( HL1_CLIENT_DLL )
+	switch ( nType )
+	{
+	case 0:
+	default:
+		pModel = m_pHL1Shell;
+		break;
+	case 1:
+		pModel = m_pHL1ShotgunShell;
+		break;
+	}
+#endif
+	if ( pModel == NULL )
+		return;
+
+	C_LocalTempEntity	*pTemp = TempEntAlloc( vecPosition, (model_t*)pModel );
+
+	if ( pTemp == NULL )
+		return;
+
+	switch ( nType )
+	{
+	case 0:
+	default:
+		pTemp->hitSound = BOUNCE_SHELL;
+		break;
+	case 1:
+		pTemp->hitSound = BOUNCE_SHOTSHELL;
+		break;
+	}
+
+	pTemp->SetBody( 0 );
+	pTemp->flags |= ( FTENT_COLLIDEWORLD | FTENT_FADEOUT | FTENT_GRAVITY | FTENT_ROTATE );
+
+	pTemp->m_vecTempEntAngVelocity[0] = random->RandomFloat( -512,511 );
+	pTemp->m_vecTempEntAngVelocity[1] = random->RandomFloat( -256,255 );
+	pTemp->m_vecTempEntAngVelocity[2] = random->RandomFloat( -256,255 );
+
+	//Face forward
+	pTemp->SetAbsAngles( angAngles );
+
+	pTemp->SetRenderMode( kRenderNormal );
+	pTemp->tempent_renderamt	= 255;		// Set this for fadeout
+
+	pTemp->SetVelocity( vecVelocity );
+
+	pTemp->die = gpGlobals->curtime + 2.5;
+}
+
+#define SHELLTYPE_PISTOL	0
+#define SHELLTYPE_RIFLE		1
+#define SHELLTYPE_SHOTGUN	2
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : vecPosition - 
+//			angVelocity - 
+//			nVelocity - 
+//			shellType - 
+//			pShooter - 
+//-----------------------------------------------------------------------------
+void CTempEnts::CSEjectBrass( const Vector &vecPosition, const QAngle &angVelocity, int nVelocity, int shellType, CBasePlayer *pShooter )
+{
+	const model_t *pModel = NULL;
+	int hitsound = TE_BOUNCE_SHELL;
+
+#if defined ( CSTRIKE_DLL ) || defined ( SDK_DLL )
+
+	switch( shellType )
+	{
+	default:
+	case CS_SHELL_9MM:
+		hitsound = TE_PISTOL_SHELL;
+		pModel = m_pCS_9MMShell;
+		break;
+	case CS_SHELL_57:
+		hitsound = TE_PISTOL_SHELL;
+		pModel = m_pCS_57Shell;
+		break;
+	case CS_SHELL_12GAUGE:
+		hitsound = TE_SHOTGUN_SHELL;
+		pModel = m_pCS_12GaugeShell;
+		break;
+	case CS_SHELL_556:
+		hitsound = TE_RIFLE_SHELL;
+		pModel = m_pCS_556Shell;
+		break;
+	case CS_SHELL_762NATO:
+		hitsound = TE_RIFLE_SHELL;
+		pModel = m_pCS_762NATOShell;
+		break;
+	case CS_SHELL_338MAG:
+		hitsound = TE_RIFLE_SHELL;
+		pModel = m_pCS_338MAGShell;
+		break;
+	}
+#endif
+
+	if ( pModel == NULL )
+		return;
+
+	Vector forward, right, up;
+	Vector velocity;
+	Vector origin;
+	QAngle angle;
+	
+	// Add some randomness to the velocity
+
+	AngleVectors( angVelocity, &forward, &right, &up );
+	
+	velocity = forward * nVelocity * random->RandomFloat( 1.2, 2.8 ) +
+			   up * random->RandomFloat( -10, 10 ) +
+			   right * random->RandomFloat( -20, 20 );
+
+	if( pShooter )
+		velocity += pShooter->GetAbsVelocity();
+
+	C_LocalTempEntity *pTemp = TempEntAlloc( vecPosition, (model_t*)pModel );
+	if ( !pTemp )
+		return;
+
+	if( pShooter )
+		pTemp->SetAbsAngles( pShooter->EyeAngles() );
+	else
+		pTemp->SetAbsAngles( vec3_angle );
+
+	pTemp->SetVelocity( velocity );
+
+	pTemp->hitSound = hitsound;
+
+	pTemp->SetGravity( 0.4 );
+
+	pTemp->SetBody( 0 );
+	pTemp->flags = FTENT_FADEOUT | FTENT_GRAVITY | FTENT_COLLIDEALL | FTENT_HITSOUND | FTENT_ROTATE | FTENT_CHANGERENDERONCOLLIDE;
+
+	pTemp->m_vecTempEntAngVelocity[0] = random->RandomFloat(-256,256);
+	pTemp->m_vecTempEntAngVelocity[1] = random->RandomFloat(-256,256);
+	pTemp->m_vecTempEntAngVelocity[2] = 0;
+	pTemp->SetRenderMode( kRenderNormal );
+	pTemp->tempent_renderamt = 255;
+	
+	pTemp->die = gpGlobals->curtime + 10;
+
+	bool bViewModelBrass = false;
+
+	if ( pShooter && pShooter->GetObserverMode() == OBS_MODE_IN_EYE )
+	{
+		// we are spectating the shooter in first person view
+		pShooter = ToBasePlayer( pShooter->GetObserverTarget() );
+		bViewModelBrass = true;
+	}
+
+	if ( pShooter )
+	{
+		pTemp->clientIndex = pShooter->entindex();
+		bViewModelBrass |= pShooter->IsLocalPlayer();
+	}
+	else
+	{
+		pTemp->clientIndex = 0;
+	}
+
+	if ( bViewModelBrass )
+	{
+		// for viewmodel brass put it in the viewmodel renderer group
+		//pTemp->m_RenderGroup = RENDER_GROUP_VIEW_MODEL_OPAQUE;
+	}
+
+	
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Create some simple physically simulated models
@@ -1798,7 +2035,7 @@ void CTempEnts::MuzzleFlash( const Vector& pos1, const QAngle& angles, int type,
 	
 	default:
 		// There's no supported muzzle flash for the type specified!
-		Warning( "Attempted to use an unsupported muzzle flash type.. new particle effect needed here!\n" );
+		Warning( "Attempted to use an unsupported muzzle flash type %i .. new particle effect needed here!\n", type );
 		break;
 	}
 }
@@ -2100,6 +2337,26 @@ void CTempEnts::PlaySound ( C_LocalTempEntity *pTemp, float damp )
 			soundname = "Bounce.Concrete";
 		}
 		break;
+
+#if defined ( CSTRIKE_DLL ) || defined ( SDK_DLL )
+	case TE_PISTOL_SHELL:
+		{
+			soundname = "Bounce.PistolShell";
+		}
+		break;
+
+	case TE_RIFLE_SHELL:
+		{
+			soundname = "Bounce.RifleShell";
+		}
+		break;
+
+	case TE_SHOTGUN_SHELL:
+		{
+			soundname = "Bounce.ShotgunShell";
+		}
+		break;
+#endif
 	}
 
 	zvel = abs( pTemp->GetVelocity()[2] );
@@ -2286,6 +2543,11 @@ void CTempEnts::LevelInit()
 	m_pShells[1] = (model_t *) engine->LoadModel( "models/weapons/rifleshell.mdl" );
 	m_pShells[2] = (model_t *) engine->LoadModel( "models/weapons/shotgun_shell.mdl" );
 
+#if defined( HL1_CLIENT_DLL )
+	m_pHL1Shell			= (model_t *)engine->LoadModel( "models/shell.mdl" );
+	m_pHL1ShotgunShell	= (model_t *)engine->LoadModel( "models/shotgunshell.mdl" );
+#endif
+
 #if defined ( SDK_DLL )
 	m_pCS_9MMShell		= (model_t *)engine->LoadModel( "models/Shells/shell_9mm.mdl" );
 	m_pCS_57Shell		= (model_t *)engine->LoadModel( "models/Shells/shell_57.mdl" );
@@ -2317,6 +2579,11 @@ void CTempEnts::Init (void)
 	m_pShells[0] = NULL;
 	m_pShells[1] = NULL;
 	m_pShells[2] = NULL;
+
+#if defined( HL1_CLIENT_DLL )
+	m_pHL1Shell			= NULL;
+	m_pHL1ShotgunShell	= NULL;
+#endif
 
 #if defined ( SDK_DLL )
 	m_pCS_9MMShell		= NULL;

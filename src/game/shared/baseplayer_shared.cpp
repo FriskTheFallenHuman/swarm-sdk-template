@@ -18,7 +18,9 @@
 	#include "c_basedoor.h"
 	#include "c_world.h"
 	#include "view.h"
+#ifdef SDK_DLL
 	#include "c_sdk_player.h"
+#endif
 
 	#define CRecipientFilter C_RecipientFilter
 
@@ -31,7 +33,9 @@
 	#include "ai_basenpc.h"
 	#include "env_zoom.h"
 	#include "ammodef.h"
+#ifdef SDK_DLL
 	#include "sdk_player.h"
+#endif
 
 	extern int TrainSpeed(int iSpeed, int iMax);
 	
@@ -1569,6 +1573,7 @@ void CBasePlayer::CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& f
 	CalcViewBob( eyeOrigin );
 	CalcViewRoll( eyeAngles );
 
+#ifdef SDK_DLL
 	// Sprint effects
 	CSDKPlayer *pPlayer = ToSDKPlayer( this );
 	if(!pPlayer)
@@ -1589,6 +1594,7 @@ void CBasePlayer::CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& f
 		eyeAngles[ ROLL ] += cos( 7.0f * gpGlobals->curtime ) * ( iVelocityLength * 0.0025f );
 		eyeAngles[ PITCH ] += cos( 7.0f * gpGlobals->curtime ) * ( iVelocityLength * 0.0013f );
 	}
+#endif
 
 	// Apply punch angle
 	VectorAdd( eyeAngles, m_Local.m_vecPunchAngle, eyeAngles );

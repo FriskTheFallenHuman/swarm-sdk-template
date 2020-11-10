@@ -1699,7 +1699,8 @@ private:
 	// Timestamp of message arrival
 	float							m_flLastMessageTime;
 
-
+	// If this entity is client created..
+	bool							m_bIsClientCreated;
 
 	// Model instance data..
 	ModelInstanceHandle_t			m_ModelInstance;

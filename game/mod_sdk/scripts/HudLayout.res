@@ -103,16 +103,15 @@
 		"wide"	"102"
 		"tall"	"26"
 		
-		"AuxPowerLowColor" "255 0 0 220"
-		"AuxPowerHighColor" "255 220 0 220"
-		"AuxPowerDisabledAlpha" "70"
+		"StaminaColor" "255 220 0 220"
+		"StaminaDisabledAlpha" "70"
 
 		"BarInsetX" "8"
 		"BarInsetY" "15"
 		"BarWidth" "92"
 		"BarHeight" "4"
 		"BarChunkWidth" "6"
-		"BarChunkGap" "3"
+		"BarChunkGap" "0"
 
 		"text_xpos" "8"
 		"text_ypos" "4"
@@ -261,8 +260,17 @@
 		"fieldName" "HudDeathNotice"
 		"visible" "1"
 		"enabled" "1"
-		"wide"	 "f0"
-		"tall"	 "400"
+		"xpos"	 "r640"
+		"ypos"	 "12"
+		"wide"	 "628"
+		"tall"	 "468"
+
+		"MaxDeathNotices" "4"
+		"IconScale"	  "0.35"
+		"LineHeight"	  "16"
+		"LineSpacing"	  "4"
+		"CornerRadius"	  "3"
+		"RightJustify"	  "1"	// If 1, draw notices from the right
 	}
 
 	HudVehicle

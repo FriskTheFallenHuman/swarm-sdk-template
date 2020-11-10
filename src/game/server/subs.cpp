@@ -58,9 +58,11 @@ BEGIN_DATADESC( CBaseDMStart )
 
 END_DATADESC()
 
-
 // These are the new entry points to entities. 
+#if !defined( SDK_DLL )		//Tony; don't use the normal info_player_deathmatch in the SDK, use the custom one.
 LINK_ENTITY_TO_CLASS(info_player_deathmatch,CBaseDMStart);
+#endif
+
 LINK_ENTITY_TO_CLASS(info_player_start,CPointEntity);
 LINK_ENTITY_TO_CLASS(info_landmark,CPointEntity);
 
