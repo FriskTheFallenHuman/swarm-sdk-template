@@ -62,7 +62,11 @@
 #include "replaydirector.h"
 #endif
 #include "SoundEmitterSystem/isoundemittersystembase.h"
+
+#ifdef USE_NAV_MESH
 #include "nav_mesh.h"
+#endif
+
 #include "AI_ResponseSystem.h"
 #include "saverestore_stringtable.h"
 #include "util.h"
@@ -599,8 +603,10 @@ static bool InitGameSystems( CreateInterfaceFn appSystemFactory )
 
 	InvalidateQueryCache();
 
+#ifdef USE_NAV_MESH
 	// create the Navigation Mesh interface
 	TheNavMesh = NavMeshFactory();
+#endif
 
 	// init the gamestatsupload connection
 	gamestatsuploader->InitConnection();
@@ -874,9 +880,6 @@ void CServerGameDLL::DLLShutdown( void )
 		VGui_Shutdown();
 	}
 #endif // SERVER_USES_VGUI
-
-
-
 
 	// destroy the Navigation Mesh interface
 	if (TheNavMesh)
@@ -1192,8 +1195,11 @@ void CServerGameDLL::ServerActivate( edict_t *pEdictList, int edictCount, int cl
 	}
 
 #ifndef _XBOX
+#ifdef USE_NAV_MESH
 	// load the Navigation Mesh for this map
 	TheNavMesh->Load();
+	TheNavMesh->OnServerActivate();
+#endif
 #endif
 
 //Tony; call activate on the gamerules
@@ -1269,7 +1275,9 @@ void CServerGameDLL::GameFrame( bool simulating )
 	GameStartFrame();
 
 
+#ifdef USE_NAV_MESH
 	TheNavMesh->Update();
+#endif
 
 	{
 		VPROF( "gamestatsuploader->UpdateConnection" );
@@ -1436,7 +1444,13 @@ void CServerGameDLL::LevelShutdown( void )
 	// In case we quit out during initial load
 	CBaseEntity::SetAllowPrecache( false );
 
-	TheNavMesh->Reset();
+#ifdef USE_NAV_MESH
+	// reset the Navigation Mesh
+	if ( TheNavMesh )
+	{
+		TheNavMesh->Reset();
+	}
+#endif
 
 	g_nCurrentChapterIndex = -1;
 	CStudioHdr::CActivityToSequenceMapping::ResetMappings();
